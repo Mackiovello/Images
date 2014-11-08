@@ -1,0 +1,14 @@
+<link rel="import" href="/vendor/x-barcode/src/x-barcode.html">
+<link rel="stylesheet" href="/css/prodman.css">
+
+<template bind="{{PIMImages}}">
+    <section class="prodman">
+        <h3>Add image</h3>
+        <section class="prodmanSubtitle">
+            <label>ID</label>
+            <label>{{ID}}</label>
+            <label>Image</label>
+            <input type="text" value="{{ImageUrl$}}" />
+        </section>
+    </section>
+</template>
