@@ -99,7 +99,7 @@
     </TypedJSON>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SharedModel\SharedModel.csproj">
+    <ProjectReference Include="..\RetailSuite\SharedModel\SharedModel.csproj">
       <Project>{888950a6-ec38-4718-91de-daf70df2a8ea}</Project>
       <Name>SharedModel</Name>
     </ProjectReference>
