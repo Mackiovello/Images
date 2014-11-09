@@ -1,8 +1,43 @@
+<link rel="import" href="/vendor/juicy-filedrop/juicy-filedrop.html">
 <link rel="import" href="/vendor/x-barcode/src/x-barcode.html">
 <link rel="stylesheet" href="/css/prodman.css">
 
+
+<style>
+
+    juicy-filedrop {
+            display:block;
+            overflow:hidden;
+            color: rgb(170, 170, 170);
+            border: 0px solid black;
+            border: 0px solid #ccc;
+            border-radius: 3px;
+    }
+
+    .dropFileHere {
+        border-style: dashed;
+        border-color: #A5A5A5;
+        background: #EDEDED;
+        border-width: 6px;
+    }
+
+</style>
+
 <template bind="{{PIMImages}}">
-    <section class="prodman">
+
+    <juicy-filedrop url="/pimimages/images" value={{ImageUrl$}}>
+        <template if="{{!ImageUrl$}}">
+            <div class="dropFileHere">
+            Drop image here
+            </div>
+        </template>
+
+        <img src="{{ImageUrl$}}" />
+
+    </juicy-filedrop>
+
+
+<!--    <section class="prodman">
         <h3>Add image</h3>
         <section class="prodmanSubtitle">
             <label>ID</label>
@@ -10,5 +45,8 @@
             <label>Image</label>
             <input type="text" value="{{ImageUrl$}}" />
         </section>
-    </section>
+
+    </section>-->
+
 </template>
+

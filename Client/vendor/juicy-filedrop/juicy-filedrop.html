@@ -1,0 +1,153 @@
+<!--
+Copyright 2014 Smörgåsbord Development. All rights reserved.
+-->
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../core-ajax/core-ajax.html">
+
+<polymer-element name="juicy-filedrop" attributes="url customheader value">
+
+	<template>
+
+		<style>
+
+			:host {
+
+				display: -webkit-box;
+				display: -moz-box;
+				display: -ms-flexbox;
+				display: -webkit-flex;
+				display: flex;
+			}
+
+		</style>
+
+		<core-ajax 
+			id="postMedia" 
+			method="POST"  
+			url="{{url}}"
+			on-core-response="{{handleResponse}}"
+			on-core-error="{{handleError}}">
+		</core-ajax>
+
+		<content></content>
+		
+	</template>
+
+	<script>
+
+	    "use strict";
+
+	    Polymer('juicy-filedrop', {
+	    	url : "",
+	    	customheader: "x-file",
+	      	ready: function() {
+
+				this.setupDrop();
+			},
+	      	setupDrop: function() {
+
+				var postMedia = this.$.postMedia;
+				var customheader = this.customheader;
+
+				if (typeof window.FileReader === 'undefined') {
+					// TODO: Browser do not support 'FileReader'
+				}
+
+				this.onpaste = function(event) {
+ 
+ 					var items = event.clipboardData.items;
+
+ 					for( var i = 0, item ; item = event.clipboardData.items[i] ; i++) {
+
+						if( item.kind == "file" ) {
+							var blob = item.getAsFile();
+							var reader = new FileReader();
+							reader.onload = function (event) {
+								// POST Image to server
+								postMedia.headers = {};
+								postMedia.headers[ customheader ] = JSON.stringify(this.xFile);
+								postMedia.xFile = this.xFile;
+								postMedia.body = event.target.result;
+								postMedia.go();
+							};					
+
+							reader.xFile = { type: item.type, name: item.type };
+							this.fire('fileUploading', reader.xFile);
+							reader.readAsDataURL(blob);
+						}
+ 					}
+				}
+
+				this.ondragleave = function () { 
+
+			        if( this.classList.contains("hover") ) {
+			          this.classList.remove("hover");
+			        }
+				}
+
+				this.ondragover = function (e) { 
+
+					e.stopPropagation();
+
+					if( !this.classList.contains("hover") ) {
+						this.classList.add("hover");
+					}					
+					return false;
+				}
+
+				this.ondragend = function () { 
+
+			        if( this.classList.contains("hover") ) {
+			          this.classList.remove("hover");
+			        }
+					return false; 
+				}
+
+				this.ondrop = function (e) {
+					
+			        if( this.classList.contains("hover") ) {
+			          this.classList.remove("hover");
+			        }
+
+					e.preventDefault();
+
+					for (var i = 0, file; file = e.dataTransfer.files[i]; i++) {
+
+						var reader = new FileReader();
+
+						reader.onload = function (event) {
+							// POST Image to server
+							postMedia.headers = {};
+							postMedia.headers[ customheader ] = JSON.stringify(this.xFile);
+							postMedia.body = event.target.result;
+							postMedia.xFile = this.xFile;
+							postMedia.go();
+						};
+
+						reader.xFile = { type: file.type, name: file.name}
+						this.fire('fileUploading', reader.xFile );
+						reader.readAsDataURL(file);
+					}
+					return false;
+				}
+	      	},
+			handleResponse: function(ev, res) { 
+
+				this.value = res.xhr.getResponseHeader("Location");
+			
+				var xFile = JSON.parse(res.xhr.getResponseHeader( this.customheader ));
+				xFile.status = res.xhr.status;
+				xFile.statusText = res.xhr.statusText;
+
+				this.fire('fileUploaded', xFile);
+			},
+			handleError: function( ev, res ) {
+				var xFile = ev.srcElement.xFile;
+				xFile.status = res.xhr.status;
+				xFile.statusText = res.xhr.statusText;
+
+				this.fire('fileUploadError', xFile);
+			}
+	    });
+	</script>
+</polymer-element>

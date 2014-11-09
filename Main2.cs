@@ -20,6 +20,7 @@ namespace PIMImages {
             });
 
             RegisterMapperHandlers();
+            ImageUpload.RegisterHandlers();
         }
 
         private static void RegisterMapperHandlers() {
