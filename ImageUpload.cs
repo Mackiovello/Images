@@ -1,25 +1,17 @@
-﻿using Microsoft.Win32;
-using Starcounter;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using Microsoft.Win32;
+using Starcounter;
 
 namespace PIMImages {
     public class ImageUpload {
-
         public static void RegisterHandlers() {
-
-
             HandlerOptions opt = new HandlerOptions() { HandlerLevel = 0 };
 
             // Upload media
             Handle.POST("/pimimages/images", (Request request) => {
-
                 string mime;
                 string encoding;
                 string data;
@@ -29,7 +21,6 @@ namespace PIMImages {
                 if (host.IndexOf(':') == -1) {
                     host += ":" + port;
                 }
-
 
                 var xFile = request["x-file"];
 

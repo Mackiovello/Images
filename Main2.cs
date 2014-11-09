@@ -9,7 +9,7 @@ namespace PIMImages {
             });
 
             Handle.GET("/pimimages/partials/product/{?}", (string objectId) => {
-                var json = new EditProduct() { Html = "/pmi-product.html" };
+                var json = new EditProduct() { Html = "/pimimages/product.html" };
                 var transaction = Session.Current.SharedTransaction;
                 if (transaction == null) transaction = new Transaction();
                 json.Transaction = transaction;

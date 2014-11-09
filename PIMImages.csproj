@@ -91,10 +91,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Client\css\prodman.css" />
-    <Content Include="Client\pmi-product.html" />
-  </ItemGroup>
-  <ItemGroup>
     <TypedJSON Include="EditProduct.json">
       <Generator>MsBuild:Compile</Generator>
     </TypedJSON>
@@ -109,6 +105,10 @@
     <TypedJSON Include="JSON\xFile.json">
       <Generator>MsBuild:Compile</Generator>
     </TypedJSON>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Client\pimimages\css\prodman.css" />
+    <Content Include="Client\pimimages\product.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(StarcounterBin)\Starcounter.MsBuild.targets" />
