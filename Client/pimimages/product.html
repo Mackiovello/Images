@@ -1,9 +1,16 @@
 <link rel="import" href="/vendor/juicy-filedrop/juicy-filedrop.html">
-<link rel="import" href="/vendor/x-barcode/src/x-barcode.html">
-<link rel="stylesheet" href="/css/prodman.css">
 
 
 <style>
+
+.productItemImage {
+    display:inline-block;
+    border: 1px solid #eaeaea;
+    margin-right:10px;
+    margin-bottom:10px;
+    padding:20px;
+    width: 250px;
+}
 
     juicy-filedrop {
             display:block;
@@ -19,11 +26,24 @@
         border-color: #A5A5A5;
         background: #EDEDED;
         border-width: 6px;
+        height: 100px;
+        padding-top: 40px;
+        text-align:center;
+    }
+
+    img {
+        width:210px;
+        height: auto;
     }
 
 </style>
 
 <template bind="{{PIMImages}}">
+
+    <div>
+        <h2>Product image</h2>
+
+    <div class="productItemImage">
 
     <juicy-filedrop url="/pimimages/images" value={{ImageUrl$}}>
         <template if="{{!ImageUrl$}}">
@@ -35,18 +55,9 @@
         <img src="{{ImageUrl$}}" />
 
     </juicy-filedrop>
+    </div>
 
-
-<!--    <section class="prodman">
-        <h3>Add image</h3>
-        <section class="prodmanSubtitle">
-            <label>ID</label>
-            <label>{{ID}}</label>
-            <label>Image</label>
-            <input type="text" value="{{ImageUrl$}}" />
-        </section>
-
-    </section>-->
+    </div>
 
 </template>
 
