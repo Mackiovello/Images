@@ -115,3 +115,7 @@ UpgradeLog*.XML
 
 # NPM packages
 node_modules
+
+Client/media/*.*
+
+
