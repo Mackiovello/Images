@@ -9,14 +9,11 @@ namespace PIMImages {
             });
 
             Handle.GET("/pimimages/partials/product/{?}", (string objectId) => {
-                var json = new EditProduct() { Html = "/pimimages/product.html" };
-                var transaction = Session.Current.SharedTransaction;
-                if (transaction == null) transaction = new Transaction();
-                json.Transaction = transaction;
-                transaction.Add(() => {
-                    json.Data = Product.FindByOID(objectId);
+                return Db.Scope<Json>(() => {
+                    return new EditProduct() { 
+                        Data = Product.FindByOID(objectId)
+                    };
                 });
-                return json;
             });
 
             RegisterMapperHandlers();
