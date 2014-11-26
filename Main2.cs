@@ -21,16 +21,14 @@ namespace PIMImages {
         }
 
         private static void RegisterMapperHandlers() {
-            HandlerOptions h1 = new HandlerOptions() { HandlerLevel = 1 };
-            HandlerOptions h0 = new HandlerOptions() { HandlerLevel = 0 };
 
             Handle.GET("/pimimages/partials/product/{?}", (string objectId) => {
                 return (Json)X.GET("/sharedmodel/product/" + objectId);
-            }, h0);
+            }, HandlerOptions.DefaultLevel);
 
             Handle.GET("/sharedmodel/product/{?}", (string objectId) => {
-                return (Json)X.GET("/pimimages/partials/product/" + objectId, 0, h1);
-            }, h0);
+                return (Json)X.GET("/pimimages/partials/product/" + objectId, 0, HandlerOptions.ApplicationLevel);
+            }, HandlerOptions.DefaultLevel);
         }
     }
 }
