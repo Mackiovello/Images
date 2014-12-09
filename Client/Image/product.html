@@ -38,14 +38,14 @@
 
 </style>
 
-<template bind="{{PIMImages}}">
+<template bind="{{Image}}">
 
     <div>
         <h2>Product image</h2>
 
     <div class="productItemImage">
 
-    <juicy-filedrop url="/pimimages/images" value={{ImageUrl$}}>
+    <juicy-filedrop url="/image/images" value={{ImageUrl$}}>
         <template if="{{!ImageUrl$}}">
             <div class="dropFileHere">
             Drop image here

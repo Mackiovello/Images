@@ -1,2 +1,2 @@
 @echo off
-star --resourcedir="%~dp0Client" "%~dp0bin\Debug\PIMImages.exe"
+star --resourcedir="%~dp0Client" "%~dp0bin\Debug\Image.exe"

@@ -5,13 +5,13 @@ using System.Text.RegularExpressions;
 using Microsoft.Win32;
 using Starcounter;
 
-namespace PIMImages {
+namespace Image {
     public class ImageUpload {
         public static void RegisterHandlers() {
             HandlerOptions opt = new HandlerOptions() { HandlerLevel = 0 };
 
             // Upload media
-            Handle.POST("/pimimages/images", (Request request) => {
+            Handle.POST("/Image/images", (Request request) => {
                 string mime;
                 string encoding;
                 string data;
