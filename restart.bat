@@ -4,11 +4,11 @@ staradmin kill all
 REM Start Launcher
 call "%~dp0..\Launcher\run.bat"
 
-Rem Start RetailSuite
-call "%~dp0..\RetailSuite\run.bat"
+Rem Procurement
+call "%~dp0..Procurement\run.bat"
 
-REM PIM
-call "%~dp0..\PIM\run.bat"
+REM Products
+call "%~dp0..\Products\run.bat"
 
-REM PIM Images
+REM Image
 call "%~dp0run.bat"

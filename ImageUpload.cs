@@ -8,7 +8,6 @@ using Starcounter;
 namespace Image {
     public class ImageUpload {
         public static void RegisterHandlers() {
-            HandlerOptions opt = new HandlerOptions() { HandlerLevel = 0 };
 
             // Upload media
             Handle.POST("/Image/images", (Request request) => {
@@ -85,7 +84,7 @@ namespace Image {
                 response["Location"] = uriBulder.Uri.ToString();
                 response["x-file"] = System.Text.Encoding.Default.GetString(xfile.ToJsonUtf8());
                 return response;
-            },opt);
+            });
         }
 
         /// <summary>

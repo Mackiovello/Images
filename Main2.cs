@@ -1,4 +1,5 @@
 ﻿using Concepts.Ring8;
+using PolyjuiceNamespace;
 using Starcounter;
 
 namespace Image {
@@ -21,14 +22,7 @@ namespace Image {
         }
 
         private static void RegisterMapperHandlers() {
-
-            Handle.GET("/Image/partials/product/{?}", (string objectId) => {
-                return (Json)X.GET("/sharedmodel/product/" + objectId);
-            }, HandlerOptions.DefaultLevel);
-
-            Handle.GET("/sharedmodel/product/{?}", (string objectId) => {
-                return (Json)X.GET("/Image/partials/product/" + objectId, 0, HandlerOptions.ApplicationLevel);
-            }, HandlerOptions.DefaultLevel);
+            Polyjuice.Map("/Image/partials/product/@w", "/so/product/@w");
         }
     }
 }
