@@ -1,0 +1,9 @@
+{
+	Html:"",
+	Uri:"",
+	"$Illustrations" : { "Bind" : "_Illustrations" },
+	"Illustrations": [{
+		"$" : { "Reuse" : "Image.JSON.IllustrationJson" }
+    }],
+	Add$:0
+}

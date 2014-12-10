@@ -1,0 +1,65 @@
+<link rel="import" href="/sys/juicy-filedrop/juicy-filedrop.html">
+
+
+<style>
+
+.productItemImage {
+    display:inline-block;
+    border: 1px solid #eaeaea;
+    margin-right:10px;
+    margin-bottom:10px;
+    padding:20px;
+    width: 250px;
+}
+
+    juicy-filedrop {
+            display:block;
+            overflow:hidden;
+            color: rgb(170, 170, 170);
+            border: 0px solid black;
+            border: 0px solid #ccc;
+            border-radius: 3px;
+    }
+
+    .dropFileHere {
+        border-style: dashed;
+        border-color: #A5A5A5;
+        background: #EDEDED;
+        border-width: 6px;
+        height: 100px;
+        padding-top: 40px;
+        text-align:center;
+    }
+
+    img {
+        width:210px;
+        height: auto;
+    }
+
+</style>
+
+<template bind="{{Image}}">
+
+    <div>
+
+    <div class="productItemImage">
+
+
+        <input type="text" value="{{ImageURL$}}" />
+
+    <juicy-filedrop url="/image/images" value={{ImageURL$}}>
+        <template if="{{!ImageURL$}}">
+            <div class="dropFileHere">
+            Drop image here
+            </div>
+        </template>
+
+        <img src="{{ImageURL$}}" />
+
+    </juicy-filedrop>
+    </div>
+
+    </div>
+
+</template>
+
