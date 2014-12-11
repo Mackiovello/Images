@@ -6,15 +6,15 @@ namespace Image.JSON {
 
         protected override void OnData() {
             base.OnData();
-
-            this.Transaction = new Transaction(false, false);
+            
+            //this.Transaction = new Transaction(false, false);
         }
 
         protected override void HasChanged(Starcounter.Templates.TValue property) {
             base.HasChanged(property);
 
             if (this.Transaction != null) {
-                this.Transaction.Commit();
+            //    this.Transaction.Commit();
             }
         }
 
