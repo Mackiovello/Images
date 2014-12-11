@@ -1,0 +1,6 @@
+
+{
+	Illustration:{
+	   $: { Reuse:"Image.JSON.IllustrationJson" }
+	}
+}

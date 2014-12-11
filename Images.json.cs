@@ -28,6 +28,7 @@ namespace Image {
         public override string GetHtmlPartialUrl() {
             return Html;
         }
+
   
     }
 }

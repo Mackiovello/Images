@@ -1,4 +1,5 @@
 {  
+	Html:"/Image/image.html",
 	Name$:"", 
 	$Name$:{Bind:"Concept.Name"}, 
 	DbIDString : "",

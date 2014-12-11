@@ -23,6 +23,25 @@ namespace Image {
                 });
             });
 
+            Handle.GET("/Image/partials/concept/{?}", (string objectId) => {
+                return Db.Scope<Json>(() => {
+                    var a = new ConceptJson() {
+                        Html = "/Image/concept.html",
+                        Data = Db.SQL<Something>("SELECT o FROM Something o WHERE ObjectID=?", objectId).First
+                    };
+
+                    return a;
+
+                });
+            });
+
+            Handle.GET("/Image/concept/{?}", (string objectId) => {
+                return X.GET<ConceptJson>("/Image/partials/concept/" + objectId);
+            });
+
+
+
+
             Starcounter.Handle.GET("/launcher/app-name", () => {
                 return new AppName();
             }, HandlerOptions.ApplicationLevel);
@@ -51,7 +70,7 @@ namespace Image {
         }
 
         private static void RegisterMapperHandlers() {
-            //Polyjuice.Map("/Image/partials/image/@w", "/so/illustration/@w",null,null);
+            Polyjuice.Map("/Image/partials/concept/@w", "/so/something/@w",null,null);
         }
     }
 }

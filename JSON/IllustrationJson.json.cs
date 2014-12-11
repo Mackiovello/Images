@@ -1,7 +1,8 @@
+using Concepts.Ring1;
 using Starcounter;
 
 namespace Image.JSON {
-    partial class IllustrationJson : Page {
+    partial class IllustrationJson : Page, IBound<Illustration> {
 
         protected override void OnData() {
             base.OnData();
@@ -24,6 +25,11 @@ namespace Image.JSON {
             this.Transaction.Commit();
 
      
+        }
+
+        void Handle(Input.Name i) {
+            var o = Db.SQL<Something>("SELECT o FROM Something o WHERE Name=?", i.Value).First;
+            this.Data.Concept = o;
         }
 
 

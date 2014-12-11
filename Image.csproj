@@ -103,6 +103,9 @@
     </Compile>
     <Compile Include="ImageUpload.cs" />
     <Compile Include="Images.Main.cs" />
+    <Compile Include="JSON\ConceptJson.json.cs">
+      <DependentUpon>ConceptJson.json</DependentUpon>
+    </Compile>
     <Compile Include="JSON\IllustrationJson.json.cs">
       <DependentUpon>IllustrationJson.json</DependentUpon>
     </Compile>
@@ -119,6 +122,7 @@
   <ItemGroup>
     <Content Include="Client\Image\app-icon.html" />
     <Content Include="Client\Image\app-menu.html" />
+    <Content Include="Client\Image\concept.html" />
     <Content Include="Client\Image\Image.png" />
     <Content Include="Client\Image\Images.html" />
     <Content Include="Client\Image\css\prodman.css" />
@@ -141,6 +145,11 @@
   </ItemGroup>
   <ItemGroup>
     <TypedJSON Include="Page.json">
+      <Generator>MsBuild:Compile</Generator>
+    </TypedJSON>
+  </ItemGroup>
+  <ItemGroup>
+    <TypedJSON Include="JSON\ConceptJson.json">
       <Generator>MsBuild:Compile</Generator>
     </TypedJSON>
   </ItemGroup>
