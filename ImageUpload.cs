@@ -10,7 +10,7 @@ namespace Image {
         public static void RegisterHandlers() {
 
             // Upload media
-            Handle.POST("/Image/images", (Request request) => {
+            Handle.POST("/Images/images", (Request request) => {
                 string mime;
                 string encoding;
                 string data;
@@ -23,7 +23,7 @@ namespace Image {
 
                 var xFile = request["x-file"];
 
-                JSON.xFile xfile = new JSON.xFile();
+                Images.JSON.xFile xfile = new Images.JSON.xFile();
                 xfile.PopulateFromJson(xFile);
 
                 ImageUpload.ParseDataUri(request.Body, out mime, out encoding, out data);

@@ -108,7 +108,7 @@
 
 </style>
 
-<template bind="{{Image}}">
+<template bind="{{Images}}">
 
 
     <table class="illustrationsTable">
@@ -129,7 +129,7 @@
                     <td><input type="text" value="{{Name$}}" /></td>
                     <td><input type="text" value="{{ImageURL$}}" /></td>
 
-<td><a href="/launcher/workspace/image/image/{{DbIDString}}">Link</a> </td>
+<td><a href="/launcher/workspace/Images/image/{{DbIDString}}">Link</a> </td>
 
                     <td><img src="{{ImageURL$}}" /></td>
                     <td><button onclick="this.templateInstance.model.Delete$++">Delete</button></td>

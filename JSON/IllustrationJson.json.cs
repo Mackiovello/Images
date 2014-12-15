@@ -1,7 +1,7 @@
 using Concepts.Ring1;
 using Starcounter;
 
-namespace Image.JSON {
+namespace Images.JSON {
     partial class IllustrationJson : Page, IBound<Illustration> {
 
         protected override void OnData() {

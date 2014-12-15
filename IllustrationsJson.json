@@ -3,7 +3,7 @@
 	Uri:"",
 	"$Illustrations" : { "Bind" : "_Illustrations" },
 	"Illustrations": [{
-		"$" : { "Reuse" : "Image.JSON.IllustrationJson" }
+		"$" : { "Reuse" : "Images.JSON.IllustrationJson" }
     }],
 	Add$:0
 }

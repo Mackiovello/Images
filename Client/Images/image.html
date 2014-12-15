@@ -1,8 +1,5 @@
 <link rel="import" href="/sys/juicy-filedrop/juicy-filedrop.html">
 
-<template bind="{{Image}}">
-
-
 
 <style>
 
@@ -41,7 +38,7 @@
 
 </style>
 
-<template bind="{{Illustration}}">
+<template bind="{{Images}}">
 
     <div>
 
@@ -50,7 +47,7 @@
 
         <input type="text" value="{{ImageURL$}}" />
 
-    <juicy-filedrop url="/image/images" value={{ImageURL$}}>
+    <juicy-filedrop url="/Images/images" value={{ImageURL$}}>
         <template if="{{!ImageURL$}}">
             <div class="dropFileHere">
             Drop image here
@@ -63,9 +60,6 @@
     </div>
 
     </div>
-
-</template>
-
 
 </template>
 

@@ -1,6 +1,6 @@
 
 {
 	Illustration:{
-	   $: { Reuse:"Image.JSON.IllustrationJson" }
+	   $: { Reuse:"Images.JSON.IllustrationJson" }
 	}
 }

@@ -1,5 +1,5 @@
 {
-	"$":{"Namespace":"Image.JSON"},
+	"$":{"Namespace":"Images.JSON"},
 
 	"type": "image/png",
 	"name": "image.png"

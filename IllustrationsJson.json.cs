@@ -1,8 +1,8 @@
 using Concepts.Ring1;
 using Starcounter;
 
-namespace Image {
-    partial class Images : Json {
+namespace Images {
+    partial class IllustrationsJson : Json {
 
         public QueryResultRows<Illustration> _Illustrations {
 

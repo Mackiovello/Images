@@ -1,6 +1,6 @@
 using Starcounter;
 
-namespace Image {
+namespace Images {
     partial class Page : Json {
 
 
