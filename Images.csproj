@@ -45,17 +45,17 @@
     </StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SocietyObjects.Concepts.Ring1">
-      <HintPath>..\Society-Objects\src\bin\Debug\SocietyObjects.Concepts.Ring1.dll</HintPath>
+    <Reference Include="SocietyObjects.Concepts.Ring1, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <Private>False</Private>
     </Reference>
-    <Reference Include="SocietyObjects.Concepts.Ring2">
-      <HintPath>..\Society-Objects\src\bin\Debug\SocietyObjects.Concepts.Ring2.dll</HintPath>
+    <Reference Include="SocietyObjects.Concepts.Ring2, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <Private>False</Private>
     </Reference>
-    <Reference Include="SocietyObjects.Concepts.Ring3">
-      <HintPath>..\Society-Objects\src\bin\Debug\SocietyObjects.Concepts.Ring3.dll</HintPath>
+    <Reference Include="SocietyObjects.Concepts.Ring3, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <Private>False</Private>
     </Reference>
-    <Reference Include="SocietyObjects.Concepts.Ring4">
-      <HintPath>..\Society-Objects\src\bin\Debug\SocietyObjects.Concepts.Ring4.dll</HintPath>
+    <Reference Include="SocietyObjects.Concepts.Ring4, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <Private>False</Private>
     </Reference>
     <Reference Include="SocietyObjects.Concepts.Ring8.Polyjuice.Procurement">
       <HintPath>..\Procurement\SocietyObjects.Concepts.Ring8.Polyjuice.Procurement\bin\Debug\SocietyObjects.Concepts.Ring8.Polyjuice.Procurement.dll</HintPath>
