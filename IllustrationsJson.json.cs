@@ -14,7 +14,7 @@ namespace Images {
         void Handle(Input.Add action) {
 
 
-            Db.Transaction(() => {
+            Db.Transact(() => {
                 Illustration i = new Illustration();
                 i.Concept = new PhysicalObject();    // TODO:
                 i.Content = new Content();
