@@ -60,10 +60,12 @@ namespace Images {
 
             // Workspace root (Launchpad)
             Starcounter.Handle.GET("/Images", (Request request) => {
-
+              return Db.Scope<IllustrationsJson>(() => {
                 return new IllustrationsJson() {
-                    Html = "/Images/images.html", Uri = request.Uri
+                  Html = "/Images/images.html",
+                  Uri = request.Uri
                 };
+              });
             });
 
             RegisterMapperHandlers();
