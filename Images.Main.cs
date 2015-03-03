@@ -1,4 +1,4 @@
-﻿using Concepts.Ring1;
+using Concepts.Ring1;
 using Concepts.Ring8;
 using Image;
 using Images.JSON;
@@ -43,19 +43,19 @@ namespace Images {
 
 
 
-            Starcounter.Handle.GET("/launcher/app-name", () => {
+            Starcounter.Handle.GET("/Images/app-name", () => {
                 return new AppName();
-            }, HandlerOptions.ApplicationLevel);
+            });
 
             // App name required for Launchpad
-            Starcounter.Handle.GET("/launcher/app-icon", () => {
+            Starcounter.Handle.GET("/Images/app-icon", () => {
                 return new Page() { Html = "/Images/app-icon.html" };
-            }, HandlerOptions.ApplicationLevel);
+            });
 
             // Menu
-            Starcounter.Handle.GET("/launcher/menu", () => {
+            Starcounter.Handle.GET("/Images/menu", () => {
                 return new Page() { Html = "/Images/app-menu.html" };
-            }, HandlerOptions.ApplicationLevel);
+            });
 
 
             // Workspace root (Launchpad)
@@ -71,7 +71,10 @@ namespace Images {
         }
 
         private static void RegisterMapperHandlers() {
-            Polyjuice.Map("/Images/partials/concept/@w", "/so/something/@w", null, null);
+            Polyjuice.Map("/Images/menu", "/polyjuice/menu");
+            Polyjuice.Map("/Images/app-name", "/polyjuice/app-name");
+            Polyjuice.Map("/Images/app-icon", "/polyjuice/app-icon");
+            Polyjuice.OntologyMap("/Images/partials/concept/@w", "/so/something/@w", null, null);
         }
     }
 }
