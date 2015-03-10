@@ -73,15 +73,9 @@ namespace Image {
                 _FileStream.Write(_ByteArray, 0, _ByteArray.Length);
                 _FileStream.Close();
 
-                // Create uri to file 
-                // TODO: Get ip not the dns name
-
-                UriBuilder uriBulder = new UriBuilder(Uri.UriSchemeHttp, Dns.GetHostEntry(String.Empty).HostName, port);
-                uriBulder.Path = "media/" + fileName;
-
                 Response response = new Response();
                 response.StatusCode = (ushort)System.Net.HttpStatusCode.Created;
-                response["Location"] = uriBulder.Uri.ToString();
+                response["Location"] = "/media/" + fileName;
                 response["x-file"] = System.Text.Encoding.Default.GetString(xfile.ToJsonUtf8());
                 return response;
             });
