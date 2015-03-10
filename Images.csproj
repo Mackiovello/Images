@@ -99,13 +99,13 @@
     </TypedJSON>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Client\Images\app-icon.html" />
-    <Content Include="Client\Images\app-menu.html" />
-    <Content Include="Client\Images\concept.html" />
-    <Content Include="Client\Images\Images.png" />
-    <Content Include="Client\Images\Images.html" />
-    <Content Include="Client\Images\css\prodman.css" />
-    <Content Include="Client\Images\image.html" />
+    <Content Include="wwwroot\Images\app-icon.html" />
+    <Content Include="wwwroot\Images\app-menu.html" />
+    <Content Include="wwwroot\Images\concept.html" />
+    <Content Include="wwwroot\Images\Images.png" />
+    <Content Include="wwwroot\Images\Images.html" />
+    <Content Include="wwwroot\Images\css\prodman.css" />
+    <Content Include="wwwroot\Images\image.html" />
   </ItemGroup>
   <ItemGroup>
     <TypedJSON Include="IllustrationsJson.json">

@@ -113,7 +113,7 @@ UpgradeLog*.XML
 # NPM packages
 node_modules
 
-Client/media/*.*
+wwwroot/media/*.*
 
 
 *.sln.dotsettings

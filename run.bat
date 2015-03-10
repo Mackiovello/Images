@@ -1,2 +1,2 @@
 @echo off
-star --resourcedir="%~dp0Client" "%~dp0bin\Debug\Images.exe"
+star --resourcedir="%~dp0wwwroot" "%~dp0bin\Debug\Images.exe"
