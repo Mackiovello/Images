@@ -1,5 +1,4 @@
 using Concepts.Ring1;
-using Concepts.Ring8;
 using Image;
 using Images.JSON;
 using PolyjuiceNamespace;
@@ -37,11 +36,10 @@ namespace Images {
             });
 
             Handle.GET("/Images/concept/{?}", (string objectId) => {
-                return X.GET<ConceptJson>("/Image/partials/concept/" + objectId);
+                return Db.Scope<Json>(() => {
+                    return X.GET<ConceptJson>("/Image/partials/concept/" + objectId);
+                });
             });
-
-
-
 
             Starcounter.Handle.GET("/Images/app-name", () => {
                 return new AppName();
