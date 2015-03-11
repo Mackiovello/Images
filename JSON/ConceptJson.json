@@ -1,6 +1,6 @@
 
 {
-	Illustration:{
-	   $: { Reuse:"Images.JSON.IllustrationJson" }
-	}
+	ImageURL$:"", 
+	$ImageURL$:{Bind:"URL"}, 
+	Delete$:0 
 }

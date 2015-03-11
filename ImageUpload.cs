@@ -4,6 +4,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using Microsoft.Win32;
 using Starcounter;
+using Starcounter.Internal;
 
 namespace Image {
     public class ImageUpload {
@@ -15,7 +16,7 @@ namespace Image {
                 string encoding;
                 string data;
 
-                ushort port = 8080;
+                ushort port = StarcounterEnvironment.Default.UserHttpPort;
                 string host = request["Host"];
                 if (host.IndexOf(':') == -1) {
                     host += ":" + port;

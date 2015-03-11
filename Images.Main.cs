@@ -15,7 +15,7 @@ namespace Images {
             Handle.GET("/Images/partials/image/{?}", (string objectId) => {
                 return Db.Scope<Json>(() => {
                     var a = new IllustrationJson() {
-                        Html = "/Images/images.html",
+                        Html = "/Images/image.html",
                         Data = Db.SQL<Illustration>("SELECT o FROM Illustration o WHERE ObjectID=?", objectId ).First
                     };
 
@@ -52,10 +52,10 @@ namespace Images {
                 return new Page() { Html = "/Images/app-icon.html" };
             });
 
-            // Menu
-            Starcounter.Handle.GET("/Images/menu", () => {
-                return new Page() { Html = "/Images/app-menu.html" };
-            });
+            //// Menu
+            //Starcounter.Handle.GET("/Images/menu", () => {
+            //    return new Page() { Html = "/Images/app-menu.html" };
+            //});
 
 
             // Workspace root (Launchpad)
@@ -73,7 +73,7 @@ namespace Images {
         }
 
         private static void RegisterMapperHandlers() {
-            Polyjuice.Map("/Images/menu", "/polyjuice/menu");
+//            Polyjuice.Map("/Images/menu", "/polyjuice/menu");
             Polyjuice.Map("/Images/app-name", "/polyjuice/app-name");
             Polyjuice.Map("/Images/app-icon", "/polyjuice/app-icon");
             Polyjuice.OntologyMap("/Images/partials/concept/@w", "/so/something/@w", null, null);

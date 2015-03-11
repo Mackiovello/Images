@@ -105,6 +105,9 @@
 	    text-decoration:underline
     }
 
+img {
+   width: 100px;
+ }
 
 </style>
 
@@ -117,7 +120,6 @@
             <tr>
                 <th>Name</th>
                 <th>ImageURL</th>
-                <th>Link</th>
                 <th>Picture</th>
                 <th></th>
             </tr>
@@ -126,12 +128,11 @@
         <tbody>
             <template repeat="{{Illustrations}}">
                 <tr>
-                    <td><input type="text" value="{{Name$}}" /></td>
-                    <td><input type="text" value="{{ImageURL$}}" /></td>
+                    <td>{{Name$}}</td>
+                    <td>{{ImageURL$}}</td>
 
-<td><a href="/launcher/workspace/Images/image/{{DbIDString}}">Link</a> </td>
 
-                    <td><img src="{{ImageURL$}}" /></td>
+                    <td><a href="/launcher/workspace/Images/image/{{DbIDString}}"><img src="{{ImageURL$}}" /></a></td>
                     <td><button onclick="this.templateInstance.model.Delete$++">Delete</button></td>
                 </tr>
             </template>
