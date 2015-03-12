@@ -42,14 +42,8 @@
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SocietyObjects.Concepts.Ring1, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="SocietyObjects.Concepts.Ring2, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="SocietyObjects.Concepts.Ring8.Polyjuice.Procurement">
-      <HintPath>..\Procurement\SocietyObjects.Concepts.Ring8.Polyjuice.Procurement\bin\Debug\SocietyObjects.Concepts.Ring8.Polyjuice.Procurement.dll</HintPath>
+    <Reference Include="Simplified">
+      <HintPath>..\Simplified\bin\Debug\Simplified.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -69,12 +63,6 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Web" />
-    <Reference Include="SocietyObjects.Concepts.Ring3, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="SocietyObjects.Concepts.Ring4, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IllustrationsJson.json.cs">

@@ -1,42 +1,27 @@
-using Concepts.Ring1;
 using Starcounter;
 
 namespace Images.JSON {
-    partial class ConceptJson : Page, IBound<Something> {
-
-
-        //protected override void OnData() {
-        //    base.OnData();
-        //    if (this.Data != null && this.Data.Illustration == null) {
-        //        var i = new Illustration();
-        //        i.Content = new WebContent();
-        //        i.Concept = this.Data;
-        //        var test = this.Data.Illustration;
-        //    }
-        //}
+    partial class ConceptJson : Page, IBound<Simplified.Ring1.Something> {
 
         public string URL {
 
             get {
 
-                if (this.Data.Illustration != null && this.Data.Illustration.Content is WebContent) {
+                if (this.Data.Illustration != null) {
                     return this.Data.Illustration.Content.URL;
                 }
                 return null;
             }
             set {
 
-                Illustration illustration = this.Data.Illustration;
+                Simplified.Ring1.Illustration illustration = this.Data.Illustration;
                 if (illustration == null) {
-                    illustration = new Illustration();
-                    illustration.Content = new WebContent() { URL = value };
+                    illustration = new Simplified.Ring1.Illustration();
+                    illustration.Content = new Simplified.Ring1.Content() { URL = value };
                     illustration.Concept = this.Data;
                 }
                 else {
-
-                    if (illustration.Content is WebContent) {
-                        ((WebContent)illustration.Content).URL = value;
-                    }
+                    illustration.Content.URL = value;
                 }
             }
         }
@@ -45,14 +30,10 @@ namespace Images.JSON {
 
             if (this.Data.Illustration != null) {
                 if (this.Data.Illustration.Content != null) {
-                    //if (this.Data.Illustration.Content is WebContent) {
-                    //    ((WebContent)this.Data.Illustration.Content).URL = null;
-                    //}
                     this.Data.Illustration.Content.Delete();
                 }
                 this.Data.Illustration.Delete();
             }
-            //            this.Transaction.Commit();
         }
     }
 

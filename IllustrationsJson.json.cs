@@ -1,13 +1,12 @@
-using Concepts.Ring1;
 using Starcounter;
 
 namespace Images {
     partial class IllustrationsJson : Json {
 
-        public QueryResultRows<Illustration> _Illustrations {
+        public QueryResultRows<Simplified.Ring1.Illustration> _Illustrations {
 
             get {
-                return Db.SQL<Illustration>("SELECT o FROM Illustration o");
+                return Db.SQL<Simplified.Ring1.Illustration>("SELECT o FROM Simplified.Ring1.Illustration o");
             }
         }
 
@@ -15,12 +14,11 @@ namespace Images {
 
 
             Db.Transact(() => {
-                Illustration i = new Illustration();
-                i.Concept = new PhysicalObject();    // TODO:
-                i.Content = new Content();
+                Simplified.Ring1.Illustration i = new Simplified.Ring1.Illustration();
+                i.Concept = new Simplified.Ring1.Something();
+                i.Content = new Simplified.Ring1.Content();
             });
 
-//            Illustrations.Add();
 
         }
 

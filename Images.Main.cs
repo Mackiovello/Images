@@ -1,4 +1,3 @@
-using Concepts.Ring1;
 using Image;
 using Images.JSON;
 using PolyjuiceNamespace;
@@ -15,7 +14,7 @@ namespace Images {
                 return Db.Scope<Json>(() => {
                     var a = new IllustrationJson() {
                         Html = "/Images/image.html",
-                        Data = Db.SQL<Illustration>("SELECT o FROM Illustration o WHERE ObjectID=?", objectId ).First
+                        Data = Db.SQL<Simplified.Ring1.Illustration>("SELECT o FROM Simplified.Ring1.Illustration o WHERE ObjectID=?", objectId).First
                     };
 
                     return a;
@@ -27,7 +26,7 @@ namespace Images {
                 return Db.Scope<Json>(() => {
                     var a = new ConceptJson() {
                         Html = "/Images/concept.html",
-                        Data = Db.SQL<Something>("SELECT o FROM Something o WHERE ObjectID=?", objectId).First
+                        Data = Db.SQL<Simplified.Ring1.Something>("SELECT o FROM Simplified.Ring1.Something o WHERE ObjectID=?", objectId).First
                     };
 
                     return a;
