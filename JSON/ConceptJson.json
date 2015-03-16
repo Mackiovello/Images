@@ -2,5 +2,6 @@
 {
 	ImageURL$:"", 
 	$ImageURL$:{Bind:"URL"}, 
-	Delete$:0 
+	Delete$:0,
+	Save$:0
 }

@@ -35,6 +35,10 @@ namespace Images.JSON {
                 this.Data.Illustration.Delete();
             }
         }
+
+        void Handle(Input.Save action) {
+            this.Transaction.Commit();
+        }
     }
 
 }
