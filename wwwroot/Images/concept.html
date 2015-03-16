@@ -1,7 +1,6 @@
-<link rel="import" href="/sys/juicy-filedrop/juicy-filedrop.html">
+<link rel="import" href="/sys/juicy-filedrop/juicy-filedrop.html" />
 
 <template>
-
     <style>
         .productItemImage {
             display: inline-block;
@@ -11,7 +10,6 @@
             margin-bottom: 10px;
             padding: 20px;
             width: 250px;*/
-
         }
 
         juicy-filedrop {
@@ -52,36 +50,27 @@
         #container {
             position: relative;
         }
-
     </style>
 
-
-<!--    <template bind="{{Illustration}}">-->
-
-        <div class="productItemImage">
-            <div id="container">
+    <div class="productItemImage">
+        <div id="container">
 
             <template if="{{ImageURL$}}">
                 <div class="deleteBtn">
-                    <button class="launcher-button btn-warning"   onclick="this.templateInstance.model.Delete$++">Clear</button>
-                    <button class="launcher-button btn-default"   onclick="this.templateInstance.model.Save$++">Save</button>
+                    <button class="launcher-button btn-warning" onclick="this.templateInstance.model.Delete$++">Clear</button>
+                    <button class="launcher-button btn-default" onclick="this.templateInstance.model.Save$++">Save</button>
                 </div>
             </template>
 
             <!--<input type="text" value="{{ImageURL$}}" />-->
 
-            <juicy-filedrop url="/Images/images" value={{ImageURL$}}>
+            <juicy-filedrop url="/Images/images" value="{{ImageURL$}}">
                 <template if="{{!ImageURL$}}">
                     <div class="dropFileHere">Drop image here</div>
                 </template>
-
                 <img src="{{ImageURL$}}" />
-
             </juicy-filedrop>
-            </div>
-
         </div>
-       
-<!--    </template>-->
+    </div>
 </template>
 
