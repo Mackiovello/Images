@@ -2,8 +2,12 @@
     "Html": "/Images/images.html",
     "Name$": "",
     "$Name$": { "Bind": "Concept.Name" },
-    "DbIDString": "",
+    "Key": "",
     "ImageURL$": "",
     "$ImageURL$": { "Bind": "Content.URL" },
-    "Delete$": 0
+    "Open$": 0,
+    "Delete$": 0,
+    "Save$": 0,
+    "Cancel$": 0,
+    "RedirectUrl$": ""
 }

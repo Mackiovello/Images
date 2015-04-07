@@ -1,15 +1,7 @@
+<link rel="import" href="/sys/puppet-redirect/src/puppet-redirect.html" />
 <link rel="import" href="/sys/juicy-filedrop/juicy-filedrop.html" />
 
 <style>
-    .productItemImage {
-        display: inline-block;
-        border: 1px solid #eaeaea;
-        margin-right: 10px;
-        margin-bottom: 10px;
-        padding: 20px;
-        width: 250px;
-    }
-
     juicy-filedrop {
         display: block;
         overflow: hidden;
@@ -24,39 +16,38 @@
         border-color: #A5A5A5;
         background: #EDEDED;
         border-width: 6px;
-        height: 100px;
+        height: 120px;
+        width:120px;
         padding-top: 40px;
         text-align: center;
-    }
-
-    img {
-        width: auto;
     }
 </style>
 
 <template>
-    <div>
-        <img src="{{ImageURL$}}" />
-    </div>
-<!--    <div>
-
-    <div class="productItemImage">
-
-
-        <input type="text" value="{{ImageURL$}}" />
-
-    <juicy-filedrop url="/Images/images" value={{ImageURL$}}>
+    <juicy-filedrop url="/Images/images" value="{{ImageURL$}}" openclick="{{Open$}}">
         <template if="{{!ImageURL$}}">
             <div class="dropFileHere">
-            Drop image here
+                <span>Drop image here</span>
+                <br />
+                <a href="javascript:" onclick="getModel(this).Open$++">Or select file</a>
             </div>
         </template>
-
-        <img src="{{ImageURL$}}" />
-
+        <template if="{{ImageURL$}}">
+            <img src="{{ImageURL$}}" class="img-thumbnail" />
+        </template>
     </juicy-filedrop>
+    <div class="form-horizontal">
+        <input type="text" readonly="readonly" value="{{ImageURL$}}" class="form-control" />
     </div>
-
-    </div>-->
+    <div>
+        <button type="button" class="btn btn-sm btn-default" onclick="getModel(this).Open$++">Select file</button>
+    </div>
+    <div>
+        <button type="button" class="btn btn-primary" onclick="this.templateInstance.model.Save$++">Save</button>
+    </div>
+    <div>
+        <button type="button" class="btn btn-default" onclick="this.templateInstance.model.Cancel$++">Cancel</button>
+    </div>
+    <link is="puppet-redirect" history url="{{RedirectUrl$}}" />
 </template>
 

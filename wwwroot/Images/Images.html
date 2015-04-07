@@ -24,12 +24,13 @@
                     <td>{{Name$}}</td>
                     <td>{{ImageURL$}}</td>
                     <td>
-                        <a href="/Images/image/{{DbIDString}}">
+                        <a href="/Images/image/{{Key}}">
                             <img class="img-illustration" src="{{ImageURL$}}" />
                         </a>
                     </td>
                     <td>
                         <button class="btn btn-sm btn-default" onclick="getModel(this).Delete$++">Delete</button>
+                        <a href="/Images/image/{{Key}}" class="btn btn-sm btn-default">Edit</a>
                     </td>
                 </tr>
             </template>

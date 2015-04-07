@@ -2,7 +2,7 @@ using Starcounter;
 
 namespace Images.JSON {
     partial class IllustrationJson : Page, IBound<Simplified.Ring1.Illustration> {
-        void Handle(Input.Delete action) {
+        void Handle(Input.Delete Action) {
             this.ParentPage.ConfirmAction = () => {
                 Db.Transact(() => {
                     this.Data.Delete();
@@ -12,8 +12,17 @@ namespace Images.JSON {
             this.ParentPage.Confirm.Message = "Are you sure want to delete image [" + this.Data.Concept.Name + "]?";
         }
 
-        void Handle(Input.Name action) {
-            this.Data.Concept = Db.SQL<Simplified.Ring1.Something>("SELECT o FROM Simplified.Ring1.Something o WHERE Name=?", action.Value).First;
+        void Handle(Input.Name Action) {
+            this.Data.Concept = Db.SQL<Simplified.Ring1.Something>("SELECT o FROM Simplified.Ring1.Something o WHERE Name = ?", Action.Value).First;
+        }
+
+        void Handle(Input.Cancel Action) {
+            this.RedirectUrl = "/Images";
+        }
+
+        void Handle(Input.Save Action) {
+            this.Transaction.Commit();
+            this.RedirectUrl = "/Images";
         }
 
         IllustrationsJson ParentPage {
