@@ -2,15 +2,6 @@
 
 <template>
     <style>
-        .productItemImage {
-
-            /*border: 1px solid #eaeaea;
-            margin-right: 10px;
-            margin-bottom: 10px;
-            padding: 20px;
-            width: 250px;*/
-        }
-
         juicy-filedrop {
             display: block;
             overflow: hidden;
@@ -25,51 +16,32 @@
             border-color: #A5A5A5;
             background: #EDEDED;
             border-width: 6px;
-            height: 100px;
+            height: 120px;
+            width:120px;
             padding-top: 40px;
             text-align: center;
         }
-
-        img {
-           width: 100%;
-        }
-
-        .deleteBtn {
-            display: none;
-            width: 50px;
-        }
-
-        .productItemImage:hover .deleteBtn {
-            display: block;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-
-        #container {
-            position: relative;
-        }
     </style>
-
-    <div class="productItemImage">
-        <div id="container">
-
-            <template if="{{ImageURL$}}">
-                <div class="deleteBtn">
-                    <button class="launcher-button btn-warning" onclick="this.templateInstance.model.Delete$++">Clear</button>
-                    <button class="launcher-button btn-default" onclick="this.templateInstance.model.Save$++">Save</button>
+    <div class="form-horizontal">
+        <label class="control-label">Image:</label>
+    </div>
+    <div>
+        <juicy-filedrop url="/Images/images" value="{{ImageURL$}}">
+            <template if="{{!ImageURL$}}">
+                <div class="dropFileHere">
+                    <span>Drop image here</span>
+                    <br />
+                    <a href="javascript:">Or select file</a>
                 </div>
             </template>
-
-            <!--<input type="text" value="{{ImageURL$}}" />-->
-
-            <juicy-filedrop url="/Images/images" value="{{ImageURL$}}">
-                <template if="{{!ImageURL$}}">
-                    <div class="dropFileHere">Drop image here</div>
-                </template>
-                <img src="{{ImageURL$}}" />
-            </juicy-filedrop>
-        </div>
+            <template if="{{ImageURL$}}">
+                <img src="{{ImageURL$}}" class="img-thumbnail" />
+            </template>
+        </juicy-filedrop>
+        <template if="{{ImageURL$}}">
+            <button class="btn btn-default btn-xs" onclick="this.templateInstance.model.Delete$++">Clear</button>
+            <button class="btn btn-primary btn-xs" onclick="this.templateInstance.model.Save$++">Save</button>
+        </template>
     </div>
 </template>
 
