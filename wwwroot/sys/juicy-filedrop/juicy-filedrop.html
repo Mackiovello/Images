@@ -4,7 +4,7 @@ Copyright 2015 Smörgåsbord Development. All rights reserved.
 <link rel="import" href="/sys/polymer/polymer.html">
 <link rel="import" href="/sys/core-ajax/core-ajax.html">
 
-<polymer-element name="juicy-filedrop" attributes="url customheader value">
+<polymer-element name="juicy-filedrop" attributes="url customheader value openclick">
     <template>
         <style>
             :host {
@@ -14,9 +14,14 @@ Copyright 2015 Smörgåsbord Development. All rights reserved.
                 display: -webkit-flex;
                 display: flex;
             }
+
+            input[type=file] {
+                display:none;
+            }
         </style>
         <core-ajax id="postMedia" method="POST" url="{{url}}" on-core-response="{{handleResponse}}" on-core-error="{{handleError}}"></core-ajax>
-        <content></content>
+        <input type="file" id="txtUploadFile" />
+        <content id="content"></content>
     </template>
     <script>
         "use strict";
@@ -25,13 +30,61 @@ Copyright 2015 Smörgåsbord Development. All rights reserved.
             customheader: "x-file",
             ready: function () {
                 this.setupDrop();
+                this.setupSelect();
+            },
+            openclickChanged: function () {
+                console.log("openChanged");
+                this.openFile();
+            },
+            openFile: function () {
+                var element = this.$.txtUploadFile;
+                var ev;
+
+                if (document.createEvent) {
+                    ev = document.createEvent("MouseEvents");
+                    ev.initMouseEvent("click", true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 2, null);
+                    element.dispatchEvent(ev);
+                } else {
+                    ev = document.createEventObject();
+                    ev.button = 2;
+                    element.fireEvent('onclick', ev);
+                }
+            },
+            readData: function (file) {
+                var postMedia = this.$.postMedia;
+                var customheader = this.customheader;
+                var reader = new FileReader();
+
+                reader.onload = function (event) {
+                    // POST Image to server
+                    postMedia.headers = {};
+                    postMedia.headers[customheader] = JSON.stringify(this.xFile);
+                    postMedia.xFile = this.xFile;
+                    postMedia.body = event.target.result;
+                    postMedia.go();
+                };
+
+                reader.xFile = { type: file.type, name: file.name };
+                this.fire('fileUploading', reader.xFile);
+                reader.readAsDataURL(file);
+            },
+            setupSelect: function () {
+                var onFileSelected = function (e) {
+                    var files = e.target.files;
+
+                    for (var i = 0; i < files.length; i++) {
+                        this.readData(files[i]);
+                    }
+                };
+
+                this.$.txtUploadFile.addEventListener("change", onFileSelected.bind(this), false);
             },
             setupDrop: function () {
                 var postMedia = this.$.postMedia;
                 var customheader = this.customheader;
 
                 if (typeof window.FileReader === 'undefined') {
-                    // TODO: Browser do not support 'FileReader'
+                    // TODO: Browser does not support 'FileReader'
                 }
 
                 this.onpaste = function (event) {
@@ -40,20 +93,8 @@ Copyright 2015 Smörgåsbord Development. All rights reserved.
                     for (var i = 0, item ; item = event.clipboardData.items[i]; i++) {
                         if (item.kind == "file") {
                             var blob = item.getAsFile();
-                            var reader = new FileReader();
-
-                            reader.onload = function (event) {
-                                // POST Image to server
-                                postMedia.headers = {};
-                                postMedia.headers[customheader] = JSON.stringify(this.xFile);
-                                postMedia.xFile = this.xFile;
-                                postMedia.body = event.target.result;
-                                postMedia.go();
-                            };
-
-                            reader.xFile = { type: item.type, name: item.type };
-                            this.fire('fileUploading', reader.xFile);
-                            reader.readAsDataURL(blob);
+                            
+                            this.readData(blob);
                         }
                     }
                 };

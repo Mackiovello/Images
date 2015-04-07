@@ -26,12 +26,12 @@
         <label class="control-label">Image:</label>
     </div>
     <div>
-        <juicy-filedrop url="/Images/images" value="{{ImageURL$}}">
+        <juicy-filedrop url="/Images/images" value="{{ImageURL$}}" openclick="{{Open$}}">
             <template if="{{!ImageURL$}}">
                 <div class="dropFileHere">
                     <span>Drop image here</span>
                     <br />
-                    <a href="javascript:">Or select file</a>
+                    <a href="javascript:" onclick="getModel(this).Open$++">Or select file</a>
                 </div>
             </template>
             <template if="{{ImageURL$}}">
