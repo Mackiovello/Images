@@ -8,6 +8,7 @@
         }
     ],
     "Add$": 0,
+    "RedirectUrl$": "",
     "Confirm": {
         "Message": "",
         "Ok$": "",

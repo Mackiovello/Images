@@ -1,7 +1,21 @@
+using Simplified.Ring1;
 using Starcounter;
 
 namespace Images.JSON {
     partial class IllustrationJson : Page, IBound<Simplified.Ring1.Illustration> {
+        protected override void OnData() {
+            base.OnData();
+
+            if (this.Data == null) {
+                Illustration i = new Illustration();
+
+                i.Concept = new Something() { Name = "Standalone image" };
+                i.Content = new Content();
+
+                this.Data = i;
+            }
+        }
+
         void Handle(Input.Delete Action) {
             this.ParentPage.ConfirmAction = () => {
                 Db.Transact(() => {

@@ -1,3 +1,4 @@
+<link rel="import" href="/sys/puppet-redirect/src/puppet-redirect.html" />
 <link rel="import" href="/sys/paper-button/paper-button.html" />
 <link rel="import" href="/sys/paper-dialog/paper-action-dialog.html" />
 
@@ -25,7 +26,7 @@
                     <td>{{ImageURL$}}</td>
                     <td>
                         <a href="/Images/image/{{Key}}">
-                            <img class="img-illustration" src="{{ImageURL$}}" />
+                            <img class="img-illustration img-thumbnail" src="{{ImageURL$}}" />
                         </a>
                     </td>
                     <td>
@@ -37,6 +38,7 @@
         </tbody>
     </table>
     <button class="btn btn-primary" onclick="this.templateInstance.model.Add$++">Add new image</button>
+    <link is="puppet-redirect" history url="{{RedirectUrl$}}" />
 </template>
 <template>
     <div class="people" id="divConfirmDialog">
