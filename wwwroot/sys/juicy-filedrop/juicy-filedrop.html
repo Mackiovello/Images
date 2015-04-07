@@ -133,7 +133,7 @@ Copyright 2014 Smörgåsbord Development. All rights reserved.
 	      	},
 			handleResponse: function(ev, res) { 
 
-				this.value = res.xhr.getResponseHeader("Location");
+				this.value = res.xhr.getResponseHeader("x-file-location");
 			
 				var xFile = JSON.parse(res.xhr.getResponseHeader( this.customheader ));
 				xFile.status = res.xhr.status;

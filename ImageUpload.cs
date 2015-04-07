@@ -74,7 +74,7 @@ namespace Image {
                 _FileStream.Write(_ByteArray, 0, _ByteArray.Length);
                 _FileStream.Close();
 
-                Handle.AddOutgoingHeader("Location", "/media/" + fileName);
+                Handle.AddOutgoingHeader("x-file-location", "/media/" + fileName);
                 Handle.AddOutgoingHeader("x-file", System.Text.Encoding.Default.GetString(xfile.ToJsonUtf8()));
 
                 return System.Net.HttpStatusCode.Created;
