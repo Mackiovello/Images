@@ -1,9 +1,16 @@
 {
-	Html:"",
-	Uri:"",
-	"$Illustrations" : { "Bind" : "_Illustrations" },
-	"Illustrations": [{
-		"$" : { "Reuse" : "Images.JSON.IllustrationJson" }
-    }],
-	Add$:0
+    "Html": "",
+    "Uri": "",
+    "$Illustrations": { "Bind": "_Illustrations" },
+    "Illustrations": [
+        {
+            "$": { "Reuse": "Images.JSON.IllustrationJson" }
+        }
+    ],
+    "Add$": 0,
+    "Confirm": {
+        "Message": "",
+        "Ok$": "",
+        "Reject$": ""
+    }
 }

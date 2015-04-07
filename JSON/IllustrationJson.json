@@ -1,9 +1,9 @@
-{  
-	Html:"/Images/images.html",
-	Name$:"", 
-	$Name$:{Bind:"Concept.Name"}, 
-	DbIDString : "",
-	ImageURL$:"", 
-	$ImageURL$:{Bind:"Content.URL"}, 
-	Delete$:0 
+{
+    "Html": "/Images/images.html",
+    "Name$": "",
+    "$Name$": { "Bind": "Concept.Name" },
+    "DbIDString": "",
+    "ImageURL$": "",
+    "$ImageURL$": { "Bind": "Content.URL" },
+    "Delete$": 0
 }
