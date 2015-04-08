@@ -94,6 +94,7 @@
     <Content Include="wwwroot\Images\Images.html" />
     <Content Include="wwwroot\Images\css\prodman.css" />
     <Content Include="wwwroot\Images\image.html" />
+    <Content Include="wwwroot\Images\product.html" />
   </ItemGroup>
   <ItemGroup>
     <TypedJSON Include="IllustrationsJson.json">
