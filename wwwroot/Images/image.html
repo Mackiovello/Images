@@ -25,7 +25,7 @@
 </style>
 
 <template>
-    <juicy-filedrop url="/Images/images" value="{{ImageURL$}}" openclick="{{Open$}}">
+    <juicy-filedrop url="/Images/images" value="{{ImageURL$}}" openclick="{{Open$}}" maxfilesize="{{MaxFileSize}}">
         <template if="{{!ImageURL$}}">
             <div class="dropFileHere">
                 <span>Drop image here</span>

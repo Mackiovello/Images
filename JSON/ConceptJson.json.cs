@@ -2,6 +2,11 @@ using Starcounter;
 
 namespace Images.JSON {
     partial class ConceptJson : Page, IBound<Simplified.Ring1.Something> {
+        protected override void OnData() {
+            base.OnData();
+
+            this.MaxFileSize = Images.Startup.MaxFileSize;
+        }
 
         public string URL {
 
@@ -19,8 +24,7 @@ namespace Images.JSON {
                     illustration = new Simplified.Ring1.Illustration();
                     illustration.Content = new Simplified.Ring1.Content() { URL = value };
                     illustration.Concept = this.Data;
-                }
-                else {
+                } else {
                     illustration.Content.URL = value;
                 }
             }

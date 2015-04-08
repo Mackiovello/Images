@@ -6,6 +6,8 @@ namespace Images.JSON {
         protected override void OnData() {
             base.OnData();
 
+            this.MaxFileSize = Images.Startup.MaxFileSize;
+
             if (this.Data == null) {
                 Illustration i = new Illustration();
 

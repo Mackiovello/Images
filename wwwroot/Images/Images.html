@@ -42,7 +42,7 @@
     <link is="puppet-redirect" history url="{{RedirectUrl$}}" />
 </template>
 <template>
-    <div class="people" id="divConfirmDialog">
+    <div class="images" id="divConfirmDialog">
         <paper-action-dialog heading="Confirmation" backdrop="true" layered="true" role="dialog" opened="{{Confirm.Message != null && Confirm.Message != ''}}">
             <p>{{Confirm.Message}}</p>
             <paper-button style="color:red;" affirmative role="button" tabindex="1" onclick="getModel(document.getElementById('divConfirmDialog')).Confirm.Ok$++">Delete</paper-button>

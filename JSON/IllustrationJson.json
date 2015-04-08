@@ -9,5 +9,6 @@
     "Delete$": 0,
     "Save$": 0,
     "Cancel$": 0,
-    "RedirectUrl$": ""
+    "RedirectUrl$": "",
+    "MaxFileSize": 0
 }

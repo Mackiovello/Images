@@ -4,7 +4,7 @@ Copyright 2015 Smörgåsbord Development. All rights reserved.
 <link rel="import" href="/sys/polymer/polymer.html">
 <link rel="import" href="/sys/core-ajax/core-ajax.html">
 
-<polymer-element name="juicy-filedrop" attributes="url customheader value openclick">
+<polymer-element name="juicy-filedrop" attributes="url customheader value openclick maxfilesize">
     <template>
         <style>
             :host {
@@ -31,10 +31,22 @@ Copyright 2015 Smörgåsbord Development. All rights reserved.
             ready: function () {
                 this.setupDrop();
                 this.setupSelect();
+
+                if (!this.maxfilesize) {
+                    this.maxfilesize = 512;
+                }
             },
             openclickChanged: function () {
                 console.log("openChanged");
                 this.openFile();
+            },
+            checkFile: function (file) {
+                if (file.size > this.maxfilesize) {
+                    alert("File " + file.name + " is too big. Maximum file size is: " + (this.maxfilesize / 1024) + "kb.");
+                    return false;
+                }
+
+                return true;
             },
             openFile: function () {
                 var element = this.$.txtUploadFile;
@@ -73,6 +85,12 @@ Copyright 2015 Smörgåsbord Development. All rights reserved.
                     var files = e.target.files;
 
                     for (var i = 0; i < files.length; i++) {
+                        var file = files[i];
+
+                        if (!this.checkFile(file)) {
+                            continue;
+                        }
+
                         this.readData(files[i]);
                     }
                 };
@@ -131,6 +149,10 @@ Copyright 2015 Smörgåsbord Development. All rights reserved.
                     e.preventDefault();
 
                     for (var i = 0, file; file = e.dataTransfer.files[i]; i++) {
+                        if (!this.checkFile(file)) {
+                            continue;
+                        }
+
                         var reader = new FileReader();
 
                         reader.onload = function (event) {

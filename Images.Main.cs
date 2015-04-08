@@ -5,6 +5,9 @@ using Starcounter;
 
 namespace Images {
     class Startup {
+        //Maximum file size in bytes.
+        public static int MaxFileSize = 1048576; //1mb
+
         static void Main() {
             Handle.GET("/Images/image/{?}", (string objectId) => {
                 return X.GET<IllustrationJson>("/Images/partials/image/" + objectId);
