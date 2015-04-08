@@ -10,5 +10,6 @@
     "Save$": 0,
     "Cancel$": 0,
     "RedirectUrl$": "",
-    "MaxFileSize": 0
+    "MaxFileSize": 0,
+    "AllowedMimeTypes": ""
 }

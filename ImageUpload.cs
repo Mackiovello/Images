@@ -9,6 +9,10 @@ using Starcounter.Internal;
 
 namespace Image {
     public class ImageUpload {
+        //Maximum file size in bytes.
+        public static int MaxFileSize = 1048576; //1mb
+        public static string[] AllowedMimeTypes = { "image/gif", "image/jpeg", "image/png", "image/svg+xml" };
+
         public static void RegisterHandlers() {
 
             // Upload media
@@ -38,9 +42,7 @@ namespace Image {
                     };
                 }
 
-                string[] supportedMimeTypes = { "image/gif", "image/jpeg", "image/png", "image/svg+xml" };
-
-                if (!supportedMimeTypes.Contains(mime)) {
+                if (!AllowedMimeTypes.Contains(mime)) {
                     return new Response() {
                         StatusCode = (ushort)System.Net.HttpStatusCode.UnsupportedMediaType,
                         StatusDescription = "Unfortunately, we don't support " + mime + " file type.  Try again with a PNG, GIF, or JPG."

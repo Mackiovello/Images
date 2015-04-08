@@ -26,7 +26,7 @@
         <label class="control-label">Image:</label>
     </div>
     <div>
-        <juicy-filedrop url="/Images/images" value="{{ImageURL$}}" openclick="{{Open$}}" maxfilesize="{{MaxFileSize}}">
+        <juicy-filedrop url="/Images/images" value="{{ImageURL$}}" openclick="{{Open$}}" maxfilesize="{{MaxFileSize}}" allowedmimetypes="{{AllowedMimeTypes}}">
             <template if="{{!ImageURL$}}">
                 <div class="dropFileHere">
                     <span>Drop image here</span>
