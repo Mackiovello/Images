@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
+using System.Linq;
 using Microsoft.Win32;
 using Starcounter;
 using Starcounter.Internal;
@@ -18,14 +19,15 @@ namespace Image {
 
                 ushort port = StarcounterEnvironment.Default.UserHttpPort;
                 string host = request["Host"];
-                if (host.IndexOf(':') == -1) {
+                
+                if (!host.Contains(":")) {
                     host += ":" + port;
                 }
 
-                var xFile = Handle.IncomingRequest["x-file"];
+                string fileJson = Handle.IncomingRequest["x-file"];
 
                 Images.JSON.xFile xfile = new Images.JSON.xFile();
-                xfile.PopulateFromJson(xFile);
+                xfile.PopulateFromJson(fileJson);
 
                 ImageUpload.ParseDataUri(request.Body, out mime, out encoding, out data);
 
@@ -37,16 +39,8 @@ namespace Image {
                 }
 
                 string[] supportedMimeTypes = { "image/gif", "image/jpeg", "image/png", "image/svg+xml" };
-                bool bMimeTypeSupport = false;
-                // Supported img mime types
-                foreach (string mimetype in supportedMimeTypes) {
-                    if (mime == mimetype) {
-                        bMimeTypeSupport = true;
-                        break;
-                    }
-                }
 
-                if (bMimeTypeSupport == false) {
+                if (!supportedMimeTypes.Contains(mime)) {
                     return new Response() {
                         StatusCode = (ushort)System.Net.HttpStatusCode.UnsupportedMediaType,
                         StatusDescription = "Unfortunately, we don't support " + mime + " file type.  Try again with a PNG, GIF, or JPG."
