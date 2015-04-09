@@ -1,0 +1,89 @@
+﻿<link rel="import" href="/sys/paper-button/paper-button.html" />
+<link rel="import" href="/sys/paper-dialog/paper-action-dialog.html" />
+<link rel="import" href="/sys/juicy-filedrop/juicy-filedrop.html" />
+
+<polymer-element name="so-juicy-filedrop" attributes="UploadUrl Value MaxFileSize AllowedMimeTypes OpenClick AlertMessage">
+    <template>
+        <style>
+            :host {
+                display:block;
+            }
+
+            juicy-filedrop {
+                display: block;
+                overflow: hidden;
+                color: rgb(170, 170, 170);
+                border: 0px solid black;
+                border: 0px solid #ccc;
+                border-radius: 3px;
+            }
+
+            .drop-file-here {
+                border-style: dashed;
+                border-color: #A5A5A5;
+                background: #EDEDED;
+                border-width: 6px;
+                height: 80px;
+                width:120px;
+                padding-top: 40px;
+                text-align: center;
+                box-sizing:content-box;
+            }
+        </style>
+        <juicy-filedrop url="{{UploadUrl}}" value="{{Value}}" openclick="{{Open$}}" maxfilesize="{{MaxFileSize}}" allowedmimetypes="{{AllowedMimeTypes}}" id="jfFileDrop">
+            <template if="{{!Value}}">
+                <div class="drop-file-here">
+                    <span>Drop image here</span>
+                    <br />
+                    <a href="javascript:" on-click="{{openFile}}">Or select file</a>
+                </div>
+            </template>
+            <template if="{{Value}}">
+                <img src="{{Value}}" class="img-thumbnail" />
+            </template>
+        </juicy-filedrop>
+        <paper-action-dialog heading="Error" backdrop="true" layered="true" role="dialog" id="pacAlertDialog">
+            <p>{{AlertMessage}}</p>
+            <paper-button style="color:red;" affirmative role="button" tabindex="1" on-click="closeAlert">Close</paper-button>
+        </paper-action-dialog>
+    </template>
+    <script>
+        Polymer('so-juicy-filedrop', {
+            isDomReady: false,
+            ready: function () {
+            },
+            domReady: function () {
+                var that = this;
+
+                this.isDomReady = true;
+
+                this.$.jfFileDrop.addEventListener("fileUploading", function (e) {
+                });
+
+                this.$.jfFileDrop.addEventListener("fileUploaded", function (e) {
+                });
+
+                this.$.jfFileDrop.addEventListener("fileUploadError", function (e) {
+                });
+
+                this.$.jfFileDrop.addEventListener("fileSelectError", function (e) {
+                    that.openAlert(e.detail.message);
+                });
+            },
+            openFile: function () {
+                this.$.jfFileDrop.openFile();
+            },
+            openAlert: function (message) {
+                this.AlertMessage = message;
+                this.$.pacAlertDialog.opened = true;
+            },
+            closeAlert: function () {
+                this.AlertMessage = "";
+                this.$.pacAlertDialog.opened = false;
+            },
+            OpenClickChanged: function () {
+                this.openFile();
+            }
+        });
+    </script>
+</polymer-element>

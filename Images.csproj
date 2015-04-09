@@ -90,6 +90,7 @@
     <Content Include="wwwroot\Images\app-icon.html" />
     <Content Include="wwwroot\Images\app-menu.html" />
     <Content Include="wwwroot\Images\concept.html" />
+    <Content Include="wwwroot\Images\elements\so-juicy-filedrop\so-juicy-filedrop.html" />
     <Content Include="wwwroot\Images\Images.png" />
     <Content Include="wwwroot\Images\Images.html" />
     <Content Include="wwwroot\Images\css\prodman.css" />

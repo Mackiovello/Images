@@ -4,7 +4,7 @@ Copyright 2015 Smörgåsbord Development. All rights reserved.
 <link rel="import" href="/sys/polymer/polymer.html">
 <link rel="import" href="/sys/core-ajax/core-ajax.html">
 
-<polymer-element name="juicy-filedrop" attributes="url customheader value openclick maxfilesize allowedmimetypes">
+<polymer-element name="juicy-filedrop" attributes="url customheader value maxfilesize allowedmimetypes">
     <template>
         <style>
             :host {
@@ -42,23 +42,24 @@ Copyright 2015 Smörgåsbord Development. All rights reserved.
                     this.allowedmimetypes = this.allowedmimetypes.split(",");
                 }
             },
-            openclickChanged: function () {
-                console.log("openChanged");
-                this.openFile();
-            },
             checkFile: function (file) {
+                var m;
+
                 if (this.allowedmimetypes.indexOf(file.type) < 0) {
                     if (file.type) {
-                        alert("File type [" + file.type + "] is not allowed.");
+                        m = "File type [" + file.type + "] is not allowed.";
                     } else {
-                        alert(file.name + " is not a valid image file.");
+                        m = file.name + " is not a valid image file.";
                     }
                     
+                    this.fire("fileSelectError", { file: file, message: m });
                     return false;
                 }
 
                 if (file.size > this.maxfilesize) {
-                    alert("File " + file.name + " is too big. Maximum file size is: " + (this.maxfilesize / 1024) + "kb.");
+                    m = ["File ", file.name, " is too big. Maximum file size is: ", (this.maxfilesize / 1024), "kb."].join("");
+
+                    this.fire("fileSelectError", { file: file, message: m });
                     return false;
                 }
 

@@ -1,43 +1,11 @@
-<link rel="import" href="/sys/juicy-filedrop/juicy-filedrop.html" />
+<link rel="import" href="/Images/elements/so-juicy-filedrop/so-juicy-filedrop.html" />
 
 <template>
-    <style>
-        juicy-filedrop {
-            display: block;
-            overflow: hidden;
-            color: rgb(170, 170, 170);
-            border: 0px solid black;
-            border: 0px solid #ccc;
-            border-radius: 3px;
-        }
-
-        .dropFileHere {
-            border-style: dashed;
-            border-color: #A5A5A5;
-            background: #EDEDED;
-            border-width: 6px;
-            height: 120px;
-            width:120px;
-            padding-top: 40px;
-            text-align: center;
-        }
-    </style>
     <div class="form-horizontal">
         <label class="control-label">Image:</label>
     </div>
     <div>
-        <juicy-filedrop url="/Images/images" value="{{ImageURL$}}" openclick="{{Open$}}" maxfilesize="{{MaxFileSize}}" allowedmimetypes="{{AllowedMimeTypes}}">
-            <template if="{{!ImageURL$}}">
-                <div class="dropFileHere">
-                    <span>Drop image here</span>
-                    <br />
-                    <a href="javascript:" onclick="getModel(this).Open$++">Or select file</a>
-                </div>
-            </template>
-            <template if="{{ImageURL$}}">
-                <img src="{{ImageURL$}}" class="img-thumbnail" />
-            </template>
-        </juicy-filedrop>
+        <so-juicy-filedrop uploadurl="/Images/images" value="{{ImageURL$}}" maxfilesize="{{MaxFileSize}}" allowedmimetypes="{{AllowedMimeTypes}}"></so-juicy-filedrop>
         <template if="{{ImageURL$}}">
             <button class="btn btn-default btn-xs" onclick="this.templateInstance.model.Delete$++">Clear</button>
             <button class="btn btn-primary btn-xs" onclick="this.templateInstance.model.Save$++">Save</button>
