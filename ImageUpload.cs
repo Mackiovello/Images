@@ -36,23 +36,17 @@ namespace Image {
                 ImageUpload.ParseDataUri(request.Body, out mime, out encoding, out data);
 
                 if (encoding != "base64") {
-                    Handle.SetOutgoingStatusCode(422);
-                    Handle.SetOutgoingStatusDescription("Unfortunately, we don't support that file type.  Try again with a PNG, GIF, or JPG.");
+                    Handle.SetOutgoingStatusCode(422); //Unprocessable Entity
+                    Handle.SetOutgoingStatusDescription("Unfortunately, we don't support that file type. Try again with a PNG, GIF, or JPG.");
 
-                    return new Response() {
-                        StatusCode = 422, //  Unprocessable Entity
-                        StatusDescription = "Unfortunately, we don't support that file type.  Try again with a PNG, GIF, or JPG."
-                    };
+                    return 422;
                 }
 
                 if (!AllowedMimeTypes.Contains(mime)) {
                     Handle.SetOutgoingStatusCode((ushort)System.Net.HttpStatusCode.UnsupportedMediaType);
-                    Handle.SetOutgoingStatusDescription("Unfortunately, we don't support " + mime + " file type.  Try again with a PNG, GIF, or JPG.");
+                    Handle.SetOutgoingStatusDescription("Unfortunately, we don't support " + mime + " file type. Try again with a PNG, GIF, or JPG.");
 
-                    return new Response() {
-                        StatusCode = (ushort)System.Net.HttpStatusCode.UnsupportedMediaType,
-                        StatusDescription = "Unfortunately, we don't support " + mime + " file type.  Try again with a PNG, GIF, or JPG."
-                    };
+                    return (ushort)System.Net.HttpStatusCode.UnsupportedMediaType;
                 }
 
                 byte[] _ByteArray = Convert.FromBase64String(data);

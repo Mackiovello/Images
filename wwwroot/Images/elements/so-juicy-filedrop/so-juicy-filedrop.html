@@ -64,6 +64,7 @@
                 });
 
                 this.$.jfFileDrop.addEventListener("fileUploadError", function (e) {
+                    that.openAlert(e.detail.statusText);
                 });
 
                 this.$.jfFileDrop.addEventListener("fileSelectError", function (e) {
