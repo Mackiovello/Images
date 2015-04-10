@@ -7,7 +7,7 @@ namespace Images {
     class Startup {
         static void Main() {
             Handle.GET("/Images/image/{?}", (string objectId) => {
-                return X.GET<IllustrationJson>("/Images/partials/image/" + objectId);
+                return Self.GET<IllustrationJson>("/Images/partials/image/" + objectId);
             });
 
             Handle.GET("/Images/partials/image/{?}", (string objectId) => {
@@ -36,27 +36,27 @@ namespace Images {
 
             Handle.GET("/Images/concept/{?}", (string objectId) => {
                 return Db.Scope<Json>(() => {
-                    return X.GET<ConceptJson>("/Image/partials/concept/" + objectId);
+                    return Self.GET<ConceptJson>("/Image/partials/concept/" + objectId);
                 });
             });
 
-            Starcounter.Handle.GET("/Images/app-name", () => {
+            Handle.GET("/Images/app-name", () => {
                 return new AppName();
             });
 
             // App name required for Launchpad
-            Starcounter.Handle.GET("/Images/app-icon", () => {
+            Handle.GET("/Images/app-icon", () => {
                 return new Page() { Html = "/Images/app-icon.html" };
             });
 
             // Menu
-            Starcounter.Handle.GET("/Images/menu", () => {
+            Handle.GET("/Images/menu", () => {
                 return new Page() { Html = "/Images/app-menu.html" };
             });
 
 
             // Workspace root (Launchpad)
-            Starcounter.Handle.GET("/Images", (Request request) => {
+            Handle.GET("/Images", (Request request) => {
               return Db.Scope<IllustrationsJson>(() => {
                 return new IllustrationsJson() {
                   Html = "/Images/images.html",
