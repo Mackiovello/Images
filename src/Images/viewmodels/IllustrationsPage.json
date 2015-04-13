@@ -1,0 +1,17 @@
+{
+    "Html": "",
+    "Uri": "",
+    "$Illustrations": { "Bind": "_Illustrations" },
+    "Illustrations": [
+        {
+            "$": { "Reuse": "Images.IllustrationPage" }
+        }
+    ],
+    "Add$": 0,
+    "RedirectUrl$": "",
+    "Confirm": {
+        "Message": "",
+        "Ok$": "",
+        "Reject$": ""
+    }
+}

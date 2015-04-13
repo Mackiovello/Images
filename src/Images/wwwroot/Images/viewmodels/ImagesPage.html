@@ -1,0 +1,52 @@
+<link rel="stylesheet" href="/sys/bootswatch/paper/bootstrap.css" />
+<link rel="import" href="/sys/puppet-redirect/src/puppet-redirect.html" />
+<link rel="import" href="/sys/paper-button/paper-button.html" />
+<link rel="import" href="/sys/paper-dialog/paper-action-dialog.html" />
+
+<style>
+    .img-illustration {
+        max-width:100px;
+        max-height:100px;
+    }
+</style>
+
+<template>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>ImageURL</th>
+                <th>Picture</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <template repeat="{{Illustrations}}">
+                <tr>
+                    <td>{{Name$}}</td>
+                    <td>{{ImageURL$}}</td>
+                    <td>
+                        <a href="/images/image/{{Key}}">
+                            <img class="img-illustration img-thumbnail" src="{{ImageURL$}}" />
+                        </a>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-default" onclick="getModel(this).Delete$++">Delete</button>
+                        <a href="/images/image/{{Key}}" class="btn btn-sm btn-default">Edit</a>
+                    </td>
+                </tr>
+            </template>
+        </tbody>
+    </table>
+    <button class="btn btn-primary" onclick="this.templateInstance.model.Add$++">Add new image</button>
+    <link is="puppet-redirect" history url="{{RedirectUrl$}}" />
+</template>
+<template>
+    <div class="images" id="divConfirmDialog">
+        <paper-action-dialog heading="Confirmation" backdrop="true" layered="true" role="dialog" opened="{{Confirm.Message != null && Confirm.Message != ''}}">
+            <p>{{Confirm.Message}}</p>
+            <paper-button style="color:red;" affirmative role="button" tabindex="1" onclick="getModel(document.getElementById('divConfirmDialog')).Confirm.Ok$++">Delete</paper-button>
+            <paper-button style="color:green;" affirmative role="button" tabindex="0" onclick="getModel(document.getElementById('divConfirmDialog')).Confirm.Reject$++">Cancel</paper-button>
+        </paper-action-dialog>
+    </div>
+</template>

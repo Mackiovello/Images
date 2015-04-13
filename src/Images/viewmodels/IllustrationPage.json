@@ -1,0 +1,15 @@
+{
+    "Html": "/Images/viewmodels/ImagesPage.html",
+    "Name$": "",
+    "$Name$": { "Bind": "Concept.Name" },
+    "Key": "",
+    "ImageURL$": "",
+    "$ImageURL$": { "Bind": "Content.URL" },
+    "Open$": 0,
+    "Delete$": 0,
+    "Save$": 0,
+    "Cancel$": 0,
+    "RedirectUrl$": "",
+    "MaxFileSize": 0,
+    "AllowedMimeTypes": ""
+}
