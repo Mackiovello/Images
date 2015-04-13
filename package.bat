@@ -24,8 +24,8 @@ REM Get folder name for the zip name
 for %%a in ("%~dp0.") do set currentfolder=%%~na
 
 
-IF NOT EXIST "%~dp0dist" (
- md "%~dp0dist"
+IF NOT EXIST "%~dp0packages" (
+ md "%~dp0packages"
 )
 
 REM Zipp-it
