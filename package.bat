@@ -10,7 +10,7 @@ IF EXIST "%~dp0temp\NUL" (
 
 REM Prepare Executables
 md "%~dp0temp\app"
-xcopy "%~dp0src\Images\bin\Debug\*.*" "%~dp0temp\app"
+xcopy "%~dp0bin\Debug\*.*" "%~dp0temp\app"
 
 REM Prepare Content
 md "%~dp0temp\content"
