@@ -65,23 +65,23 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="api\UploadHandlers.cs" />
-    <Compile Include="api\MainHandlers.cs" />
-    <Compile Include="helpers\IllustrationHelper.cs" />
+    <Compile Include="Api\UploadHandlers.cs" />
+    <Compile Include="Api\MainHandlers.cs" />
+    <Compile Include="Helpers\IllustrationHelper.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="viewmodels\ConceptPage.json.cs">
+    <Compile Include="ViewModels\ConceptPage.json.cs">
       <DependentUpon>ConceptPage.json</DependentUpon>
     </Compile>
-    <Compile Include="viewmodels\IllustrationPage.json.cs">
+    <Compile Include="ViewModels\IllustrationPage.json.cs">
       <DependentUpon>IllustrationPage.json</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="viewmodels\IllustrationsPage.json.cs">
+    <Compile Include="ViewModels\IllustrationsPage.json.cs">
       <DependentUpon>IllustrationsPage.json</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <TypedJSON Include="viewmodels\xFile.json">
+    <TypedJSON Include="ViewModels\xFile.json">
       <Generator>MsBuild:Compile</Generator>
     </TypedJSON>
   </ItemGroup>
@@ -95,22 +95,22 @@
     <Content Include="wwwroot\Images\viewmodels\ImagesPage.html" />
   </ItemGroup>
   <ItemGroup>
-    <TypedJSON Include="viewmodels\IllustrationPage.json">
+    <TypedJSON Include="ViewModels\IllustrationPage.json">
       <Generator>MsBuild:Compile</Generator>
     </TypedJSON>
   </ItemGroup>
   <ItemGroup>
-    <TypedJSON Include="viewmodels\ConceptPage.json">
+    <TypedJSON Include="ViewModels\ConceptPage.json">
       <Generator>MsBuild:Compile</Generator>
     </TypedJSON>
   </ItemGroup>
   <ItemGroup>
-    <TypedJSON Include="viewmodels\AppName.json">
+    <TypedJSON Include="ViewModels\AppName.json">
       <Generator>MsBuild:Compile</Generator>
     </TypedJSON>
   </ItemGroup>
   <ItemGroup>
-    <TypedJSON Include="viewmodels\IllustrationsPage.json">
+    <TypedJSON Include="ViewModels\IllustrationsPage.json">
       <Generator>MsBuild:Compile</Generator>
     </TypedJSON>
   </ItemGroup>
