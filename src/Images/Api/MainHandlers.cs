@@ -68,7 +68,7 @@ namespace Images {
             Polyjuice.Map("/images/menu", "/polyjuice/menu");
             Polyjuice.Map("/images/app-name", "/polyjuice/app-name");
             Polyjuice.Map("/images/app-icon", "/polyjuice/app-icon");
-            Polyjuice.OntologyMap("/images/partials/concept/@w", "/so/something/@w", null, null);
+            Polyjuice.OntologyMap("/images/partials/concept/@w", "/so/vendible/@w", null, null);
         }
     }
 }
