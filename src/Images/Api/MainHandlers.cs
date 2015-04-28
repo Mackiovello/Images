@@ -4,10 +4,82 @@ using Starcounter;
 namespace Images {
     internal class MainHandlers {
         public void Register() {
-            Handle.GET("/images/image/{?}", (string objectId) => {
-                return Self.GET<IllustrationPage>("/Images/partials/image/" + objectId);
+            Handle.GET("/images/standalone", () => {
+                Session session = Session.Current;
+
+                if (session != null && session.Data != null) {
+                    return session.Data;
+                }
+
+                StandalonePage standalone = new StandalonePage();
+
+                if (session == null) {
+                    session = new Session(SessionOptions.PatchVersioning);
+                    standalone.Html = "/Images/viewmodels/StandalonePage.html";
+                }
+
+                standalone.Session = session;
+                return standalone;
             });
 
+            // Workspace root (Launchpad)
+            Handle.GET("/images", (Request request) => {
+                return Db.Scope<StandalonePage>(() => {
+                    StandalonePage master = this.GetMaster();
+
+                    IllustrationsPage page = new IllustrationsPage() {
+                        Html = "/Images/viewmodels/ImagesPage.html",
+                        Uri = request.Uri
+                    };
+
+                    master.CurrentPage = page;
+
+                    return master;
+                });
+            });
+
+            Handle.GET("/images/image/{?}", (string objectId) => {
+                return Db.Scope<StandalonePage>(() => {
+                    StandalonePage master = this.GetMaster();
+
+                    master.CurrentPage = Self.GET<IllustrationPage>("/Images/partials/image/" + objectId);
+
+                    return master;
+                });
+            });
+
+            Handle.GET("/images/concept/{?}", (string objectId) => {
+                return Db.Scope<Json>(() => {
+                    return Self.GET<ConceptPage>("/images/partials/concept/" + objectId);
+                });
+            });
+
+            this.RegisterPartials();
+            this.RegisterLauncherHooks();
+            this.RegisterMapperHandlers();
+        }
+
+        protected StandalonePage GetMaster() {
+            return Self.GET<StandalonePage>("/images/standalone");
+        }
+
+        protected void RegisterLauncherHooks() {
+            Handle.GET("/images/app-name", () => {
+                return new AppName();
+            });
+
+            // App name required for Launchpad
+            Handle.GET("/images/app-icon", () => {
+                return new Page() { Html = "/Images/viewmodels/AppIcon.html" };
+            });
+
+            // Menu
+            Handle.GET("/images/menu", () => {
+                return new Page() { Html = "/Images/viewmodels/AppMenu.html" };
+            }); 
+        }
+
+        protected void RegisterPartials() {
             Handle.GET("/images/partials/image/{?}", (string objectId) => {
                 return Db.Scope<Json>(() => {
                     var a = new IllustrationPage() {
@@ -29,39 +101,6 @@ namespace Images {
                     return a;
                 });
             });
-
-            Handle.GET("/images/concept/{?}", (string objectId) => {
-                return Db.Scope<Json>(() => {
-                    return Self.GET<ConceptPage>("/images/partials/concept/" + objectId);
-                });
-            });
-
-            Handle.GET("/images/app-name", () => {
-                return new AppName();
-            });
-
-            // App name required for Launchpad
-            Handle.GET("/images/app-icon", () => {
-                return new Page() { Html = "/Images/viewmodels/AppIcon.html" };
-            });
-
-            // Menu
-            Handle.GET("/images/menu", () => {
-                return new Page() { Html = "/Images/viewmodels/AppMenu.html" };
-            });
-
-
-            // Workspace root (Launchpad)
-            Handle.GET("/images", (Request request) => {
-                return Db.Scope<IllustrationsPage>(() => {
-                    return new IllustrationsPage() {
-                        Html = "/Images/viewmodels/ImagesPage.html",
-                        Uri = request.Uri
-                    };
-                });
-            });
-
-            this.RegisterMapperHandlers();
         }
 
         protected void RegisterMapperHandlers() {

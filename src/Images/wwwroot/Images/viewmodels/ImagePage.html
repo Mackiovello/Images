@@ -1,19 +1,18 @@
-<link rel="import" href="/sys/bootstrap.html" />
 <link rel="import" href="/sys/puppet-redirect/src/puppet-redirect.html" />
 <link rel="import" href="/Images/elements/so-juicy-filedrop/so-juicy-filedrop.html" />
 
 <template>
     <so-juicy-filedrop uploadurl="/images/images" value="{{ImageURL$}}" maxfilesize="{{MaxFileSize}}" allowedmimetypes="{{AllowedMimeTypes}}" openclick="{{Open$}}"></so-juicy-filedrop>
-    <div class="form-horizontal">
+    <div class="form-horizontal box-button">
         <input type="text" readonly="readonly" value="{{ImageURL$}}" class="form-control" />
     </div>
-    <div>
+    <div class="box-button">
         <button type="button" class="btn btn-sm btn-default" onclick="getModel(this).Open$++">Select file</button>
     </div>
-    <div>
+    <div class="box-button">
         <button type="button" class="btn btn-primary" onclick="this.templateInstance.model.Save$++">Save</button>
     </div>
-    <div>
+    <div class="box-button">
         <button type="button" class="btn btn-default" onclick="this.templateInstance.model.Cancel$++">Cancel</button>
     </div>
     <link is="puppet-redirect" history url="{{RedirectUrl$}}" />

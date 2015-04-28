@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Products</title>
+    <script src="/sys/webcomponentsjs/webcomponents.js"></script>
+    <link rel="import" href="/sys/starcounter.html" />
+    <link rel="import" href="/sys/imported-template/imported-template.html" />
+    <link rel="import" href="/sys/bootstrap.html" />
+    <link href="/Products/css/standalone.css" rel="stylesheet" />
+</head>
+<body>
+    <template id="root" bind>
+        <nav id="top-menu">
+            <ul>
+                <li>
+                    <a href="/images">Home</a>
+                </li>
+                <li>
+                    <a href="/images/image/">Add image</a>
+                </li>
+            </ul>
+        </nav>
+        <div id="body">
+            <template bind="{{CurrentPage}}">
+                <template is="imported-template" content="{{Html}}"></template>
+            </template>
+        </div>
+    </template>
+    <puppet-client ref="root"></puppet-client>
+    <starcounter-debug-aid></starcounter-debug-aid>
+</body>
+</html>

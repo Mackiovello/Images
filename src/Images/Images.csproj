@@ -79,6 +79,9 @@
     <Compile Include="ViewModels\IllustrationsPage.json.cs">
       <DependentUpon>IllustrationsPage.json</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\StandalonePage.json.cs">
+      <DependentUpon>StandalonePage.json</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <TypedJSON Include="ViewModels\xFile.json">
@@ -86,6 +89,8 @@
     </TypedJSON>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\default-layout.sql" />
+    <Content Include="wwwroot\Images\css\standalone.css" />
     <Content Include="wwwroot\Images\elements\so-juicy-filedrop\so-juicy-filedrop.html" />
     <Content Include="wwwroot\Images\Images.png" />
     <Content Include="wwwroot\Images\viewmodels\AppIcon.html" />
@@ -93,6 +98,8 @@
     <Content Include="wwwroot\Images\viewmodels\ConceptPage.html" />
     <Content Include="wwwroot\Images\viewmodels\ImagePage.html" />
     <Content Include="wwwroot\Images\viewmodels\ImagesPage.html" />
+    <Content Include="wwwroot\Images\viewmodels\LauncherWrapperPage.html" />
+    <Content Include="wwwroot\Images\viewmodels\StandalonePage.html" />
   </ItemGroup>
   <ItemGroup>
     <TypedJSON Include="ViewModels\IllustrationPage.json">
@@ -111,6 +118,11 @@
   </ItemGroup>
   <ItemGroup>
     <TypedJSON Include="ViewModels\IllustrationsPage.json">
+      <Generator>MsBuild:Compile</Generator>
+    </TypedJSON>
+  </ItemGroup>
+  <ItemGroup>
+    <TypedJSON Include="ViewModels\StandalonePage.json">
       <Generator>MsBuild:Compile</Generator>
     </TypedJSON>
   </ItemGroup>
