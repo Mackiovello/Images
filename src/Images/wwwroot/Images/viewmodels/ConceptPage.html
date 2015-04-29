@@ -4,8 +4,8 @@
     <div class="form-horizontal">
         <label class="control-label">Image:</label>
     </div>
+    <so-juicy-filedrop uploadurl="/images/images" value="{{ImageURL$}}" maxfilesize="{{MaxFileSize}}" allowedmimetypes="{{AllowedMimeTypes}}"></so-juicy-filedrop>
     <div>
-        <so-juicy-filedrop uploadurl="/images/images" value="{{ImageURL$}}" maxfilesize="{{MaxFileSize}}" allowedmimetypes="{{AllowedMimeTypes}}"></so-juicy-filedrop>
         <template if="{{ImageURL$}}">
             <button class="btn btn-default btn-xs" onclick="this.templateInstance.model.Delete$++">Clear</button>
             <button class="btn btn-primary btn-xs" onclick="this.templateInstance.model.Save$++">Save</button>

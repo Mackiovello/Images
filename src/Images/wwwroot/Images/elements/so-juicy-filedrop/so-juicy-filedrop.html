@@ -7,6 +7,7 @@
         <style>
             :host {
                 display:block;
+                height:100%;
             }
 
             juicy-filedrop {
@@ -16,6 +17,7 @@
                 border: 0px solid black;
                 border: 0px solid #ccc;
                 border-radius: 3px;
+                height: 100%;
             }
 
             .drop-file-here {
@@ -24,10 +26,29 @@
                 background: #EDEDED;
                 border-width: 6px;
                 height: 80px;
-                width:120px;
+                width: 120px;
                 padding-top: 40px;
                 text-align: center;
-                box-sizing:content-box;
+                box-sizing: content-box;
+            }
+
+            .img-thumbnail {
+                min-height: 10px;
+                min-width: 10px;
+                height: 100%;
+                width: 100%;
+                background-size: cover;
+                background-position: center center;
+            }
+
+            .img-border {
+                box-sizing: border-box;
+                width: 100%;
+                height: 100%;
+                padding: 4px;
+                background-color: #ffffff;
+                border: 1px solid #dddddd;
+                border-radius: 3px;
             }
         </style>
         <juicy-filedrop url="{{UploadUrl}}" value="{{Value}}" openclick="{{Open$}}" maxfilesize="{{MaxFileSize}}" allowedmimetypes="{{AllowedMimeTypes}}" id="jfFileDrop">
@@ -39,7 +60,9 @@
                 </div>
             </template>
             <template if="{{Value}}">
-                <img src="{{Value}}" class="img-thumbnail" />
+                <div class="img-border">
+                    <div class="img-thumbnail" style="background-image:url({{Value}})"></div>
+                </div>
             </template>
         </juicy-filedrop>
         <paper-action-dialog heading="Error" backdrop="true" layered="true" role="dialog" id="pacAlertDialog">
