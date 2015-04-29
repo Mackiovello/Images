@@ -1,10 +1,13 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
 using System.IO;
 using Simplified.Ring1;
 using Starcounter;
 
 namespace Images {
     partial class IllustrationPage : Page, IBound<Simplified.Ring1.Illustration> {
-        protected string oldImageUrl = null;
+        protected List<string> oldImageUrls = new List<string>();
         protected IllustrationHelper helper = new IllustrationHelper();
 
         protected override void OnData() {
@@ -52,13 +55,16 @@ namespace Images {
         }
 
         void Handle(Input.Save Action) {
-            this.helper.DeleteFile(this.oldImageUrl);
+            foreach (string s in this.oldImageUrls) {
+                this.helper.DeleteFile(s);
+            }
+            
             this.Transaction.Commit();
             this.RedirectUrl = "/images";
         }
 
         void Handle(Input.ImageURL Action) {
-            oldImageUrl = Action.OldValue;
+            oldImageUrls.Add(Action.OldValue);
         }
 
         IllustrationsPage ParentPage {
