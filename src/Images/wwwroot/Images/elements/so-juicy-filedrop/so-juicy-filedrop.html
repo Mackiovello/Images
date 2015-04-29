@@ -25,11 +25,19 @@
                 border-color: #A5A5A5;
                 background: #EDEDED;
                 border-width: 6px;
-                height: 80px;
-                width: 120px;
-                padding-top: 40px;
+                height: 100%;
+                width: 100%;
+                max-height: 100%;
+                max-width: 100%;
                 text-align: center;
-                box-sizing: content-box;
+                box-sizing: border-box;
+                display:table;
+                overflow:hidden;
+            }
+
+            .drop-file-here .td {
+                display:table-cell;
+                vertical-align:middle;
             }
 
             .img-thumbnail {
@@ -54,9 +62,11 @@
         <juicy-filedrop url="{{UploadUrl}}" value="{{Value}}" openclick="{{Open$}}" maxfilesize="{{MaxFileSize}}" allowedmimetypes="{{AllowedMimeTypes}}" id="jfFileDrop">
             <template if="{{!Value}}">
                 <div class="drop-file-here">
-                    <span>Drop image here</span>
-                    <br />
-                    <a href="javascript:" on-click="{{openFile}}">Or select file</a>
+                    <div class="td">
+                        <span>Drop image here</span>
+                        <br />
+                        <a href="javascript:" on-click="{{openFile}}">Or select file</a>
+                    </div>
                 </div>
             </template>
             <template if="{{Value}}">
