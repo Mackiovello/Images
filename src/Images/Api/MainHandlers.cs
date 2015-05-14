@@ -1,5 +1,6 @@
 ﻿using PolyjuiceNamespace;
 using Starcounter;
+using Simplified.Ring1;
 
 namespace Images {
     internal class MainHandlers {
@@ -93,9 +94,10 @@ namespace Images {
 
             Handle.GET("/images/partials/concept/{?}", (string objectId) => {
                 return Db.Scope<Json>(() => {
+                    Something something = Db.SQL<Something>("SELECT o FROM Simplified.Ring1.Something o WHERE ObjectID = ?", objectId).First;
                     ConceptPage a = new ConceptPage() {
                         Html = "/Images/viewmodels/ConceptPage.html",
-                        Data = Db.SQL<Simplified.Ring1.Something>("SELECT o FROM Simplified.Ring1.Something o WHERE ObjectID=?", objectId).First
+                        Data = something
                     };
 
                     return a;

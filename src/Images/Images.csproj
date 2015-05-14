@@ -89,7 +89,6 @@
     </TypedJSON>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\default-layout.sql" />
     <Content Include="wwwroot\Images\css\standalone.css" />
     <Content Include="wwwroot\Images\elements\so-juicy-filedrop\so-juicy-filedrop.html" />
     <Content Include="wwwroot\Images\Images.png" />
