@@ -58,6 +58,10 @@ namespace Images {
             this.RegisterPartials();
             this.RegisterLauncherHooks();
             this.RegisterMapperHandlers();
+
+            IllustrationHelper helper = new IllustrationHelper();
+
+            helper.DeleteOldFiles();
         }
 
         protected StandalonePage GetMaster() {

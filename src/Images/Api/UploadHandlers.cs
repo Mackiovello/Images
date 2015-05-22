@@ -58,7 +58,8 @@ namespace Images {
                 // NOTE: The filename should not contain an ')'
                 // If so then the client will not properly parse out the text
 
-                string filePath = System.IO.Path.Combine(Starcounter.Application.Current.WorkingDirectory, "media");
+                IllustrationHelper helper = new IllustrationHelper();
+                string filePath = helper.GetUploadDirectory();
 
                 if (!Directory.Exists(filePath)) {
                     Directory.CreateDirectory(filePath);
