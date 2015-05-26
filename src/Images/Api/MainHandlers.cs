@@ -114,6 +114,16 @@ namespace Images {
             Polyjuice.Map("/images/app-name", "/polyjuice/app-name");
             Polyjuice.Map("/images/app-icon", "/polyjuice/app-icon");
             Polyjuice.OntologyMap("/images/partials/concept/@w", "/so/something/@w", null, null);
+            /*Polyjuice.OntologyMap("/images/partials/concept/@w", "/so/something/@w", (string objectId) => {
+              Simplified.Ring1.Something obj = (Simplified.Ring1.Something)DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId));
+              return objectId;
+            }, (string objectId) => {
+                Simplified.Ring1.Something obj = (Simplified.Ring1.Something)DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId));
+                if (obj.Illustration != null) {
+                    return objectId;
+                }
+                return null;
+            });*/
         }
     }
 }
