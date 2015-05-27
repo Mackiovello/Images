@@ -80,6 +80,9 @@
     <Compile Include="ViewModels\IllustrationsPage.json.cs">
       <DependentUpon>IllustrationsPage.json</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\PreviewPage.json.cs">
+      <DependentUpon>PreviewPage.json</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\StandalonePage.json.cs">
       <DependentUpon>StandalonePage.json</DependentUpon>
     </Compile>
@@ -100,6 +103,7 @@
     <Content Include="wwwroot\Images\viewmodels\ImagePage.html" />
     <Content Include="wwwroot\Images\viewmodels\ImagesPage.html" />
     <Content Include="wwwroot\Images\viewmodels\LauncherWrapperPage.html" />
+    <Content Include="wwwroot\Images\viewmodels\PreviewPage.html" />
     <Content Include="wwwroot\Images\viewmodels\StandalonePage.html" />
   </ItemGroup>
   <ItemGroup>
@@ -124,6 +128,11 @@
   </ItemGroup>
   <ItemGroup>
     <TypedJSON Include="ViewModels\StandalonePage.json">
+      <Generator>MsBuild:Compile</Generator>
+    </TypedJSON>
+  </ItemGroup>
+  <ItemGroup>
+    <TypedJSON Include="ViewModels\PreviewPage.json">
       <Generator>MsBuild:Compile</Generator>
     </TypedJSON>
   </ItemGroup>

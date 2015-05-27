@@ -81,7 +81,7 @@ namespace Images {
             // Menu
             Handle.GET("/images/menu", () => {
                 return new Page() { Html = "/Images/viewmodels/AppMenu.html" };
-            }); 
+            });
         }
 
         protected void RegisterPartials() {
@@ -107,23 +107,46 @@ namespace Images {
                     return a;
                 });
             });
+
+            Handle.GET("/images/partials/concept-somebody/{?}", (string objectId) => {
+                return Self.GET("/images/partials/concept/" + objectId);
+            });
+
+            Handle.GET("/images/partials/concept-vendible/{?}", (string objectId) => {
+                return Self.GET("/images/partials/concept/" + objectId);
+            });
+
+            Handle.GET("/images/partials/preview/{?}", (string objectId) => {
+                return Db.Scope<Json>(() => {
+                    Illustration img = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Illustration;
+                    PreviewPage page = new PreviewPage();
+
+                    page.Data = img;
+
+                    return page;
+                });
+            });
         }
 
         protected void RegisterMapperHandlers() {
             Polyjuice.Map("/images/menu", "/polyjuice/menu");
             Polyjuice.Map("/images/app-name", "/polyjuice/app-name");
             Polyjuice.Map("/images/app-icon", "/polyjuice/app-icon");
-            Polyjuice.OntologyMap("/images/partials/concept/@w", "/so/something/@w", null, null);
-            /*Polyjuice.OntologyMap("/images/partials/concept/@w", "/so/something/@w", (string objectId) => {
-              Simplified.Ring1.Something obj = (Simplified.Ring1.Something)DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId));
-              return objectId;
+
+            Polyjuice.OntologyMap("/images/partials/concept-somebody/@w", "/so/somebody/@w", null, null);
+            Polyjuice.OntologyMap("/images/partials/concept-vendible/@w", "/so/vendible/@w", null, null);
+
+            Polyjuice.OntologyMap("/images/partials/preview/@w", "/so/abstractcrossreference/@w", (string objectId) => {
+                return objectId;
             }, (string objectId) => {
-                Simplified.Ring1.Something obj = (Simplified.Ring1.Something)DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId));
-                if (obj.Illustration != null) {
-                    return objectId;
+                Relation rel = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Relation;
+
+                if (rel.WhatIs != null && rel.WhatIs.GetType() == typeof(Illustration)) {
+                    return rel.WhatIs.Key;
                 }
+
                 return null;
-            });*/
+            });
         }
     }
 }

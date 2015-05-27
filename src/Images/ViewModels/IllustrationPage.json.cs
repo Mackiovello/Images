@@ -58,7 +58,8 @@ namespace Images {
             foreach (string s in this.oldImageUrls) {
                 this.helper.DeleteFile(s);
             }
-            
+
+            this.Data.Illustration.Name = this.Data.Content.URL;
             this.Transaction.Commit();
             this.RedirectUrl = "/images";
         }

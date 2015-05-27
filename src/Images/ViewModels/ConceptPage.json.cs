@@ -34,6 +34,7 @@ namespace Images {
                     illustration.Content.URL = value;
                 }
 
+                illustration.Name = value;
                 oldImageUrl = illustration.Content.URL;
             }
         }
