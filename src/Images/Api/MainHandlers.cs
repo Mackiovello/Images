@@ -28,12 +28,7 @@ namespace Images {
                 return Db.Scope<StandalonePage>(() => {
                     StandalonePage master = this.GetMaster();
 
-                    IllustrationsPage page = new IllustrationsPage() {
-                        Html = "/Images/viewmodels/ImagesPage.html",
-                        Uri = request.Uri
-                    };
-
-                    master.CurrentPage = page;
+                    master.CurrentPage = Self.GET("/images/partials/images");
 
                     return master;
                 });
@@ -85,6 +80,15 @@ namespace Images {
         }
 
         protected void RegisterPartials() {
+            Handle.GET("/images/partials/images", (Request request) => {
+                IllustrationsPage page = new IllustrationsPage() {
+                    Html = "/Images/viewmodels/ImagesPage.html",
+                    Uri = request.Uri
+                };
+
+                return page;
+            });
+
             Handle.GET("/images/partials/image/{?}", (string objectId) => {
                 return Db.Scope<Json>(() => {
                     var a = new IllustrationPage() {
