@@ -8,6 +8,14 @@
             :host {
                 display:block;
                 height:100%;
+                position:relative;
+            }
+
+            .container {
+                height: 100%;
+                width: 100%;
+                padding: 0px;
+                margin: 0px;
             }
 
             juicy-filedrop {
@@ -59,27 +67,43 @@
                 border: 1px solid #dddddd;
                 border-radius: 3px;
             }
+
+            .actions {
+                position: absolute;
+                right: 4px;
+                top: 4px;
+                display: none;
+            }
+
+            .container:hover .actions {
+                display: block;
+            }
         </style>
-        <juicy-filedrop url="{{UploadUrl}}" value="{{Value}}" openclick="{{Open$}}" maxfilesize="{{MaxFileSize}}" allowedmimetypes="{{AllowedMimeTypes}}" id="jfFileDrop">
-            <template if="{{!Value}}">
-                <div class="drop-file-here">
-                    <div class="td">
-                        <span>Drop image here</span>
-                        <br />
-                        <a href="javascript:" on-click="{{openFile}}">Or select file</a>
+        <div class="container">
+            <juicy-filedrop url="{{UploadUrl}}" value="{{Value}}" openclick="{{Open$}}" maxfilesize="{{MaxFileSize}}" allowedmimetypes="{{AllowedMimeTypes}}" id="jfFileDrop">
+                <template if="{{!Value}}">
+                    <div class="drop-file-here">
+                        <div class="td">
+                            <span>Drop image here</span>
+                            <br />
+                            <a href="javascript:" on-click="{{openFile}}">Or select file</a>
+                        </div>
                     </div>
-                </div>
-            </template>
-            <template if="{{Value}}">
-                <div class="img-border">
-                    <div class="img-thumbnail" style="background-image:url({{Value}})"></div>
-                </div>
-            </template>
-        </juicy-filedrop>
-        <paper-action-dialog heading="Error" backdrop="true" layered="true" role="dialog" id="pacAlertDialog">
-            <p>{{AlertMessage}}</p>
-            <paper-button style="color:red;" affirmative role="button" tabindex="1" on-click="closeAlert">Close</paper-button>
-        </paper-action-dialog>
+                </template>
+                <template if="{{Value}}">
+                    <div class="img-border">
+                        <div class="img-thumbnail" style="background-image:url({{Value}})"></div>
+                    </div>
+                </template>
+            </juicy-filedrop>
+            <paper-action-dialog heading="Error" backdrop="true" layered="true" role="dialog" id="pacAlertDialog">
+                <p>{{AlertMessage}}</p>
+                <paper-button style="color:red;" affirmative role="button" tabindex="1" on-click="closeAlert">Close</paper-button>
+            </paper-action-dialog>
+            <div class="actions">
+                <content id="content"></content>
+            </div>
+        </div>
     </template>
     <script>
         Polymer('so-juicy-filedrop', {
