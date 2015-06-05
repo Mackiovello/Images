@@ -140,7 +140,7 @@ namespace Images {
             Polyjuice.OntologyMap("/images/partials/concept-somebody/@w", "/so/somebody/@w", null, null);
             Polyjuice.OntologyMap("/images/partials/concept-vendible/@w", "/so/vendible/@w", null, null);
 
-            Polyjuice.OntologyMap("/images/partials/preview/@w", "/so/abstractcrossreference/@w", (string objectId) => {
+            Polyjuice.OntologyMap("/images/partials/preview/@w", "/db/simplified.ring6.chatattachment/@w", (string objectId) => {
                 return objectId;
             }, (string objectId) => {
                 Relation rel = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Relation;
