@@ -38,6 +38,7 @@
         </tbody>
     </table>
     <button class="btn btn-primary" onclick="this.templateInstance.model.Add$++">Add new image</button>
+    <button type="button" class="btn btn-default" onclick="this.templateInstance.model.Illustrations[0] = { Name$: 'Test', ImageURL$: null }">Test</button>
     <link is="puppet-redirect" history url="{{RedirectUrl$}}" />
     <div class="images" id="divConfirmDialog">
         <paper-action-dialog heading="Confirmation" backdrop="true" layered="true" role="dialog" opened="{{Confirm.Message != null && Confirm.Message != ''}}">
