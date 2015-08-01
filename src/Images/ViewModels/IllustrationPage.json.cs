@@ -14,7 +14,11 @@ namespace Images {
             base.OnData();
 
             this.MaxFileSize = UploadHandlers.MaxFileSize;
-            this.AllowedMimeTypes = string.Join(",", UploadHandlers.AllowedMimeTypes);
+            this.AllowedMimeTypes.Clear();
+
+            foreach (string s in UploadHandlers.AllowedMimeTypes) {
+                this.AllowedMimeTypes.Add().StringValue = s;
+            }
 
             if (this.Data == null) {
                 Illustration i = new Illustration();
