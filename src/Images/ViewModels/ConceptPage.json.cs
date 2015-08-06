@@ -10,7 +10,10 @@ namespace Images {
             base.OnData();
 
             this.MaxFileSize = UploadHandlers.MaxFileSize;
-            this.AllowedMimeTypes = string.Join(",", UploadHandlers.AllowedMimeTypes);
+
+            foreach (string s in UploadHandlers.AllowedMimeTypes) {
+                this.AllowedMimeTypes.Add().StringValue = s;
+            }
         }
 
         public string URL {
