@@ -2,6 +2,7 @@
 <link rel="import" href="/sys/juicy-filedrop/juicy-filedrop.html" />
 
 <dom-module id="so-juicy-filedrop">
+    <link rel="import" type="css" href="/sys/bootswatch/paper/bootstrap.css" />
     <template>
         <style>
             :host {
@@ -95,9 +96,14 @@
                     </div>
                 </template>
             </juicy-filedrop>
-            <paper-dialog heading="Error" backdrop="true" layered="true" role="dialog" id="pacAlertDialog">
-                <p>{{AlertMessage}}</p>
-                <button class="btn btn-default" affirmative role="button" tabindex="1" on-click="closeAlert">Close</button>
+            <paper-dialog modal="true" backdrop="true" layered="true" role="dialog" id="pacAlertDialog">
+                <div>
+                    <h2>Error</h2>
+                    <p>{{AlertMessage}}</p>
+                </div>
+                <div class="buttons">
+                    <button class="btn btn-sm btn-default" affirmative role="button" tabindex="1" on-click="closeAlert">Close</button>
+                </div>
             </paper-dialog>
             <div class="actions">
                 <content id="content"></content>
