@@ -1,4 +1,5 @@
 {
     "name": "Images",
-    "description": "Images"
+    "description": "Images",
+    "html": "/Images/viewmodels/AppIcon.html"
 }

@@ -2,18 +2,21 @@
 <link rel="import" href="/Images/elements/so-juicy-filedrop/so-juicy-filedrop.html" />
 
 <template>
-    <so-juicy-filedrop uploadurl="/images/images" value="{{ImageURL$}}" maxfilesize="{{MaxFileSize}}" allowedmimetypes="{{AllowedMimeTypes}}" openclick="{{Open$}}"></so-juicy-filedrop>
-    <div class="form-horizontal box-button">
-        <input type="text" readonly="readonly" value="{{ImageURL$}}" class="form-control" />
-    </div>
-    <div class="box-button">
-        <button type="button" class="btn btn-sm btn-default" onclick="getModel(this).Open$++">Select file</button>
-    </div>
-    <div class="box-button">
-        <button type="button" class="btn btn-primary" onclick="this.templateInstance.model.Save$++">Save</button>
-    </div>
-    <div class="box-button">
-        <button type="button" class="btn btn-default" onclick="this.templateInstance.model.Cancel$++">Cancel</button>
-    </div>
-    <link is="puppet-redirect" history url="{{RedirectUrl$}}" />
+    <template is="dom-bind">
+        <so-juicy-filedrop upload-url="/images/images" value="{{model.ImageURL$}}" max-file-size="{{model.MaxFileSize}}" allowed-mime-types="{{model.AllowedMimeTypes}}" open-click="{{model.Open$}}"></so-juicy-filedrop>
+        <div class="form-horizontal box-button">
+            <input type="text" readonly="readonly" value="{{model.ImageURL$}}" class="form-control" />
+        </div>
+        <div class="box-button">
+            <button type="button" class="btn btn-sm btn-default" onclick="++this.value;" value="{{model.Open$::click}}">Select file</button>
+        </div>
+        <div class="box-button">
+            <button type="button" class="btn btn-primary" onclick="++this.value;" value="{{model.Save$::click}}">Save</button>
+        </div>
+        <div class="box-button">
+            <button type="button" class="btn btn-default" onclick="++this.value;" value="{{model.Cancel$::click}}">Cancel</button>
+        </div>
+        <link is="puppet-redirect" history url$="{{model.RedirectUrl$}}" />
+        <dom-bind-notifier observed-object="{{model}}" path="model" deep></dom-bind-notifier>
+    </template>
 </template>

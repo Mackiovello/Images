@@ -1,6 +1,6 @@
 {
   "name": "juicy-filedrop",
-  "version": "0.0.2",
+  "version": "1.0.1",
   "homepage": "https://github.com/Juicy/juicy-filedrop",
   "authors": [
     "andwah <anders.wahlgren@societyobjects.com>",
@@ -21,16 +21,17 @@
     "tests"
   ],
   "dependencies": {
-    "polymer": "polymer/polymer#~0.3.4",
-    "core-ajax": "polymer/core-ajax#~0.3.4"
+    "polymer": "polymer/polymer#^1.0.8",
+    "iron-ajax": "PolymerElements/iron-ajax#~1.0.3"
   },
-  "_release": "0.0.2",
+  "_release": "1.0.1",
   "_resolution": {
     "type": "version",
-    "tag": "0.0.2",
-    "commit": "1860273025d3d0dd53fbd6d195bb3f41cf18d02b"
+    "tag": "1.0.1",
+    "commit": "2f3dd4701bf4f8f9383054eaff6b5d6395effb8f"
   },
   "_source": "git://github.com/Juicy/juicy-filedrop.git",
-  "_target": "~0.0.1",
-  "_originalSource": "Juicy/juicy-filedrop"
+  "_target": "~1.0.1",
+  "_originalSource": "Juicy/juicy-filedrop",
+  "_direct": true
 }
