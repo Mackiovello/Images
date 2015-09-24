@@ -1,5 +1,4 @@
-﻿using PolyjuiceNamespace;
-using Starcounter;
+﻿using Starcounter;
 using Simplified.Ring1;
 
 namespace Images {
@@ -133,14 +132,15 @@ namespace Images {
         }
 
         protected void RegisterMapperHandlers() {
-            Polyjuice.Map("/images/menu", "/polyjuice/menu");
-            Polyjuice.Map("/images/app-name", "/polyjuice/app-name");
-            Polyjuice.Map("/images/app-icon", "/polyjuice/app-icon");
 
-            Polyjuice.OntologyMap("/images/partials/concept-somebody/@w", "/so/somebody/@w", null, null);
-            Polyjuice.OntologyMap("/images/partials/concept-vendible/@w", "/so/vendible/@w", null, null);
+            UriMapping.Map("/images/menu", UriMapping.MappingUriPrefix + "/menu");
+            UriMapping.Map("/images/app-name", UriMapping.MappingUriPrefix + "/app-name");
+            UriMapping.Map("/images/app-icon", UriMapping.MappingUriPrefix + "/app-icon");
 
-            Polyjuice.OntologyMap("/images/partials/preview/@w", "/db/simplified.ring6.chatattachment/@w", (string objectId) => {
+            UriMapping.OntologyMap("/images/partials/concept-somebody/@w", "/so/somebody/@w", null, null);
+            UriMapping.OntologyMap("/images/partials/concept-vendible/@w", "/so/vendible/@w", null, null);
+
+            UriMapping.OntologyMap("/images/partials/preview/@w", "/db/simplified.ring6.chatattachment/@w", (string objectId) => {
                 return objectId;
             }, (string objectId) => {
                 Relation rel = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Relation;

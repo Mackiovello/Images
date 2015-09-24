@@ -1,4 +1,3 @@
-using PolyjuiceNamespace;
 using Starcounter;
 
 namespace Images {
@@ -10,7 +9,13 @@ namespace Images {
 
             main.Register();
             upload.Register();
-            styles.ApplyIfEmpty();
+
+            Handle.GET("/Images/ApplyLayouts", () => {
+                styles.ApplyIfEmpty();
+                return 200;
+            });
+
+            UriMapping.Map("/Images/ApplyLayouts", UriMapping.MappingUriPrefix + "/user");
         }
     }
 }
