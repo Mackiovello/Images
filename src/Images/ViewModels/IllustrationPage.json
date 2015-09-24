@@ -3,6 +3,7 @@
     "Name$": "",
     "$Name$": { "Bind": "Concept.Name" },
     "Key": "",
+    "Url": "",
     "ImageURL$": "",
     "$ImageURL$": { "Bind": "Content.URL" },
     "Open$": 0,

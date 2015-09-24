@@ -1,6 +1,5 @@
 <link rel="import" href="/sys/puppet-redirect/src/puppet-redirect.html" />
-<link rel="import" href="/sys/paper-button/paper-button.html" />
-<link rel="import" href="/sys/paper-dialog/paper-action-dialog.html" />
+<link rel="import" href="/sys/paper-dialog/paper-dialog.html" />
 
 <style>
     .img-illustration {
@@ -10,40 +9,61 @@
 </style>
 
 <template>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>ImageURL</th>
-                <th>Picture</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <template repeat="{{Illustrations}}">
+    <template is="dom-bind">
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>{{Name$}}</td>
-                    <td>{{ImageURL$}}</td>
-                    <td>
-                        <a href="/images/image/{{Key}}">
-                            <img class="img-illustration img-thumbnail" src="{{ImageURL$}}" />
-                        </a>
-                    </td>
-                    <td>
-                        <button class="btn btn-sm btn-default" onclick="getModel(this).Delete$++">Delete</button>
-                        <a href="/images/image/{{Key}}" class="btn btn-sm btn-default">Edit</a>
-                    </td>
+                    <th>Name</th>
+                    <th>ImageURL</th>
+                    <th>Picture</th>
+                    <th></th>
                 </tr>
-            </template>
-        </tbody>
-    </table>
-    <button class="btn btn-primary" onclick="this.templateInstance.model.Add$++">Add new image</button>
-    <link is="puppet-redirect" history url="{{RedirectUrl$}}" />
-    <div class="images" id="divConfirmDialog">
-        <paper-action-dialog heading="Confirmation" backdrop="true" layered="true" role="dialog" opened="{{Confirm.Message != null && Confirm.Message != ''}}">
-            <p>{{Confirm.Message}}</p>
-            <paper-button style="color:red;" affirmative role="button" tabindex="1" onclick="getModel(document.getElementById('divConfirmDialog')).Confirm.Ok$++">Delete</paper-button>
-            <paper-button style="color:green;" affirmative role="button" tabindex="0" onclick="getModel(document.getElementById('divConfirmDialog')).Confirm.Reject$++">Cancel</paper-button>
-        </paper-action-dialog>
-    </div>
+            </thead>
+            <tbody>
+                <template is="dom-repeat" items="{{model.Illustrations}}">
+                    <tr>
+                        <td>{{item.Name$}}</td>
+                        <td>{{item.ImageURL$}}</td>
+                        <td>
+                            <a href="{{item.Url}}">
+                                <img class="img-illustration img-thumbnail" src="{{item.ImageURL$}}" />
+                            </a>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-default" onclick="++this.value;" value="{{item.Delete$::click}}">Delete</button>
+                            <a href="{{item.Url}}" class="btn btn-sm btn-default">Edit</a>
+                        </td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
+        <button class="btn btn-primary" onclick="++this.value;" value="{{model.Add$::click}}">Add new image</button>
+        <link is="puppet-redirect" history url$="{{model.RedirectUrl$}}" />
+        <!-- A bug in Polymer: https://github.com/PolymerElements/iron-fit-behavior/issues/13 -->
+        <div id="divConfirmDialog" style="position:absolute; top:0; left:0;">
+            <paper-dialog id="actions" opened="[[model.Confirm.Message]]" modal="true">
+                <div>
+                    <h2>Confirmation</h2>
+                    <p>{{model.Confirm.Message}}</p>
+                </div>
+                <div class="buttons">
+                    <paper-button class="btn btn-sm btn-default" dialog-dismiss on-click="onConfirmCancelClick">Decline</paper-button>
+                    <span>&nbsp;</span>
+                    <paper-button class="btn btn-sm btn-primary" dialog-confirm autofocus on-click="onConfirmOkClick">Accept</paper-button>
+                </div>
+            </paper-dialog>
+        </div>
+        <dom-bind-notifier observed-object="{{model}}" path="model" deep></dom-bind-notifier>
+    </template>
+    <script>
+        (function init(template) {
+            template.onConfirmOkClick = function () {
+                template.set("model.Confirm.Ok$", template.model.Confirm.Ok$ / 1 + 1);
+            };
+
+            template.onConfirmCancelClick = function () {
+                template.set("model.Confirm.Reject$", template.model.Confirm.Reject$ / 1 + 1);
+            };
+        })(document.currentScript.previousElementSibling);
+    </script>
 </template>

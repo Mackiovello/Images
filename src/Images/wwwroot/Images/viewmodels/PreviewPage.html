@@ -12,7 +12,17 @@
 </style>
 
 <template>
-    <a href="/images/image/{{Key}}">
-        <div class="chatter-img-thumbnail" style="background-image:url({{Content.URL}})"></div>
-    </a>
+    <template is="dom-bind">
+        <a href="{{model.Url}}">
+            <div class="chatter-img-thumbnail" style="{{getStyle(model.Content.URL)}}"></div>
+        </a>
+        <dom-bind-notifier observed-object="{{model}}" path="model" deep></dom-bind-notifier>
+    </template>
+    <script>
+        (function init(template) {
+            template.getStyle = function (url) {
+                return "background-image:url(" + url + ")";
+            };
+        })(document.currentScript.previousElementSibling);
+    </script>
 </template>

@@ -1,16 +1,18 @@
 <link rel="import" href="/Images/elements/so-juicy-filedrop/so-juicy-filedrop.html" />
 
 <template>
-    <div class="form-horizontal">
-        <label class="control-label">Image:</label>
-    </div>
-    <so-juicy-filedrop uploadurl="/images/images" value="{{ImageURL$}}" maxfilesize="{{MaxFileSize}}" allowedmimetypes="{{AllowedMimeTypes}}">
-        <template if="{{ImageURL$}}">
-            <div>
-                <button class="btn btn-default btn-xs" onclick="this.templateInstance.model.Delete$++">Clear</button>
-                <button class="btn btn-primary btn-xs" onclick="this.templateInstance.model.Save$++">Save</button>
-            </div>
-        </template>
-    </so-juicy-filedrop>
+    <template is="dom-bind">
+        <div class="form-horizontal">
+            <label class="control-label">Image:</label>
+        </div>
+        <so-juicy-filedrop upload-url="/images/images" value="{{model.ImageURL$}}" max-file-size="{{model.MaxFileSize}}" allowed-mime-types="{{model.AllowedMimeTypes}}">
+            <template is="dom-if" if="{{model.ImageURL$}}">
+                <div>
+                    <button class="btn btn-default btn-xs" onclick="++this.value;" value="{{model.Delete$::click}}">Clear</button>
+                    <button class="btn btn-primary btn-xs" onclick="++this.value;" value="{{model.Save$::click}}">Save</button>
+                </div>
+            </template>
+        </so-juicy-filedrop>
+        <dom-bind-notifier observed-object="{{model}}" path="model" deep></dom-bind-notifier>
+    </template>
 </template>
-

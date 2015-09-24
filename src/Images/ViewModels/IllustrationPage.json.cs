@@ -28,6 +28,8 @@ namespace Images {
 
                 this.Data = i;
             }
+
+            this.Url = string.Format("/images/image/{0}", this.Key);
         }
 
         void Handle(Input.Delete Action) {
