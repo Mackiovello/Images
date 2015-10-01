@@ -137,10 +137,10 @@ namespace Images {
             UriMapping.Map("/images/app-name", UriMapping.MappingUriPrefix + "/app-name");
             UriMapping.Map("/images/app-icon", UriMapping.MappingUriPrefix + "/app-icon");
 
-            UriMapping.OntologyMap("/images/partials/concept-somebody/@w", "/so/somebody/@w", null, null);
-            UriMapping.OntologyMap("/images/partials/concept-vendible/@w", "/so/vendible/@w", null, null);
+            UriMapping.OntologyMap("/images/partials/concept-somebody/@w", UriMapping.OntologyMappingUriPrefix + "/concepts.ring1.somebody/@w", null, null);
+            UriMapping.OntologyMap("/images/partials/concept-vendible/@w", UriMapping.OntologyMappingUriPrefix + "/concepts.ring2.vendible/@w", null, null);
 
-            UriMapping.OntologyMap("/images/partials/preview/@w", "/db/simplified.ring6.chatattachment/@w", (string objectId) => {
+            UriMapping.OntologyMap("/images/partials/preview/@w", UriMapping.OntologyMappingUriPrefix + "/simplified.ring6.chatattachment/@w", (string objectId) => {
                 return objectId;
             }, (string objectId) => {
                 Relation rel = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Relation;
