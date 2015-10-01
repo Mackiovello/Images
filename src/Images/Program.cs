@@ -9,13 +9,7 @@ namespace Images {
 
             main.Register();
             upload.Register();
-
-            Handle.GET("/Images/ApplyLayouts", () => {
-                styles.ApplyIfEmpty();
-                return 200;
-            });
-
-            UriMapping.Map("/Images/ApplyLayouts", UriMapping.MappingUriPrefix + "/user");
+            styles.ApplyIfEmpty();
         }
     }
 }
