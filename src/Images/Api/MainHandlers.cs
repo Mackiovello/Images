@@ -137,7 +137,7 @@ namespace Images {
             UriMapping.Map("/images/app-name", UriMapping.MappingUriPrefix + "/app-name");
             UriMapping.Map("/images/app-icon", UriMapping.MappingUriPrefix + "/app-icon");
 
-            UriMapping.OntologyMap("/images/partials/concept-somebody/@w", "concepts.ring1.somebody", null, null);
+            UriMapping.OntologyMap("/images/partials/concept-somebody/@w", "simplified.ring1.somebody", null, null);
             UriMapping.OntologyMap("/images/partials/concept-vendible/@w", "concepts.ring2.vendible", null, null);
 
             UriMapping.OntologyMap("/images/partials/preview/@w", "simplified.ring6.chatattachment", (string objectId) => {
