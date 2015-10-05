@@ -14,12 +14,12 @@
 <template>
     <template is="dom-bind">
         <a href="{{model.Url}}">
-            <div class="chatter-img-thumbnail" style="{{getStyle(model.Content.URL)}}"></div>
+            <div class="chatter-img-thumbnail" style$="{{getStyle(model.Content.URL)}}"></div>
         </a>
         <dom-bind-notifier observed-object="{{model}}" path="model" deep></dom-bind-notifier>
     </template>
     <script>
-        (function init(template) {
+        (function (template) {
             template.getStyle = function (url) {
                 return "background-image:url(" + url + ")";
             };
