@@ -119,6 +119,10 @@ namespace Images {
                 return Self.GET("/images/partials/concept/" + objectId);
             });
 
+            Handle.GET("/images/partials/concept-chatgroup/{?}", (string objectId) => {
+                return Self.GET("/images/partials/concept/" + objectId);
+            });
+
             Handle.GET("/images/partials/preview/{?}", (string objectId) => {
                 return Db.Scope<Json>(() => {
                     Illustration img = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Illustration;
@@ -137,6 +141,7 @@ namespace Images {
             UriMapping.Map("/images/app-name", UriMapping.MappingUriPrefix + "/app-name");
             UriMapping.Map("/images/app-icon", UriMapping.MappingUriPrefix + "/app-icon");
 
+            UriMapping.OntologyMap("/images/partials/concept-chatgroup/@w", "simplified.ring6.chatgroup", null, null);
             UriMapping.OntologyMap("/images/partials/concept-somebody/@w", "simplified.ring1.somebody", null, null);
             UriMapping.OntologyMap("/images/partials/concept-vendible/@w", "concepts.ring2.vendible", null, null);
 
