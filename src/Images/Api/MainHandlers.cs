@@ -133,6 +133,14 @@ namespace Images {
                     return page;
                 });
             });
+
+            Handle.GET("/images/partials/preview-chatmessage/{?}", (string objectId) => {
+                return Self.GET("/images/partials/preview/" + objectId);
+            });
+
+            Handle.GET("/images/partials/preview-chatattachment/{?}", (string objectId) => {
+                return Self.GET("/images/partials/preview/" + objectId);
+            });
         }
 
         protected void RegisterMapperHandlers() {
@@ -145,7 +153,13 @@ namespace Images {
             UriMapping.OntologyMap("/images/partials/concept-somebody/@w", "simplified.ring1.somebody", null, null);
             UriMapping.OntologyMap("/images/partials/concept-vendible/@w", "concepts.ring2.vendible", null, null);
 
-            UriMapping.OntologyMap("/images/partials/preview/@w", "simplified.ring6.chatattachment", (string objectId) => {
+            UriMapping.OntologyMap("/images/partials/preview-chatmessage/@w", "simplified.ring6.chatmessage", null, (string objectId) => {
+                var illustration = Db.SQL<Simplified.Ring1.Illustration>("SELECT i FROM Simplified.Ring1.Illustration i WHERE i.Concept.Key = ?", objectId).First;
+
+                return illustration != null ? illustration.Key : null;
+            });
+
+            UriMapping.OntologyMap("/images/partials/preview-chatattachment/@w", "simplified.ring6.chatattachment", (string objectId) => {
                 return objectId;
             }, (string objectId) => {
                 Relation rel = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Relation;
