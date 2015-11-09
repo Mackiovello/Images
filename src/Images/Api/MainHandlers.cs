@@ -1,5 +1,7 @@
 ﻿using Starcounter;
 using Simplified.Ring1;
+using Simplified.Ring3;
+using Simplified.Ring6;
 
 namespace Images {
     internal class MainHandlers {
@@ -149,17 +151,17 @@ namespace Images {
             UriMapping.Map("/images/app-name", UriMapping.MappingUriPrefix + "/app-name");
             UriMapping.Map("/images/app-icon", UriMapping.MappingUriPrefix + "/app-icon");
 
-            UriMapping.OntologyMap("/images/partials/concept-chatgroup/@w", "simplified.ring6.chatgroup", null, null);
-            UriMapping.OntologyMap("/images/partials/concept-somebody/@w", "simplified.ring1.somebody", null, null);
-            UriMapping.OntologyMap("/images/partials/concept-vendible/@w", "concepts.ring2.vendible", null, null);
+            UriMapping.OntologyMap("/images/partials/concept-chatgroup/@w", typeof(ChatGroup).FullName, null, null);
+            UriMapping.OntologyMap("/images/partials/concept-somebody/@w", typeof(Somebody).FullName, null, null);
+            UriMapping.OntologyMap("/images/partials/concept-vendible/@w", typeof(Product).FullName, null, null);
 
-            UriMapping.OntologyMap("/images/partials/preview-chatmessage/@w", "simplified.ring6.chatmessage", null, (string objectId) => {
+            UriMapping.OntologyMap("/images/partials/preview-chatmessage/@w", typeof(ChatMessage).FullName, null, (string objectId) => {
                 var illustration = Db.SQL<Simplified.Ring1.Illustration>("SELECT i FROM Simplified.Ring1.Illustration i WHERE i.Concept.Key = ?", objectId).First;
 
                 return illustration != null ? illustration.Key : null;
             });
 
-            UriMapping.OntologyMap("/images/partials/preview-chatattachment/@w", "simplified.ring6.chatattachment", (string objectId) => {
+            UriMapping.OntologyMap("/images/partials/preview-chatattachment/@w", typeof(ChatAttachment).FullName, (string objectId) => {
                 return objectId;
             }, (string objectId) => {
                 Relation rel = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Relation;
