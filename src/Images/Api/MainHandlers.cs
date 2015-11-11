@@ -69,11 +69,6 @@ namespace Images {
                 return new AppName();
             });
 
-            // App name required for Launchpad
-            Handle.GET("/images/app-icon", () => {
-                return new Page() { Html = "/Images/viewmodels/AppIcon.html" };
-            });
-
             // Menu
             Handle.GET("/images/menu", () => {
                 return new Page() { Html = "/Images/viewmodels/AppMenu.html" };
@@ -149,7 +144,6 @@ namespace Images {
 
             UriMapping.Map("/images/menu", UriMapping.MappingUriPrefix + "/menu");
             UriMapping.Map("/images/app-name", UriMapping.MappingUriPrefix + "/app-name");
-            UriMapping.Map("/images/app-icon", UriMapping.MappingUriPrefix + "/app-icon");
 
             UriMapping.OntologyMap("/images/partials/concept-chatgroup/@w", typeof(ChatGroup).FullName, null, null);
             UriMapping.OntologyMap("/images/partials/concept-somebody/@w", typeof(Somebody).FullName, null, null);
