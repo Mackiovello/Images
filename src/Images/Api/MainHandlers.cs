@@ -1,5 +1,7 @@
 ﻿using Starcounter;
 using Simplified.Ring1;
+using Simplified.Ring3;
+using Simplified.Ring6;
 
 namespace Images {
     internal class MainHandlers {
@@ -67,11 +69,6 @@ namespace Images {
                 return new AppName();
             });
 
-            // App name required for Launchpad
-            Handle.GET("/images/app-icon", () => {
-                return new Page() { Html = "/Images/viewmodels/AppIcon.html" };
-            });
-
             // Menu
             Handle.GET("/images/menu", () => {
                 return new Page() { Html = "/Images/viewmodels/AppMenu.html" };
@@ -133,19 +130,32 @@ namespace Images {
                     return page;
                 });
             });
+
+            Handle.GET("/images/partials/preview-chatmessage/{?}", (string objectId) => {
+                return Self.GET("/images/partials/preview/" + objectId);
+            });
+
+            Handle.GET("/images/partials/preview-chatattachment/{?}", (string objectId) => {
+                return Self.GET("/images/partials/preview/" + objectId);
+            });
         }
 
         protected void RegisterMapperHandlers() {
 
             UriMapping.Map("/images/menu", UriMapping.MappingUriPrefix + "/menu");
             UriMapping.Map("/images/app-name", UriMapping.MappingUriPrefix + "/app-name");
-            UriMapping.Map("/images/app-icon", UriMapping.MappingUriPrefix + "/app-icon");
 
-            UriMapping.OntologyMap("/images/partials/concept-chatgroup/@w", "simplified.ring6.chatgroup", null, null);
-            UriMapping.OntologyMap("/images/partials/concept-somebody/@w", "simplified.ring1.somebody", null, null);
-            UriMapping.OntologyMap("/images/partials/concept-vendible/@w", "concepts.ring2.vendible", null, null);
+            UriMapping.OntologyMap("/images/partials/concept-chatgroup/@w", typeof(ChatGroup).FullName, null, null);
+            UriMapping.OntologyMap("/images/partials/concept-somebody/@w", typeof(Somebody).FullName, null, null);
+            UriMapping.OntologyMap("/images/partials/concept-vendible/@w", typeof(Product).FullName, null, null);
 
-            UriMapping.OntologyMap("/images/partials/preview/@w", "simplified.ring6.chatattachment", (string objectId) => {
+            UriMapping.OntologyMap("/images/partials/preview-chatmessage/@w", typeof(ChatMessage).FullName, null, (string objectId) => {
+                var illustration = Db.SQL<Simplified.Ring1.Illustration>("SELECT i FROM Simplified.Ring1.Illustration i WHERE i.Concept.Key = ?", objectId).First;
+
+                return illustration != null ? illustration.Key : null;
+            });
+
+            UriMapping.OntologyMap("/images/partials/preview-chatattachment/@w", typeof(ChatAttachment).FullName, (string objectId) => {
                 return objectId;
             }, (string objectId) => {
                 Relation rel = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Relation;
