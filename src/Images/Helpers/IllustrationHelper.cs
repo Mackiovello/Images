@@ -5,12 +5,18 @@ using Simplified.Ring1;
 
 namespace Images {
     public class IllustrationHelper {
-        private string GetStaticResourceDirectory() {
-            return System.IO.Path.Combine(Starcounter.Application.Current.WorkingDirectory, "wwwroot");
+
+        public string UploadFolderName = "media";
+
+        public string GetSharedFolder() {
+
+            string rootPath = System.IO.Path.GetPathRoot(Starcounter.Application.Current.FilePath);
+            return System.IO.Path.Combine(rootPath, "UploadedFiles");
         }
 
         public string GetUploadDirectory() {
-            return System.IO.Path.Combine(GetStaticResourceDirectory(), "media");
+
+            return Path.Combine(this.GetSharedFolder(), this.UploadFolderName);
         }
 
         public void DeleteFile(Illustration Illustration) {
@@ -18,7 +24,7 @@ namespace Images {
                 return;
             }
 
-            FileInfo fi = new FileInfo(GetStaticResourceDirectory() + Illustration.Content.URL);
+            FileInfo fi = new FileInfo(this.GetSharedFolder() + Illustration.Content.URL);
 
             if (fi.Exists) {
                 fi.Delete();
@@ -30,7 +36,7 @@ namespace Images {
                 return;
             }
 
-            FileInfo fi = new FileInfo(GetStaticResourceDirectory() + ImageUrl);
+            FileInfo fi = new FileInfo(this.GetSharedFolder() + ImageUrl);
 
             if (fi.Exists) {
                 fi.Delete();

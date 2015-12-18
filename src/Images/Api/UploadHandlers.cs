@@ -15,6 +15,8 @@ namespace Images {
 
         public void Register() {
 
+            this.RegiserSharedFolder();
+
             // Upload media
             Handle.POST("/images/images", (Request request) => {
                 string mime;
@@ -72,7 +74,7 @@ namespace Images {
                 _FileStream.Write(_ByteArray, 0, _ByteArray.Length);
                 _FileStream.Close();
 
-                Handle.AddOutgoingHeader("x-file-location", "/media/" + fileName);
+                Handle.AddOutgoingHeader("x-file-location", "/" + helper.UploadFolderName + "/" + fileName);
                 Handle.AddOutgoingHeader("x-file", System.Text.Encoding.Default.GetString(xfile.ToJsonUtf8()));
 
                 return System.Net.HttpStatusCode.Created;
@@ -115,5 +117,20 @@ namespace Images {
             return result;
         }
 
+        /// <summary>
+        /// Add static folder for uploaded mediafiles so they can be accessable via the web
+        /// </summary>
+        private void RegiserSharedFolder() {
+
+            IllustrationHelper helper = new IllustrationHelper();
+
+            string folder = helper.GetSharedFolder();
+
+            if (!Directory.Exists(folder)) {
+                Directory.CreateDirectory(folder);
+            }
+            AppsBootstrapper.AddStaticFileDirectory(folder);
+
+        }
     }
 }
