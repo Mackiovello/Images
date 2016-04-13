@@ -149,12 +149,6 @@ namespace Images {
             UriMapping.OntologyMap("/images/partials/concept-somebody/@w", typeof(Somebody).FullName, null, null);
             UriMapping.OntologyMap("/images/partials/concept-vendible/@w", typeof(Product).FullName, null, null);
 
-            UriMapping.OntologyMap("/images/partials/preview-chatmessage/@w", typeof(ChatMessage).FullName, null, (string objectId) => {
-                var illustration = Db.SQL<Simplified.Ring1.Illustration>("SELECT i FROM Simplified.Ring1.Illustration i WHERE i.Concept.Key = ?", objectId).First;
-
-                return illustration != null ? illustration.Key : null;
-            });
-
             UriMapping.OntologyMap("/images/partials/preview-chatattachment/@w", typeof(ChatAttachment).FullName, (string objectId) => {
                 return objectId;
             }, (string objectId) => {
