@@ -116,7 +116,7 @@ namespace Images {
                 return Self.GET("/images/partials/concept/" + objectId);
             });
 
-            Handle.GET("/images/partials/concept-chatgroup/{?}", (string objectId) => {
+            Handle.GET("/images/partials/concept-chatmessage/{?}", (string objectId) => {
                 return Self.GET("/images/partials/concept/" + objectId);
             });
 
@@ -145,11 +145,15 @@ namespace Images {
             UriMapping.Map("/images/menu", UriMapping.MappingUriPrefix + "/menu");
             UriMapping.Map("/images/app-name", UriMapping.MappingUriPrefix + "/app-name");
 
-            UriMapping.OntologyMap("/images/partials/concept-chatgroup/@w", typeof(ChatGroup).FullName, null, null);
+            UriMapping.OntologyMap("/images/partials/concept-chatmessage/@w", typeof(ChatAttachment).FullName, null,
+                (string objectId) =>
+                {
+                    return null;
+                });
             UriMapping.OntologyMap("/images/partials/concept-somebody/@w", typeof(Somebody).FullName, null, null);
             UriMapping.OntologyMap("/images/partials/concept-vendible/@w", typeof(Product).FullName, null, null);
 
-            UriMapping.OntologyMap("/images/partials/preview-chatattachment/@w", typeof(ChatAttachment).FullName, (string objectId) => {
+            UriMapping.OntologyMap("/images/partials/preview-chatattachment/@w", typeof(ChatMessage).FullName, (string objectId) => {
                 return objectId;
             }, (string objectId) => {
                 Relation rel = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Relation;
