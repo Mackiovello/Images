@@ -18,7 +18,7 @@ namespace Images {
 
         public string URL {
             get {
-                if (this.Data.Illustration != null) {
+                if (this.Data != null && this.Data.Illustration != null) {
                     return this.Data.Illustration.Content.URL;
                 }
 
@@ -43,7 +43,7 @@ namespace Images {
         }
 
         void Handle(Input.Delete action) {
-            if (this.Data.Illustration != null) {
+            if (this.Data != null && this.Data.Illustration != null) {
                 this.helper.DeleteFile(this.Data.Illustration);
 
                 if (this.Data.Illustration.Content != null) {
