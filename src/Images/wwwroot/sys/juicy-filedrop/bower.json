@@ -1,6 +1,6 @@
 {
   "name": "juicy-filedrop",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "homepage": "https://github.com/Juicy/juicy-filedrop",
   "authors": [
     "andwah <anders.wahlgren@societyobjects.com>",
@@ -21,7 +21,6 @@
     "tests"
   ],
   "dependencies": {
-    "polymer": "polymer/polymer#^1.0.8",
-    "iron-ajax": "PolymerElements/iron-ajax#~1.0.3"
+    "polymer": "polymer/polymer#^1.0.8"
   }
 }

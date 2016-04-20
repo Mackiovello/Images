@@ -12,7 +12,6 @@
     "tests"
   ],
   "dependencies": {
-	"core-ajax": "Polymer/core-ajax#~0.5.1",
-    "juicy-filedrop": "Juicy/juicy-filedrop#~0.0.3"
+    "juicy-filedrop": "Juicy/juicy-filedrop#~1.0.2"
   }
 }

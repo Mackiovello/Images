@@ -1,13 +1,14 @@
 <!--
 Copyright 2015 Smörgåsbord Development. All rights reserved.
+
+@element juicy-filedrop
+@demo https://Juicy.github.io/juicy-filedrop/
+version: 1.0.3
 -->
-<html>
+<link rel="import" href="../polymer/polymer.html">
 
-<head>
-    <link rel="import" href="../polymer/polymer.html">
-    <link rel="import" href="../iron-ajax/iron-ajax.html">
-
-    <dom-module id="juicy-filedrop">
+<dom-module id="juicy-filedrop">
+    <template>
         <style>
             :host {
                 display: -webkit-box;
@@ -21,12 +22,9 @@ Copyright 2015 Smörgåsbord Development. All rights reserved.
                 display: none;
             }
         </style>
-        <template>
-            <iron-ajax id="postMedia" method="POST" url="{{url}}" on-response="handleResponse" on-error="handleError"></iron-ajax>
-            <input type="file" id="txtUploadFile">
-            <content id="content"></content>
-        </template>
-    </dom-module>
+        <input type="file" id="txtUploadFile">
+        <content id="content"></content>
+    </template>
     <script>
         'use strict';
         Polymer({
@@ -102,16 +100,7 @@ Copyright 2015 Smörgåsbord Development. All rights reserved.
             },
             openFile: function() {
                 var element = this.$.txtUploadFile;
-                var ev;
-                if (document.createEvent) {
-                    ev = document.createEvent('MouseEvents');
-                    ev.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 2, null);
-                    element.dispatchEvent(ev);
-                } else {
-                    ev = document.createEventObject();
-                    ev.button = 2;
-                    element.fireEvent('onclick', ev);
-                }
+                element.click();
             },
             fileToJson: function(file) {
                 return JSON.stringify({
@@ -120,17 +109,25 @@ Copyright 2015 Smörgåsbord Development. All rights reserved.
                 });
             },
             readData: function(file) {
-                var postMedia = this.$.postMedia;
-                var customheader = this.customheader;
                 var reader = new FileReader();
                 var that = this;
                 reader.onload = function(event) {
                     // POST Image to server
-                    postMedia.headers = {};
-                    postMedia.headers[customheader] = that.fileToJson(this.xFile);
-                    postMedia.xFile = this.xFile;
-                    postMedia.body = event.target.result;
-                    postMedia.generateRequest();
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", that.url);
+                    xhr.setRequestHeader(that.customheader, that.fileToJson(this.xFile));
+                    xhr.onload = function(ev) {
+                        if (this.status >= 200 && this.status < 300) {
+                            that.handleResponse(ev, this);
+                        } else {
+                            that.handleError(ev, this);
+                        }
+                    };
+                    xhr.onerror = function(ev) {
+                        that.handleError(ev, this);
+                    };
+                    xhr.xFile = this.xFile;
+                    xhr.send(event.target.result);
                 };
                 reader.xFile = {
                     type: file.type,
@@ -153,12 +150,9 @@ Copyright 2015 Smörgåsbord Development. All rights reserved.
                 this.$.txtUploadFile.addEventListener('change', onFileSelected.bind(this), false);
             },
             setupDrop: function() {
-                var postMedia = this.$.postMedia;
-                var customheader = this.customheader;
                 if (typeof window.FileReader === 'undefined') {} // TODO: Browser does not support 'FileReader'
                 // TODO: Browser does not support 'FileReader'
                 this.onpaste = function(event) {
-                    var items = event.clipboardData.items;
                     for (var i = 0, item; item = event.clipboardData.items[i]; i++) {
                         if (item.kind == 'file') {
                             var blob = item.getAsFile();
@@ -194,37 +188,24 @@ Copyright 2015 Smörgåsbord Development. All rights reserved.
                         if (!this.checkFile(file)) {
                             continue;
                         }
-                        var reader = new FileReader();
-                        reader.onload = function(event) {
-                            // POST Image to server
-                            postMedia.headers = {};
-                            postMedia.headers[customheader] = that.fileToJson(this.xFile);
-                            postMedia.body = event.target.result;
-                            postMedia.xFile = this.xFile;
-                            postMedia.generateRequest();
-                        };
-                        reader.xFile = {
-                            type: file.type,
-                            name: file.name
-                        };
-                        this.fire('fileUploading', reader.xFile);
-                        reader.readAsDataURL(file);
+                        this.readData(file);
                     }
                     return false;
                 };
             },
-            handleResponse: function(ev, res) {
-                this.value = res.xhr.getResponseHeader('x-file-location');
-                var xFile = JSON.parse(res.xhr.getResponseHeader(this.customheader));
-                xFile.status = res.xhr.status;
-                xFile.statusText = res.xhr.statusText;
+            handleResponse: function(ev, xhr) {
+                this.value = xhr.getResponseHeader('x-file-location');
+                var xFile = JSON.parse(xhr.getResponseHeader(this.customheader));
+                xFile.status = xhr.status;
+                xFile.statusText = xhr.statusText;
                 this.fire('fileUploaded', xFile);
             },
-            handleError: function(ev, res) {
-                var xFile = ev.srcElement.xFile;
-                xFile.status = res.xhr.status;
-                xFile.statusText = res.xhr.statusText;
+            handleError: function(ev, xhr) {
+                var xFile = xhr.xFile;
+                xFile.status = xhr.status;
+                xFile.statusText = xhr.statusText;
                 this.fire('fileUploadError', xFile);
             }
         });
     </script>
+</dom-module>
