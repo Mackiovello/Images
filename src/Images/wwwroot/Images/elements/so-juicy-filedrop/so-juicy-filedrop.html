@@ -152,8 +152,12 @@
                 this.AlertMessage = "";
                 this.$.pacAlertDialog.opened = false;
             },
-            openClickChanged: function () {
-                this.openFile();
+            openClickChanged: function (newVal) {
+                if (newVal > 0) {
+                  //in IE and Edge, openClickChanged gets incorrectly called on page load, changing openClick value from "undefined" to 0
+                  //this caused https://github.com/StarcounterSamples/Images/issues/23
+                  this.openFile();
+                }
             },
             getStyle: function (url) {
                 return "background-image:url(" + url + ")";
