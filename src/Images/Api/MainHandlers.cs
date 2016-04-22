@@ -139,10 +139,22 @@ namespace Images {
             //For TextPage similar in Images, People etc.
             Handle.GET("/images/partials/chatattachmentimage/{?}", (string chatMessageDraftId) =>
             {
-                //Do that because ontology mapping support just 1 parameter
-                var path = chatMessageDraftId + " image";
-                var draft = Self.GET("/images/partials/imagesdraftannouncement/" + Base64Encode(path));
-                return draft;
+                var message = (ChatMessage)DbHelper.FromID(DbHelper.Base64DecodeObjectID(chatMessageDraftId));
+                if (message.IsDraft)
+                {
+                    //Do that because ontology mapping support just 1 parameter
+                    var path = chatMessageDraftId + " image";
+                    var draft = Self.GET("/images/partials/imagesdraftannouncement/" + Base64Encode(path));
+                    return draft;
+                }
+                else
+                {
+                    if (message.Illustration != null)
+                    {
+                        return Self.GET("/images/partials/preview-chatattachment/" + message.Illustration.GetObjectID());
+                    }
+                    return null;
+                }
             });
             Handle.GET("/images/partials/concept-chatmessage/{?}", (string objectId) => {
                 return Self.GET("/images/partials/concept/" + objectId);
@@ -183,17 +195,13 @@ namespace Images {
             //});
 
             //For TextPage similar in Images, People etc.
-            UriMapping.OntologyMap("/images/partials/chatattachmentimage/@w", typeof(ChatMessage).FullName, (string objectId) => objectId, (string objectId) =>
-            {
-                var message = (ChatMessage)DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId));
-                return message.IsDraft ? objectId : null;
-            });
+            UriMapping.OntologyMap("/images/partials/chatattachmentimage/@w", typeof (ChatMessage).FullName, null, null);
             UriMapping.OntologyMap("/images/partials/concept-chatmessage/@w", typeof(ChatAttachment).FullName, (string objectId) => objectId, (string objectId) =>
             {
                 var data = Base64Decode(objectId).Split(' ');
                 if (data[1] == "image")
                 {
-                    return data[1];
+                    return data[0];
                 }
                 return null;
             });
