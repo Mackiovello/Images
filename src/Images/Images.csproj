@@ -65,11 +65,15 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\CommitHooks.cs" />
     <Compile Include="Api\UploadHandlers.cs" />
     <Compile Include="Api\MainHandlers.cs" />
     <Compile Include="Helpers\DefaultStyles.cs" />
     <Compile Include="Helpers\IllustrationHelper.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="ViewModels\ConceptPageIllustration.json.cs">
+      <DependentUpon>ConceptPageIllustration.json</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\ConceptPage.json.cs">
       <DependentUpon>ConceptPage.json</DependentUpon>
     </Compile>
@@ -133,6 +137,11 @@
   </ItemGroup>
   <ItemGroup>
     <TypedJSON Include="ViewModels\PreviewPage.json">
+      <Generator>MsBuild:Compile</Generator>
+    </TypedJSON>
+  </ItemGroup>
+  <ItemGroup>
+    <TypedJSON Include="ViewModels\ConceptPageIllustration.json">
       <Generator>MsBuild:Compile</Generator>
     </TypedJSON>
   </ItemGroup>

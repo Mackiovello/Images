@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Starcounter;
 using Simplified.Ring1;
 using Simplified.Ring3;
@@ -142,37 +143,40 @@ namespace Images {
                 var message = (ChatMessage)DbHelper.FromID(DbHelper.Base64DecodeObjectID(chatMessageDraftId));
                 if (message.IsDraft)
                 {
-                    //Do that because ontology mapping support just 1 parameter
-                    var path = chatMessageDraftId + " image";
-                    var draft = Self.GET("/images/partials/imagesdraftannouncement/" + Base64Encode(path));
+                    var il = new Illustration();
+                    il.WhatIs = il;
+                    il.ToWhat = message;
+                    
+                    var draft = Self.GET("/images/partials/imagesdraftannouncement/" + il.GetObjectID());
                     return draft;
                 }
                 else
                 {
-                    if (message.Illustration != null)
+                    var illustration = Db.SQL<Illustration>("Select m from Simplified.Ring1.Illustration m Where m.ToWhat = ?", message).First;
+                    if (illustration == null)
                     {
-                        return Self.GET("/images/partials/preview-chatattachment/" + message.Illustration.GetObjectID());
+                        return null;
                     }
-                    return null;
+                    return Self.GET("/images/partials/chatattachmentpreview/" + illustration.GetObjectID());
                 }
             });
-            Handle.GET("/images/partials/concept-chatmessage/{?}", (string objectId) => {
-                return Self.GET("/images/partials/concept/" + objectId);
+
+            Handle.GET("/images/partials/chatattachmentpreviewIl/{?}", (string objectId) => {
+                return Db.Scope<Json>(() => {
+                    var a = new ConceptPageIllustration 
+                    {
+                        Html = "/Images/viewmodels/ConceptPage.html"
+                    };
+                    a.RefreshRelation(objectId);
+                    return a;
+                });
             });
+
+            Handle.GET("/images/partials/chatattachmentpreview/{?}", (string objectId) => {
+                return Self.GET("/images/partials/preview/" + objectId);
+            });
+
             Handle.GET("/images/partials/imagesdraftannouncement/{?}", (string objectPath) => null);
-        }
-
-
-        private string Base64Encode(string plainText)
-        {
-            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
-            return Convert.ToBase64String(plainTextBytes);
-        }
-
-        private string Base64Decode(string base64EncodedData)
-        {
-            var base64EncodedBytes = Convert.FromBase64String(base64EncodedData);
-            return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
         }
 
         protected void RegisterMapperHandlers() {
@@ -182,28 +186,12 @@ namespace Images {
             UriMapping.OntologyMap("/images/partials/concept-somebody/@w", typeof(Somebody).FullName, null, null);
             UriMapping.OntologyMap("/images/partials/concept-vendible/@w", typeof(Product).FullName, null, null);
 
-            //UriMapping.OntologyMap("/images/partials/preview-chatattachment/@w", typeof(ChatMessage).FullName, (string objectId) => {
-            //    return objectId;
-            //}, (string objectId) => {
-            //    Relation rel = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Relation;
-
-            //    if (rel.WhatIs != null && rel.WhatIs.GetType() == typeof(Illustration)) {
-            //        return rel.WhatIs.Key;
-            //    }
-
-            //    return null;
-            //});
-
             //For TextPage similar in Images, People etc.
             UriMapping.OntologyMap("/images/partials/chatattachmentimage/@w", typeof (ChatMessage).FullName, null, null);
-            UriMapping.OntologyMap("/images/partials/concept-chatmessage/@w", typeof(ChatAttachment).FullName, (string objectId) => objectId, (string objectId) =>
+            UriMapping.OntologyMap("/images/partials/chatattachmentpreviewIl/@w", typeof(ChatAttachment).FullName, (string objectId) => objectId, (string objectId) =>
             {
-                var data = Base64Decode(objectId).Split(' ');
-                if (data[1] == "image")
-                {
-                    return data[0];
-                }
-                return null;
+                var sth = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId));
+                return sth.GetType() == typeof(Illustration) ? sth.GetObjectID() : null;
             });
             UriMapping.OntologyMap("/images/partials/imagesdraftannouncement/@w", typeof(ChatDraftAnnouncement).FullName, objectId => objectId, objectId => null);
             
