@@ -1,62 +1,58 @@
 using Starcounter;
 using Simplified.Ring1;
 
-namespace Images {
-    partial class ConceptPageIllustration : Page, IBound<Illustration> {
-        protected string oldImageUrl = null;
-        protected IllustrationHelper helper = new IllustrationHelper();
+namespace Images
+{
+    partial class ConceptPageIllustration : Page, IBound<Illustration>
+    {
+        protected string OldImageUrl;
+        protected IllustrationHelper Helper = new IllustrationHelper();
 
-        protected override void OnData() {
+        protected override void OnData()
+        {
             base.OnData();
 
-            this.MaxFileSize = UploadHandlers.MaxFileSize;
+            MaxFileSize = UploadHandlers.MaxFileSize;
 
             foreach (string s in UploadHandlers.AllowedMimeTypes) {
-                this.AllowedMimeTypes.Add().StringValue = s;
+                AllowedMimeTypes.Add().StringValue = s;
             }
         }
 
-        public void RefreshRelation(string objectId)
+        public void RefreshData(string illustrationId)
         {
-            var il = (Illustration)DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId));
-            Data = il;
+            var illustration = (Illustration)DbHelper.FromID(DbHelper.Base64DecodeObjectID(illustrationId));
+            Data = illustration;
         }
 
-        public string URL {
+        public string URL
+        {
             get {
-                if (this.Data != null && Data.Content != null) {
-                    return this.Data.Content.URL;
-                }
-
-                return null;
+                return Data?.Content?.URL;
             }
             set {
                 if (Data.Content == null)
                 {
-                    Data.Content = new Content
-                    {
-                        URL = value
-                    };
+                    Data.Content = new Content();
                 }
+                Data.Content.URL = value;
                 Data.Name = value;
-                oldImageUrl = Data.Content.URL;
+                OldImageUrl = Data.Content.URL;
             }
         }
 
-        void Handle(Input.Delete action) {
-            if (this.Data != null) {
-                this.helper.DeleteFile(this.Data);
+        void Handle(Input.Delete action)
+        {
+            if (Data == null) return;
+            Helper.DeleteFile(Data);
 
-                if (this.Data.Content != null) {
-                    this.Data.Content.Delete();
-                }
-
-                this.Data.Delete();
-            }
+            Data.Content?.Delete();
+            Data.Delete();
         }
 
-        void Handle(Input.Save action) {
-            this.Transaction.Commit();
+        void Handle(Input.Save action)
+        {
+            Transaction.Commit();
         }
     }
 }
