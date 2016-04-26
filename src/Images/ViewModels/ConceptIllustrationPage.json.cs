@@ -3,7 +3,7 @@ using Simplified.Ring1;
 
 namespace Images
 {
-    partial class ConceptPageIllustration : Page, IBound<Illustration>
+    partial class ConceptIllustrationPage : Page, IBound<Illustration>
     {
         protected string OldImageUrl;
         protected IllustrationHelper Helper = new IllustrationHelper();

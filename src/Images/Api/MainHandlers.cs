@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using Images.Helpers;
 using Starcounter;
 using Simplified.Ring1;
 using Simplified.Ring3;
@@ -137,7 +136,7 @@ namespace Images {
                 return Self.GET("/images/partials/preview/" + objectId);
             });
 
-            //For TextPage similar in Images, People etc.
+            //For custom applications
             Handle.GET("/images/partials/chatattachmentimage/{?}", (string chatMessageId) =>
             {
                 var chatMessage = (ChatMessage)DbHelper.FromID(DbHelper.Base64DecodeObjectID(chatMessageId));
@@ -151,7 +150,7 @@ namespace Images {
 
             Handle.GET("/images/partials/chatmessageimage/{?}", (string illustrationId) => {
                 return Db.Scope<Json>(() => {
-                    var page = new ConceptPageIllustration 
+                    var page = new ConceptIllustrationPage
                     {
                         Html = "/Images/viewmodels/ConceptPage.html"
                     };
@@ -165,6 +164,13 @@ namespace Images {
             });
 
             Handle.GET("/images/partials/imagedraftannouncement/{?}", (string objectPath) => null);
+
+            Handle.GET("/images/partials/imagewarning/{?}", (string illustrationId) =>
+            {
+                var page = new ConceptIllustrationWarningPage();
+                page.RefreshData(illustrationId);
+                return page;
+            });
         }
 
         protected void RegisterMapperHandlers() {
@@ -194,7 +200,14 @@ namespace Images {
                 return sth.GetType() == typeof(Illustration) ? sth.GetObjectID() : null;
             });
             UriMapping.OntologyMap("/images/partials/imagedraftannouncement/@w", typeof(ChatDraftAnnouncement).FullName, objectId => objectId, objectId => null);
-            
+            UriMapping.OntologyMap("/images/partials/imagewarning/@w", typeof(ChatWarning).FullName, (string objectId) => objectId, (string objectId) =>
+            {
+                var illustration = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId));
+                if (illustration.GetType() != typeof(Illustration)) return null;
+
+                var result = ImageValidator.IsValid(illustration as Illustration);
+                return string.IsNullOrEmpty(result) ? null : illustration.GetObjectID();
+            });
         }
     }
 }
