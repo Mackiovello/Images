@@ -3,7 +3,7 @@
 
 <template>
     <template is="dom-bind">
-        <so-juicy-filedrop upload-url="/images/images" value="{{model.ImageURL$}}" max-file-size="{{model.MaxFileSize}}" allowed-mime-types="{{model.AllowedMimeTypes}}" open-click="{{model.Open$}}"></so-juicy-filedrop>
+        <so-juicy-filedrop session-id="{{model.SessionId}}" upload-url="/images/images" value="{{model.ImageURL$}}" max-file-size="{{model.MaxFileSize}}" allowed-mime-types="{{model.AllowedMimeTypes}}" open-click="{{model.Open$}}"></so-juicy-filedrop>
         <div class="form-horizontal box-button">
             <input type="text" readonly="readonly" value="{{model.ImageURL$}}" class="form-control" />
         </div>

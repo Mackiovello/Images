@@ -12,5 +12,6 @@
     "Cancel$": 0,
     "RedirectUrl$": "",
     "MaxFileSize": 0,
-    "AllowedMimeTypes": [ "" ]
+    "AllowedMimeTypes": [ "" ],
+    "SessionId":  ""
 }

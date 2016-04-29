@@ -80,7 +80,7 @@
             }
         </style>
         <div class="container">
-            <juicy-filedrop url="{{uploadUrl}}" value="{{value}}" maxfilesize="{{maxFileSize}}" allowedmimetypes="{{allowedMimeTypes}}" id="jfFileDrop">
+            <juicy-filedrop url="{{uploadUrl}}" sessionId="{{sessionId}}" value="{{value}}" maxfilesize="{{maxFileSize}}" allowedmimetypes="{{allowedMimeTypes}}" id="jfFileDrop">
                 <template is="dom-if" if="{{!value}}">
                     <div class="drop-file-here">
                         <div class="td">
@@ -116,6 +116,7 @@
             properties: {
                 uploadUrl: { type: String },
                 value: { type: String, notify: true },
+                sessionId: { type: String },
                 maxFileSize: { type: Number },
                 allowedMimeTypes: { type: Array, value: [] },
                 openClick: { type: Number, value: 0, observer: "openClickChanged" },

@@ -1,136 +1,238 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.IO;
-using System.Net;
-using System.Text.RegularExpressions;
-using System.Linq;
-using Microsoft.Win32;
+using System.Web;
 using Starcounter;
-using Starcounter.Internal;
 
 namespace Images {
-    internal class UploadHandlers {
-        //Maximum file size in bytes.
-        public static int MaxFileSize = 1048576; //1mb
+    public static class UploadHandlers
+    {
+        public static int MaxFileSize = 20971520; //1mb
         public static string[] AllowedMimeTypes = { "image/gif", "image/jpeg", "image/png", "image/svg+xml" };
+        public const string WebSocketGroupName = "SCFileUploadWSG";
+        private static UploadTask _uploadingTask;
 
-        public void Register() {
+        public static void GET(string Url, Action<UploadTask> UploadingAction)
+        {
+            string url = Url + "?{?}";
 
-            this.RegiserSharedFolder();
+            Handle.GET(url, (string parameters, Request request) => {
+                string sessionId;
+                string fileName;
+                long fileSize;
+                string error;
 
-            // Upload media
-            Handle.POST("/images/images", (Request request) => {
-                string mime;
-                string encoding;
-                string data;
-
-                ushort port = StarcounterEnvironment.Default.UserHttpPort;
-                string host = request["Host"];
-
-                if (!host.Contains(":")) {
-                    host += ":" + port;
+                if (!ResolveUploadParameters(parameters, out sessionId, out fileName, out fileSize, out error))
+                {
+                    return new Response()
+                    {
+                        StatusCode = (ushort)System.Net.HttpStatusCode.BadRequest,
+                        Body = error
+                    };
                 }
 
-                string fileJson = Handle.IncomingRequest["x-file"];
-
-                xFile xfile = new xFile();
-                xfile.PopulateFromJson(fileJson);
-
-                ParseDataUri(request.Body, out mime, out encoding, out data);
-
-                if (encoding != "base64") {
-                    Handle.SetOutgoingStatusCode(422); //Unprocessable Entity
-                    Handle.SetOutgoingStatusDescription("Unfortunately, we don't support that file type. Try again with a PNG, GIF, or JPG.");
-
-                    return 422;
+                if (!request.WebSocketUpgrade)
+                {
+                    return 404;
                 }
 
-                if (!AllowedMimeTypes.Contains(mime)) {
-                    Handle.SetOutgoingStatusCode((ushort)System.Net.HttpStatusCode.UnsupportedMediaType);
-                    Handle.SetOutgoingStatusDescription("Unfortunately, we don't support " + mime + " file type. Try again with a PNG, GIF, or JPG.");
+                request.SendUpgrade(WebSocketGroupName);
+                var task = new UploadTask(sessionId, fileName, fileSize, parameters);
 
-                    return (ushort)System.Net.HttpStatusCode.UnsupportedMediaType;
+                task.StateChange += (s, a) => {
+                    UploadingAction(s as UploadTask);
+                };
+
+                _uploadingTask = task;
+
+                return HandlerStatus.Handled;
+            }, new HandlerOptions { SkipRequestFilters = true });
+
+            Handle.WebSocket(WebSocketGroupName, (data, ws) => {
+                if (_uploadingTask == null)
+                {
+                    ws.Disconnect("Could not find correct socket to handle the incoming data.", WebSocket.WebSocketCloseCodes.WS_CLOSE_CANT_ACCEPT_DATA);
+                    return;
                 }
 
-                byte[] _ByteArray = Convert.FromBase64String(data);
+                var task = _uploadingTask;
 
-                // Create Full filename path
-                string extention = GetDefaultExtension(mime);
-                string fileName = System.IO.Path.GetRandomFileName() + extention;
+                task.Write(data);
 
-                // NOTE: The filename should not contain an ')'
-                // If so then the client will not properly parse out the text
-
-                IllustrationHelper helper = new IllustrationHelper();
-                string filePath = helper.GetUploadDirectory();
-
-                if (!Directory.Exists(filePath)) {
-                    Directory.CreateDirectory(filePath);
+                if (task.FileSize > 0)
+                {
+                    ws.Send(task.Progress.ToString());
                 }
+            });
 
-                filePath = System.IO.Path.Combine(filePath, fileName);
-
-                // Save data to file
-                System.IO.FileStream _FileStream = new System.IO.FileStream(filePath, System.IO.FileMode.Create, System.IO.FileAccess.Write);
-                _FileStream.Write(_ByteArray, 0, _ByteArray.Length);
-                _FileStream.Close();
-
-                Handle.AddOutgoingHeader("x-file-location", "/" + helper.UploadFolderName + "/" + fileName);
-                Handle.AddOutgoingHeader("x-file", System.Text.Encoding.Default.GetString(xfile.ToJsonUtf8()));
-
-                return System.Net.HttpStatusCode.Created;
+            Handle.WebSocketDisconnect(WebSocketGroupName, ws => {
+                var task = _uploadingTask;
+                task?.Close();
             });
         }
 
-        /// <summary>
-        /// Parse Data URI
-        /// FORMAT: data:[<mime type>][;charset=<charset>][;base64],<encoded data>
-        /// </summary>
-        /// <param name="input"></param>
-        /// <param name="mime"></param>
-        /// <param name="encoding"></param>
-        /// <param name="data"></param>
-        public void ParseDataUri(string input, out string mime, out string encoding, out string data) {
+        private static bool ResolveUploadParameters(string Parameters, out string SessionId, out string FileName, out long FileSize, out string Error)
+        {
+            FileName = null;
+            FileSize = -1;
+            Error = null;
 
-            var regex = new Regex(@"data:(?<mime>[\w/\-\.]+);(?<encoding>\w+),(?<data>.*)", RegexOptions.Compiled);
-            var match = regex.Match(input);
+            NameValueCollection values = HttpUtility.ParseQueryString(Parameters);
 
-            mime = match.Groups["mime"].Value;
-            encoding = match.Groups["encoding"].Value;
-            data = match.Groups["data"].Value;
-        }
+            SessionId = values["sessionid"];
 
-        /// <summary>
-        /// Get File Extention assosiated to a mime type
-        /// </summary>
-        /// <param name="mimeType"></param>
-        /// <returns></returns>
-        public string GetDefaultExtension(string mimeType) {
-
-            string result;
-            RegistryKey key;
-            object value;
-
-            key = Registry.ClassesRoot.OpenSubKey(@"MIME\Database\Content Type\" + mimeType, false);
-            value = key != null ? key.GetValue("Extension", null) : null;
-            result = value != null ? value.ToString() : string.Empty;
-
-            return result;
-        }
-
-        /// <summary>
-        /// Add static folder for uploaded mediafiles so they can be accessable via the web
-        /// </summary>
-        private void RegiserSharedFolder() {
-
-            IllustrationHelper helper = new IllustrationHelper();
-
-            string folder = helper.GetSharedFolder();
-
-            if (!Directory.Exists(folder)) {
-                Directory.CreateDirectory(folder);
+            if (string.IsNullOrEmpty(SessionId))
+            {
+                Error = "Invalid or missing sessionid url parameter";
+                return false;
             }
-            AppsBootstrapper.AddStaticFileDirectory(folder);
 
+            FileName = values["filename"];
+
+            if (string.IsNullOrEmpty(FileName))
+            {
+                Error = "Invalid or missing filename url parameter";
+                return false;
+            }
+
+            if (!long.TryParse(values["filesize"], out FileSize))
+            {
+                Error = "Invalid or missing filesize url parameter";
+                return false;
+            }
+
+            return true;
+        }
+
+        public enum UploadTaskState
+        {
+            Connected,
+            Uploading,
+            Completed,
+            Error
+        }
+
+        public class UploadTask
+        {
+            public event EventHandler StateChange;
+
+            /// <summary>
+            /// Size of uploaded file
+            /// </summary>
+            public long FileSize { get; protected set; }
+
+            /// <summary>
+            /// Name of uploaded file
+            /// </summary>
+            public string FileName { get; protected set; }
+
+            /// <summary>
+            /// Temporary path of uploaded file
+            /// </summary>
+            public string FilePath { get; protected set; }
+
+            /// <summary>
+            /// Starcounter session id
+            /// </summary>
+            public string SessionId { get; protected set; }
+
+            /// <summary>
+            /// Query string parameters
+            /// </summary>
+            public string QueryString { get; protected set; }
+
+            /// <summary>
+            /// Indicates current state of the task
+            /// </summary>
+            public UploadTaskState State { get; protected set; }
+
+            protected FileStream FileStream;
+
+            public UploadTask(string SessionId, string FileName, long FileSize, string QueryString)
+            {
+                this.SessionId = SessionId;
+                this.FileName = FileName;
+                this.FileSize = FileSize;
+                this.QueryString = QueryString;
+
+                this.State = UploadTaskState.Connected;
+                this.FilePath = Path.GetTempFileName();
+                var ilHelper = new IllustrationHelper();
+                //this.FileStream = new FileStream(this.FilePath, FileMode.Append);
+            }
+
+            public string TempFileName
+            {
+                get
+                {
+                    if (this.FileStream != null)
+                    {
+                        return this.FileStream.Name;
+                    }
+
+                    return null;
+                }
+            }
+
+            public int Progress
+            {
+                get
+                {
+                    if (this.FileSize < 1 || this.FileStream == null)
+                    {
+                        return 0;
+                    }
+
+                    if (this.State == UploadTaskState.Completed)
+                    {
+                        return 100;
+                    }
+
+                    if (this.State == UploadTaskState.Error)
+                    {
+                        return -1;
+                    }
+
+                    int progress = (int)(100.0 * this.FileStream.Position / this.FileSize);
+
+                    return progress;
+                }
+            }
+
+            public void Write(byte[] Data)
+            {
+                this.State = UploadTaskState.Uploading;
+                this.FileStream.Write(Data, 0, Data.Length);
+                this.FileStream.Flush(true);
+                this.OnUploading();
+            }
+
+            public void Close()
+            {
+                if (this.Progress >= 100)
+                {
+                    this.State = UploadTaskState.Completed;
+                }
+                else
+                {
+                    this.State = UploadTaskState.Error;
+                }
+
+                if (this.FileStream != null)
+                {
+                    this.FileStream.Dispose();
+                }
+
+                this.OnUploading();
+            }
+
+            protected void OnUploading()
+            {
+                if (this.StateChange != null)
+                {
+                    this.StateChange(this, EventArgs.Empty);
+                }
+            }
         }
     }
 }

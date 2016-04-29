@@ -1,7 +1,9 @@
-﻿using Starcounter;
+﻿using System.Web.UI;
+using Starcounter;
 using Simplified.Ring1;
 using Simplified.Ring3;
 using Simplified.Ring6;
+using Page = Starcounter.Page;
 
 namespace Images {
     internal class MainHandlers {
@@ -137,6 +139,30 @@ namespace Images {
 
             Handle.GET("/images/partials/preview-chatattachment/{?}", (string objectId) => {
                 return Self.GET("/images/partials/preview/" + objectId);
+            });
+
+            UploadHandlers.GET("/images/images", task => {
+                Session.ScheduleTask(task.SessionId, (s, id) => {
+                    if (task.State == UploadHandlers.UploadTaskState.Completed)
+                    {
+                        var file = task.FileName;
+
+                        //if (file == null)
+                        //{
+                        //    file = page.Files.Add();
+                        //}
+
+                        //file.FileName = task.FileName;
+                        //file.FileSize = task.FileSize;
+                        //file.FilePath = task.FilePath;
+                    }
+                    else if(task.State == UploadHandlers.UploadTaskState.Error)
+                    {
+                        //item.Message = "Error uploading file";
+                    }
+
+                    s.CalculatePatchAndPushOnWebSocket();
+                });
             });
         }
 
