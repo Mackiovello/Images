@@ -167,7 +167,8 @@ namespace Images {
 
                 var extention = FileName.Substring(FileName.LastIndexOf(".", StringComparison.Ordinal));
                 var path = Path.GetRandomFileName() + extention;
-                var filePath = new IllustrationHelper().GetUploadDirectory();
+                var helper = new IllustrationHelper();
+                var filePath = helper.GetUploadDirectory();
 
                 if (!Directory.Exists(filePath))
                 {
@@ -176,6 +177,9 @@ namespace Images {
 
                 FilePath = Path.Combine(filePath, path);
                 FileStream = new FileStream(FilePath, FileMode.Append);
+
+                Handle.AddOutgoingHeader("x-file-location", "/" + helper.UploadFolderName + "/" + fileName);
+                Handle.AddOutgoingHeader("x-file", System.Text.Encoding.Default.GetString(xfile.ToJsonUtf8()));
             }
 
             public string TempFileName => FileStream?.Name;
