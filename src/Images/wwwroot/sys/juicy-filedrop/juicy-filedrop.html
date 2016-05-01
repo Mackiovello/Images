@@ -123,6 +123,7 @@ version: 1.0.3
                 this.executeTask(task, function (task) {
                     // Success
                         that.fire("statechange", task);
+						that.value = task.fileUrl;
                 }, function (task) {
                     // Error
 					self.notifyPath("tasks.error", task.error);
@@ -148,7 +149,7 @@ version: 1.0.3
                 var chunkLength = this.chunkLength;
                 var url = this.getUploadUrl(file);
                 var socket = new WebSocket(url);
-
+				
                 task.socket = socket;
 
                 socket.onopen = function () {
@@ -207,7 +208,9 @@ version: 1.0.3
                 };
 
                 socket.onmessage = function (evt) {
-                    task.progress = evt.data;
+					var json = JSON.parse(evt.data);
+                    task.progress = json.progress;
+                    task.fileUrl = json.fileUrl;
 
                     if (task.progress >= 100) {
                         socket.close(1000);
@@ -238,31 +241,6 @@ version: 1.0.3
 				
 				this.fire("statechange", task);
 				this.processTask(task);
-				
-                /*reader.onload = function(event) {
-                    // POST Image to server
-                    var xhr = new XMLHttpRequest();
-                    xhr.open("POST", that.url);
-                    xhr.setRequestHeader(that.customheader, that.fileToJson(this.xFile));
-                    xhr.onload = function(ev) {
-                        if (this.status >= 200 && this.status < 300) {
-                            that.handleResponse(ev, this);
-                        } else {
-                            that.handleError(ev, this);
-                        }
-                    };
-                    xhr.onerror = function(ev) {
-                        that.handleError(ev, this);
-                    };
-                    xhr.xFile = this.xFile;
-                    xhr.send(event.target.result);
-                };
-                reader.xFile = {
-                    type: file.type,
-                    name: file.name
-                };
-                this.fire('fileUploading', reader.xFile);
-                reader.readAsDataURL(file);*/
             },
             setupSelect: function() {
                 var onFileSelected = function(e) {

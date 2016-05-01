@@ -32,8 +32,6 @@ namespace Images {
             this.SessionId = Session.Current.ToAsciiString();
 
             this.Url = string.Format("/images/image/{0}", this.Key);
-
-            this.ImageURL = "file:///C:/Users/aloscha/AppData/Local/Temp/tmpE64E.tmp";
         }
 
         void Handle(Input.Delete Action) {

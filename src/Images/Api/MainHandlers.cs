@@ -42,7 +42,6 @@ namespace Images {
                     StandalonePage master = this.GetMaster();
 
                     master.CurrentPage = Self.GET<IllustrationPage>("/Images/partials/image/" + objectId);
-
                     return master;
                 });
             });
@@ -145,16 +144,7 @@ namespace Images {
                 Session.ScheduleTask(task.SessionId, (s, id) => {
                     if (task.State == UploadHandlers.UploadTaskState.Completed)
                     {
-                        var file = task.FileName;
 
-                        //if (file == null)
-                        //{
-                        //    file = page.Files.Add();
-                        //}
-
-                        //file.FileName = task.FileName;
-                        //file.FileSize = task.FileSize;
-                        //file.FilePath = task.FilePath;
                     }
                     else if(task.State == UploadHandlers.UploadTaskState.Error)
                     {

@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Web;
 using Starcounter;
 
 namespace Images {
     public static class UploadHandlers
     {
-        public static int MaxFileSize = 20971520; //1mb
+        public static int MaxFileSize = 20971520;
         public static string[] AllowedMimeTypes = { "image/gif", "image/jpeg", "image/png", "image/svg+xml" };
         public const string WebSocketGroupName = "SCFileUploadWSG";
         private static UploadTask _uploadingTask;
 
-        public static void GET(string Url, Action<UploadTask> UploadingAction)
+        public static void GET(string urlGet, Action<UploadTask> uploadingAction)
         {
-            string url = Url + "?{?}";
+            var url = urlGet + "?{?}";
 
             Handle.GET(url, (string parameters, Request request) => {
                 string sessionId;
@@ -24,7 +25,7 @@ namespace Images {
 
                 if (!ResolveUploadParameters(parameters, out sessionId, out fileName, out fileSize, out error))
                 {
-                    return new Response()
+                    return new Response
                     {
                         StatusCode = (ushort)System.Net.HttpStatusCode.BadRequest,
                         Body = error
@@ -39,8 +40,9 @@ namespace Images {
                 request.SendUpgrade(WebSocketGroupName);
                 var task = new UploadTask(sessionId, fileName, fileSize, parameters);
 
-                task.StateChange += (s, a) => {
-                    UploadingAction(s as UploadTask);
+                task.StateChange += (s, a) =>
+                {
+                    uploadingAction(s as UploadTask);
                 };
 
                 _uploadingTask = task;
@@ -61,7 +63,13 @@ namespace Images {
 
                 if (task.FileSize > 0)
                 {
-                    ws.Send(task.Progress.ToString());
+                    var filePath = task.FilePath.Substring(task.FilePath.IndexOf("media") - 1);
+                    var progress = "{" +
+                                        "\"progress\" : " + task.Progress + "," +
+                                        "\"fileUrl\" : \"" + filePath.Replace("\\", "\\\\") + "\"" +
+                                   "}";
+
+                    ws.Send(progress);
                 }
             });
 
@@ -71,33 +79,33 @@ namespace Images {
             });
         }
 
-        private static bool ResolveUploadParameters(string Parameters, out string SessionId, out string FileName, out long FileSize, out string Error)
+        private static bool ResolveUploadParameters(string parameters, out string sessionId, out string fileName, out long fileSize, out string error)
         {
-            FileName = null;
-            FileSize = -1;
-            Error = null;
+            fileName = null;
+            fileSize = -1;
+            error = null;
 
-            NameValueCollection values = HttpUtility.ParseQueryString(Parameters);
+            NameValueCollection values = HttpUtility.ParseQueryString(parameters);
 
-            SessionId = values["sessionid"];
+            sessionId = values["sessionid"];
 
-            if (string.IsNullOrEmpty(SessionId))
+            if (string.IsNullOrEmpty(sessionId))
             {
-                Error = "Invalid or missing sessionid url parameter";
+                error = "Invalid or missing sessionid url parameter";
                 return false;
             }
 
-            FileName = values["filename"];
+            fileName = values["filename"];
 
-            if (string.IsNullOrEmpty(FileName))
+            if (string.IsNullOrEmpty(fileName))
             {
-                Error = "Invalid or missing filename url parameter";
+                error = "Invalid or missing filename url parameter";
                 return false;
             }
 
-            if (!long.TryParse(values["filesize"], out FileSize))
+            if (!long.TryParse(values["filesize"], out fileSize))
             {
-                Error = "Invalid or missing filesize url parameter";
+                error = "Invalid or missing filesize url parameter";
                 return false;
             }
 
@@ -148,90 +156,77 @@ namespace Images {
 
             protected FileStream FileStream;
 
-            public UploadTask(string SessionId, string FileName, long FileSize, string QueryString)
+            public UploadTask(string sessionId, string fileName, long fileSize, string queryString)
             {
-                this.SessionId = SessionId;
-                this.FileName = FileName;
-                this.FileSize = FileSize;
-                this.QueryString = QueryString;
+                SessionId = sessionId;
+                FileName = fileName;
+                FileSize = fileSize;
+                QueryString = queryString;
 
-                this.State = UploadTaskState.Connected;
-                this.FilePath = Path.GetTempFileName();
-                var ilHelper = new IllustrationHelper();
-                //this.FileStream = new FileStream(this.FilePath, FileMode.Append);
-            }
+                State = UploadTaskState.Connected;
 
-            public string TempFileName
-            {
-                get
+                var extention = FileName.Substring(FileName.LastIndexOf(".", StringComparison.Ordinal));
+                var path = Path.GetRandomFileName() + extention;
+                var filePath = new IllustrationHelper().GetUploadDirectory();
+
+                if (!Directory.Exists(filePath))
                 {
-                    if (this.FileStream != null)
-                    {
-                        return this.FileStream.Name;
-                    }
-
-                    return null;
+                    Directory.CreateDirectory(filePath);
                 }
+
+                FilePath = Path.Combine(filePath, path);
+                FileStream = new FileStream(FilePath, FileMode.Append);
             }
+
+            public string TempFileName => FileStream?.Name;
 
             public int Progress
             {
                 get
                 {
-                    if (this.FileSize < 1 || this.FileStream == null)
+                    if (FileSize < 1 || FileStream == null)
                     {
                         return 0;
                     }
 
-                    if (this.State == UploadTaskState.Completed)
+                    switch (State)
                     {
-                        return 100;
+                        case UploadTaskState.Completed:
+                            return 100;
+                        case UploadTaskState.Error:
+                            return -1;
+                        case UploadTaskState.Connected:
+                            break;
+                        case UploadTaskState.Uploading:
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
                     }
 
-                    if (this.State == UploadTaskState.Error)
-                    {
-                        return -1;
-                    }
-
-                    int progress = (int)(100.0 * this.FileStream.Position / this.FileSize);
+                    var progress = (int) (100.0*FileStream.Position/FileSize);
 
                     return progress;
                 }
             }
 
-            public void Write(byte[] Data)
+            public void Write(byte[] data)
             {
-                this.State = UploadTaskState.Uploading;
-                this.FileStream.Write(Data, 0, Data.Length);
-                this.FileStream.Flush(true);
-                this.OnUploading();
+                State = UploadTaskState.Uploading;
+                FileStream.Write(data, 0, data.Length);
+                FileStream.Flush(true);
+                OnUploading();
             }
 
             public void Close()
             {
-                if (this.Progress >= 100)
-                {
-                    this.State = UploadTaskState.Completed;
-                }
-                else
-                {
-                    this.State = UploadTaskState.Error;
-                }
-
-                if (this.FileStream != null)
-                {
-                    this.FileStream.Dispose();
-                }
-
-                this.OnUploading();
+                State = Progress >= 100 ? UploadTaskState.Completed : UploadTaskState.Error;
+                FileStream?.Dispose();
+                OnUploading();
             }
 
             protected void OnUploading()
             {
-                if (this.StateChange != null)
-                {
-                    this.StateChange(this, EventArgs.Empty);
-                }
+                StateChange?.Invoke(this, EventArgs.Empty);
             }
         }
     }
