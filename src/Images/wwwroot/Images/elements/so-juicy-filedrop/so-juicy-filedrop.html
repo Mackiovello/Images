@@ -78,17 +78,52 @@
             .container:hover .actions {
                 display: block;
             }
+            .glyphicon-spin {    
+                margin: 10px;
+                font-size: 24pt;
+                -webkit-animation: spin 1000ms infinite linear;
+                animation: spin 1000ms infinite linear;
+            }
+            @-webkit-keyframes spin {
+                0% {
+                    -webkit-transform: rotate(0deg);
+                    transform: rotate(0deg);
+                }
+                100% {
+                    -webkit-transform: rotate(359deg);
+                    transform: rotate(359deg);
+                }
+            }
+            @keyframes spin {
+                0% {
+                    -webkit-transform: rotate(0deg);
+                    transform: rotate(0deg);
+                }
+                100% {
+                    -webkit-transform: rotate(359deg);
+                    transform: rotate(359deg);
+                }
+            }
         </style>
         <div class="container">
-            <juicy-filedrop url="{{uploadUrl}}" sessionId="{{sessionId}}" value="{{value}}" maxfilesize="{{maxFileSize}}" allowedmimetypes="{{allowedMimeTypes}}" id="jfFileDrop">
+            <juicy-filedrop url="{{uploadUrl}}" sessionId="{{sessionId}}" value="{{value}}" maxfilesize="{{maxFileSize}}" allowedmimetypes="{{allowedMimeTypes}}" isuploading="{{isuploading}}" id="jfFileDrop">
                 <template is="dom-if" if="{{!value}}">
-                    <div class="drop-file-here">
-                        <div class="td">
-                            <span>Drop image here</span>
-                            <br />
-                            <a href="javascript:" on-click="openFile">Or select file</a>
+                    <template is="dom-if" if="{{!isuploading}}">
+                        <div class="drop-file-here">
+                            <div class="td">
+                                <span>Drop image here</span>
+                                <br/>
+                                <a href="javascript:" on-click="openFile">Or select file</a>
+                            </div>
                         </div>
-                    </div>
+                    </template>
+                    <template is="dom-if" if="{{isuploading}}">
+                        <div class="drop-file-here">
+                            <div class="td">
+                                <span class="glyphicon glyphicon-refresh glyphicon-spin"></span>
+                            </div>
+                        </div>
+                    </template>
                 </template>
                 <template is="dom-if" if="{{value}}">
                     <div class="img-border">
@@ -116,6 +151,7 @@
             properties: {
                 uploadUrl: { type: String },
                 value: { type: String, notify: true },
+                isuploading: { type: Boolean, notify: true, value: false },
                 sessionId: { type: String },
                 maxFileSize: { type: Number },
                 allowedMimeTypes: { type: Array, value: [] },

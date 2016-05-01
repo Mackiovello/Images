@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Web;
 using Starcounter;
+using Starcounter.Internal;
 
 namespace Images {
     public static class UploadHandlers
@@ -12,10 +13,12 @@ namespace Images {
         public static string[] AllowedMimeTypes = { "image/gif", "image/jpeg", "image/png", "image/svg+xml" };
         public const string WebSocketGroupName = "SCFileUploadWSG";
         private static UploadTask _uploadingTask;
+        private static readonly IllustrationHelper Helper = new IllustrationHelper();
 
         public static void GET(string urlGet, Action<UploadTask> uploadingAction)
         {
             var url = urlGet + "?{?}";
+            RegiserSharedFolder();
 
             Handle.GET(url, (string parameters, Request request) => {
                 string sessionId;
@@ -112,6 +115,21 @@ namespace Images {
             return true;
         }
 
+        /// <summary>
+        /// Add static folder for uploaded mediafiles so they can be accessable via the web
+        /// </summary>
+        private static void RegiserSharedFolder()
+        {
+            var folder = Helper.GetSharedFolder();
+
+            if (!Directory.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
+            }
+            AppsBootstrapper.AddStaticFileDirectory(folder);
+
+        }
+
         public enum UploadTaskState
         {
             Connected,
@@ -167,8 +185,7 @@ namespace Images {
 
                 var extention = FileName.Substring(FileName.LastIndexOf(".", StringComparison.Ordinal));
                 var path = Path.GetRandomFileName() + extention;
-                var helper = new IllustrationHelper();
-                var filePath = helper.GetUploadDirectory();
+                var filePath = Helper.GetUploadDirectory();
 
                 if (!Directory.Exists(filePath))
                 {
@@ -178,7 +195,7 @@ namespace Images {
                 FilePath = Path.Combine(filePath, path);
                 FileStream = new FileStream(FilePath, FileMode.Append);
 
-                Handle.AddOutgoingHeader("x-file-location", "/" + helper.UploadFolderName + "/" + path);
+                Handle.AddOutgoingHeader("x-file-location", "/" + Helper.UploadFolderName + "/" + path);
             }
 
             public string TempFileName => FileStream?.Name;

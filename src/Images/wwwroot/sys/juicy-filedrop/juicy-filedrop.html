@@ -55,6 +55,10 @@ version: 1.0.3
                 },
                 sessionid: {
                     notify: true
+                },
+                isuploading: {
+                    type: Boolean,
+                    notify: true
                 }
             },
             ready: function() {
@@ -118,12 +122,13 @@ version: 1.0.3
             processTask: function (task) {
                 var that = this;
                 this.set("tasks.error", null);
-
                 var self = this;
+				this.isuploading = true;
                 this.executeTask(task, function (task) {
                     // Success
-                        that.fire("statechange", task);
-						that.value = task.fileUrl;
+					that.fire("statechange", task);
+					that.isuploading = false;
+					that.value = task.fileUrl;
                 }, function (task) {
                     // Error
 					self.notifyPath("tasks.error", task.error);
