@@ -66,7 +66,7 @@ namespace Images {
                     var filePath = task.FilePath.Substring(task.FilePath.IndexOf("media") - 1);
                     var progress = "{" +
                                         "\"progress\" : " + task.Progress + "," +
-                                        "\"fileUrl\" : \"" + filePath.Replace("\\", "\\\\") + "\"" +
+                                        "\"fileUrl\" : \"" + filePath.Replace("\\", "/") + "\"" +
                                    "}";
 
                     ws.Send(progress);
