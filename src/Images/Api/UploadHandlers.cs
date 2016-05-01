@@ -178,8 +178,7 @@ namespace Images {
                 FilePath = Path.Combine(filePath, path);
                 FileStream = new FileStream(FilePath, FileMode.Append);
 
-                Handle.AddOutgoingHeader("x-file-location", "/" + helper.UploadFolderName + "/" + fileName);
-                Handle.AddOutgoingHeader("x-file", System.Text.Encoding.Default.GetString(xfile.ToJsonUtf8()));
+                Handle.AddOutgoingHeader("x-file-location", "/" + helper.UploadFolderName + "/" + path);
             }
 
             public string TempFileName => FileStream?.Name;
