@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Web;
 using Starcounter;
 using Starcounter.Internal;
@@ -66,7 +65,7 @@ namespace Images {
 
                 if (task.FileSize > 0)
                 {
-                    var filePath = task.FilePath.Substring(task.FilePath.IndexOf("media") - 1);
+                    var filePath = task.FilePath.Substring(task.FilePath.IndexOf("media", StringComparison.Ordinal) - 1);
                     var progress = "{" +
                                         "\"progress\" : " + task.Progress + "," +
                                         "\"fileUrl\" : \"" + filePath.Replace("\\", "/") + "\"" +
@@ -216,7 +215,6 @@ namespace Images {
                         case UploadTaskState.Error:
                             return -1;
                         case UploadTaskState.Connected:
-                            break;
                         case UploadTaskState.Uploading:
                             break;
                         default:

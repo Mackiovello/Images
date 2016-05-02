@@ -1,5 +1,4 @@
-﻿using System.Web.UI;
-using Starcounter;
+﻿using Starcounter;
 using Simplified.Ring1;
 using Simplified.Ring3;
 using Simplified.Ring6;
@@ -142,15 +141,6 @@ namespace Images {
 
             UploadHandlers.GET("/images/images", task => {
                 Session.ScheduleTask(task.SessionId, (s, id) => {
-                    if (task.State == UploadHandlers.UploadTaskState.Completed)
-                    {
-
-                    }
-                    else if(task.State == UploadHandlers.UploadTaskState.Error)
-                    {
-                        //item.Message = "Error uploading file";
-                    }
-
                     s.CalculatePatchAndPushOnWebSocket();
                 });
             });

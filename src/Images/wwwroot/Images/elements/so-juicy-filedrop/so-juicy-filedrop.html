@@ -1,5 +1,5 @@
 ﻿<link rel="import" href="/sys/paper-dialog/paper-dialog.html" />
-<link rel="import" href="/sys/juicy-filedrop/juicy-filedrop.html" />
+<link rel="import" href="juicy-filedrop.html" />
 
 <dom-module id="so-juicy-filedrop">
     <link rel="import" type="css" href="/sys/bootswatch/paper/bootstrap.css" />
@@ -106,9 +106,9 @@
             }
         </style>
         <div class="container">
-            <juicy-filedrop url="{{uploadUrl}}" sessionId="{{sessionId}}" value="{{value}}" maxfilesize="{{maxFileSize}}" allowedmimetypes="{{allowedMimeTypes}}" isuploading="{{isuploading}}" id="jfFileDrop">
+            <juicy-filedrop url="{{uploadUrl}}" sessionId="{{sessionId}}" value="{{value}}" maxfilesize="{{maxFileSize}}" allowedmimetypes="{{allowedMimeTypes}}" progress="{{progress}}" id="jfFileDrop">
                 <template is="dom-if" if="{{!value}}">
-                    <template is="dom-if" if="{{!isuploading}}">
+                    <template is="dom-if" if="{{!progress}}">
                         <div class="drop-file-here">
                             <div class="td">
                                 <span>Drop image here</span>
@@ -117,10 +117,15 @@
                             </div>
                         </div>
                     </template>
-                    <template is="dom-if" if="{{isuploading}}">
+                    <template is="dom-if" if="{{progress}}">
                         <div class="drop-file-here">
-                            <div class="td">
+                            <div class="tr">
                                 <span class="glyphicon glyphicon-refresh glyphicon-spin"></span>
+                            </div>
+                            <div class="tr" style="margin-bottom: 10px">
+                                <span>Progress</span>
+                                <span>{{progress}}</span>
+                                <span>%</span>
                             </div>
                         </div>
                     </template>
@@ -151,7 +156,7 @@
             properties: {
                 uploadUrl: { type: String },
                 value: { type: String, notify: true },
-                isuploading: { type: Boolean, notify: true, value: false },
+                progress: { type: Number, notify: true, value: 0 },
                 sessionId: { type: String },
                 maxFileSize: { type: Number },
                 allowedMimeTypes: { type: Array, value: [] },

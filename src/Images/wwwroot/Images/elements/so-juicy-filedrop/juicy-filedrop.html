@@ -4,8 +4,10 @@ Copyright 2015 Smörgåsbord Development. All rights reserved.
 @element juicy-filedrop
 @demo https://Juicy.github.io/juicy-filedrop/
 version: 1.0.3
+
+Add web socket support
 -->
-<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="/sys/polymer/polymer.html">
 
 <dom-module id="juicy-filedrop">
     <template>
@@ -56,8 +58,8 @@ version: 1.0.3
                 sessionid: {
                     notify: true
                 },
-                isuploading: {
-                    type: Boolean,
+                progress: {
+                    type: Number,
                     notify: true
                 }
             },
@@ -123,23 +125,30 @@ version: 1.0.3
                 var that = this;
                 this.set("tasks.error", null);
                 var self = this;
-				this.isuploading = true;
+				this.progress = 0;
                 this.executeTask(task, function (task) {
                     // Success
-					that.fire("statechange", task);
-					that.isuploading = false;
+                    that.fire("statechange", task);
+                    that.progress = 0;
 					that.value = task.fileUrl;
                 }, function (task) {
                     // Error
 					self.notifyPath("tasks.error", task.error);
 					that.fire("statechange", task);
+                }, function (task) {
+                    // Progress
+                    if (task) {
+                        self.notifyPath("tasks.progress", task.progress);
+                        that.fire("statechange", task);
+                        that.progress = task.progress;
+                    }
                 });
             },
-            executeTask: function (task, successCallback, errorCallback) {
+            executeTask: function (task, successCallback, errorCallback, progressCallback) {
                 task.progress = 0;
 
                 try {
-                    this.uploadTask(task, successCallback, errorCallback);
+                    this.uploadTask(task, successCallback, errorCallback, progressCallback);
                 } catch (ex) {
                     task.error = ex;
                     console.error(task.error);
@@ -149,7 +158,7 @@ version: 1.0.3
                     }
                 }
             },
-            uploadTask: function (task, successCallback, errorCallback) {
+            uploadTask: function (task, successCallback, errorCallback, progressCallback) {
                 var file = task.file;
                 var chunkLength = this.chunkLength;
                 var url = this.getUploadUrl(file);
@@ -219,6 +228,10 @@ version: 1.0.3
 
                     if (task.progress >= 100) {
                         socket.close(1000);
+                    }
+
+                    if (typeof (progressCallback) == "function") {
+                        progressCallback(task);
                     }
                 };
 
