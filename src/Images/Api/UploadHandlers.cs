@@ -9,8 +9,6 @@ using Starcounter.Internal;
 
 namespace Images {
     internal class UploadHandlers {
-        //Maximum file size in bytes.
-        public static int MaxFileSize = 1048576; //1mb
         public static string[] AllowedMimeTypes = { "image/gif", "image/jpeg", "image/png", "image/svg+xml" };
 
         public void Register() {
@@ -74,7 +72,7 @@ namespace Images {
                 _FileStream.Write(_ByteArray, 0, _ByteArray.Length);
                 _FileStream.Close();
 
-                Handle.AddOutgoingHeader("x-file-location", "/" + helper.UploadFolderName + "/" + fileName);
+                Handle.AddOutgoingHeader("x-file-location", "/" + fileName);
                 Handle.AddOutgoingHeader("x-file", System.Text.Encoding.Default.GetString(xfile.ToJsonUtf8()));
 
                 return System.Net.HttpStatusCode.Created;
@@ -124,7 +122,7 @@ namespace Images {
 
             IllustrationHelper helper = new IllustrationHelper();
 
-            string folder = helper.GetSharedFolder();
+            string folder = helper.GetUploadDirectory();
 
             if (!Directory.Exists(folder)) {
                 Directory.CreateDirectory(folder);
