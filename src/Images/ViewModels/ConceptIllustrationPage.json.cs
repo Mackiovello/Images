@@ -3,7 +3,7 @@ using Simplified.Ring1;
 
 namespace Images
 {
-    partial class ConceptIllustrationPage : Page, IBound<Illustration>
+    partial class ConceptIllustrationPage : Page, IBound<Content>
     {
         protected string OldImageUrl;
         protected IllustrationHelper Helper = new IllustrationHelper();
@@ -19,34 +19,34 @@ namespace Images
             }
         }
 
-        public void RefreshData(string illustrationId)
+        public void RefreshData(string contentId)
         {
-            var illustration = (Illustration)DbHelper.FromID(DbHelper.Base64DecodeObjectID(illustrationId));
-            Data = illustration;
+            var content = (Content)DbHelper.FromID(DbHelper.Base64DecodeObjectID(contentId));
+            Data = content;
         }
 
         public string URL
         {
             get {
-                return Data?.Content?.URL;
+                return Data?.URL;
             }
             set {
-                if (Data.Content == null)
+                if (Data == null)
                 {
-                    Data.Content = new Content();
+                    Data = new Content();
                 }
-                Data.Content.URL = value;
+                Data.URL = value;
                 Data.Name = value;
-                OldImageUrl = Data.Content.URL;
+                OldImageUrl = Data.URL;
             }
         }
 
         void Handle(Input.Delete action)
         {
             if (Data == null) return;
-            Helper.DeleteFile(Data);
+            Helper.DeleteFile(Data.URL);
 
-            Data.Content?.Delete();
+            Data?.Delete();
             Data.Delete();
         }
 

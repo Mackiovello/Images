@@ -6,10 +6,10 @@ namespace Images
 {
     partial class ConceptIllustrationWarningPage : Page
     {
-        public void RefreshData(string chatMessageTextId)
+        public void RefreshData(string contentId)
         {
-            var illustration = DbHelper.FromID(DbHelper.Base64DecodeObjectID(chatMessageTextId)) as Illustration;
-            Warning = ImageValidator.IsValid(illustration);
+            var content = DbHelper.FromID(DbHelper.Base64DecodeObjectID(contentId)) as Content;
+            Warning = ImageValidator.IsValid(content);
         }
     }
 }
