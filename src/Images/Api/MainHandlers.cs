@@ -2,11 +2,12 @@
 using Simplified.Ring1;
 using Simplified.Ring3;
 using Simplified.Ring6;
+using Partial = Images.Helpers.Partial;
 
 namespace Images {
     internal class MainHandlers {
         public void Register() {
-            Handle.GET("/images/standalone", () => {
+            Partial.Register("/images/standalone", () => {
                 Session session = Session.Current;
 
                 if (session != null && session.Data != null) {
@@ -25,29 +26,29 @@ namespace Images {
             });
 
             // Workspace root (Launchpad)
-            Handle.GET("/images", (Request request) => {
+            Partial.Register("/images", (Request request) => {
                 return Db.Scope<StandalonePage>(() => {
                     StandalonePage master = this.GetMaster();
 
-                    master.CurrentPage = Self.GET("/images/partials/images");
+                    master.CurrentPage = Partial.Get("/images/partials/images");
 
                     return master;
                 });
             });
 
-            Handle.GET("/images/image/{?}", (string objectId) => {
+            Partial.Register("/images/image/{?}", (string objectId) => {
                 return Db.Scope<StandalonePage>(() => {
                     StandalonePage master = this.GetMaster();
 
-                    master.CurrentPage = Self.GET<IllustrationPage>("/Images/partials/image/" + objectId);
+                    master.CurrentPage = Partial.Get<IllustrationPage>("/Images/partials/image/" + objectId);
 
                     return master;
                 });
             });
 
-            Handle.GET("/images/concept/{?}", (string objectId) => {
+            Partial.Register("/images/concept/{?}", (string objectId) => {
                 return Db.Scope<Json>(() => {
-                    return Self.GET<ConceptPage>("/images/partials/concept/" + objectId);
+                    return Partial.Get<ConceptPage>("/images/partials/concept/" + objectId);
                 });
             });
 
@@ -61,22 +62,22 @@ namespace Images {
         }
 
         protected StandalonePage GetMaster() {
-            return Self.GET<StandalonePage>("/images/standalone");
+            return Partial.Get<StandalonePage>("/images/standalone");
         }
 
         protected void RegisterLauncherHooks() {
-            Handle.GET("/images/app-name", () => {
+            Partial.Register("/images/app-name", () => {
                 return new AppName();
             });
 
             // Menu
-            Handle.GET("/images/menu", () => {
+            Partial.Register("/images/menu", () => {
                 return new Page() { Html = "/Images/viewmodels/AppMenu.html" };
             });
         }
 
         protected void RegisterPartials() {
-            Handle.GET("/images/partials/images", (Request request) => {
+            Partial.Register("/images/partials/images", (Request request) => {
                 IllustrationsPage page = new IllustrationsPage() {
                     Html = "/Images/viewmodels/ImagesPage.html",
                     Uri = request.Uri
@@ -85,7 +86,7 @@ namespace Images {
                 return page;
             });
 
-            Handle.GET("/images/partials/image/{?}", (string objectId) => {
+            Partial.Register("/images/partials/image/{?}", (string objectId) => {
                 return Db.Scope<Json>(() => {
                     var a = new IllustrationPage() {
                         Html = "/Images/viewmodels/ImagePage.html",
@@ -96,7 +97,7 @@ namespace Images {
                 });
             });
 
-            Handle.GET("/images/partials/concept/{?}", (string objectId) => {
+            Partial.Register("/images/partials/concept/{?}", (string objectId) => {
                 return Db.Scope<Json>(() => {
                     Something something = Db.SQL<Something>("SELECT o FROM Simplified.Ring1.Something o WHERE ObjectID = ?", objectId).First;
                     ConceptPage a = new ConceptPage() {
@@ -108,19 +109,19 @@ namespace Images {
                 });
             });
 
-            Handle.GET("/images/partials/concept-somebody/{?}", (string objectId) => {
-                return Self.GET("/images/partials/concept/" + objectId);
+            Partial.Register("/images/partials/concept-somebody/{?}", (string objectId) => {
+                return Partial.Get("/images/partials/concept/" + objectId);
             });
 
-            Handle.GET("/images/partials/concept-vendible/{?}", (string objectId) => {
-                return Self.GET("/images/partials/concept/" + objectId);
+            Partial.Register("/images/partials/concept-vendible/{?}", (string objectId) => {
+                return Partial.Get("/images/partials/concept/" + objectId);
             });
 
-            Handle.GET("/images/partials/concept-chatgroup/{?}", (string objectId) => {
-                return Self.GET("/images/partials/concept/" + objectId);
+            Partial.Register("/images/partials/concept-chatgroup/{?}", (string objectId) => {
+                return Partial.Get("/images/partials/concept/" + objectId);
             });
 
-            Handle.GET("/images/partials/preview/{?}", (string objectId) => {
+            Partial.Register("/images/partials/preview/{?}", (string objectId) => {
                 return Db.Scope<Json>(() => {
                     Illustration img = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Illustration;
                     PreviewPage page = new PreviewPage();
@@ -131,31 +132,31 @@ namespace Images {
                 });
             });
 
-            Handle.GET("/images/partials/preview-chatmessage/{?}", (string objectId) => {
-                return Self.GET("/images/partials/preview/" + objectId);
+            Partial.Register("/images/partials/preview-chatmessage/{?}", (string objectId) => {
+                return Partial.Get("/images/partials/preview/" + objectId);
             });
 
-            Handle.GET("/images/partials/preview-chatattachment/{?}", (string objectId) => {
-                return Self.GET("/images/partials/preview/" + objectId);
+            Partial.Register("/images/partials/preview-chatattachment/{?}", (string objectId) => {
+                return Partial.Get("/images/partials/preview/" + objectId);
             });
         }
 
         protected void RegisterMapperHandlers() {
 
-            UriMapping.Map("/images/menu", UriMapping.MappingUriPrefix + "/menu");
-            UriMapping.Map("/images/app-name", UriMapping.MappingUriPrefix + "/app-name");
+            Partial.Map("/images/menu", Partial.MappingUriPrefix + "/menu");
+            Partial.Map("/images/app-name", Partial.MappingUriPrefix + "/app-name");
 
-            UriMapping.OntologyMap("/images/partials/concept-chatgroup/@w", typeof(ChatGroup).FullName, null, null);
-            UriMapping.OntologyMap("/images/partials/concept-somebody/@w", typeof(Somebody).FullName, null, null);
-            UriMapping.OntologyMap("/images/partials/concept-vendible/@w", typeof(Product).FullName, null, null);
+            Partial.Map("/images/partials/concept-chatgroup/@w", typeof(ChatGroup).FullName, null, null);
+            Partial.Map("/images/partials/concept-somebody/@w", typeof(Somebody).FullName, null, null);
+            Partial.Map("/images/partials/concept-vendible/@w", typeof(Product).FullName, null, null);
 
-            UriMapping.OntologyMap("/images/partials/preview-chatmessage/@w", typeof(ChatMessage).FullName, null, (string objectId) => {
+            Partial.Map("/images/partials/preview-chatmessage/@w", typeof(ChatMessage).FullName, null, (string objectId) => {
                 var illustration = Db.SQL<Simplified.Ring1.Illustration>("SELECT i FROM Simplified.Ring1.Illustration i WHERE i.Concept.Key = ?", objectId).First;
 
                 return illustration != null ? illustration.Key : null;
             });
 
-            UriMapping.OntologyMap("/images/partials/preview-chatattachment/@w", typeof(ChatAttachment).FullName, (string objectId) => {
+            Partial.Map("/images/partials/preview-chatattachment/@w", typeof(ChatAttachment).FullName, (string objectId) => {
                 return objectId;
             }, (string objectId) => {
                 Relation rel = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Relation;
