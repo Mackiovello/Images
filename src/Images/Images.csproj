@@ -69,6 +69,7 @@
     <Compile Include="Api\MainHandlers.cs" />
     <Compile Include="Helpers\DefaultStyles.cs" />
     <Compile Include="Helpers\IllustrationHelper.cs" />
+    <Compile Include="Helpers\Partial.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ViewModels\ConceptPage.json.cs">
       <DependentUpon>ConceptPage.json</DependentUpon>

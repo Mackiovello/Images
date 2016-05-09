@@ -143,8 +143,8 @@ namespace Images {
 
         protected void RegisterMapperHandlers() {
 
-            Partial.Map("/images/menu", Partial.MappingUriPrefix + "/menu");
-            Partial.Map("/images/app-name", Partial.MappingUriPrefix + "/app-name");
+            Partial.Map("/images/menu", Partial.MappingUriPrefix + "/menu", "GET");
+            Partial.Map("/images/app-name", Partial.MappingUriPrefix + "/app-name", "GET");
 
             Partial.Map("/images/partials/concept-chatgroup/@w", typeof(ChatGroup).FullName, null, null);
             Partial.Map("/images/partials/concept-somebody/@w", typeof(Somebody).FullName, null, null);
