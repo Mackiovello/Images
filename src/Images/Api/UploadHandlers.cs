@@ -13,7 +13,7 @@ namespace Images {
 
         public void Register() {
 
-            this.RegiserSharedFolder();
+            this.RegisterSharedFolder();
 
             // Upload media
             Handle.POST("/images/images", (Request request) => {
@@ -118,7 +118,7 @@ namespace Images {
         /// <summary>
         /// Add static folder for uploaded mediafiles so they can be accessable via the web
         /// </summary>
-        public void RegiserSharedFolder() {
+        public void RegisterSharedFolder() {
 
             IllustrationHelper helper = new IllustrationHelper();
 

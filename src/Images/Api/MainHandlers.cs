@@ -147,7 +147,7 @@ namespace Images {
                     page.LoadDefaultData();
                     return page;
                 });
-            });
+            }, new HandlerOptions { SelfOnly =  true });
         }
 
         protected void RegisterMapperHandlers() {
