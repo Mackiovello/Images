@@ -133,7 +133,9 @@ Add web socket support
 					that.value = task.fileUrl;
                 }, function (task) {
                     // Error
-					self.notifyPath("tasks.error", task.error);
+                    self.notifyPath("tasks.error", task.error);
+                    that.progress = 0;
+                    console.log(task.error)
 					that.fire("statechange", task);
                 }, function (task) {
                     // Progress
