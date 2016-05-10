@@ -2,14 +2,14 @@ using Starcounter;
 using Simplified.Ring6;
 
 namespace Images {
-    partial class SettingsPage : Page, IBound<ImageSettings> {
+    partial class SettingsPage : Page, IBound<ImagesSettings> {
         public void LoadDefaultData()
         {
-            var settings = Db.SQL<ImageSettings>("SELECT s FROM Simplified.Ring6.ImageSettings s").First;
+            var settings = Db.SQL<ImagesSettings>("SELECT s FROM Simplified.Ring6.ImagesSettings s").First;
             if (settings == null)
             {
                 var helper = new IllustrationHelper();
-                settings = new ImageSettings
+                settings = new ImagesSettings
                 {
                     MaximumFileSize = helper.GetMaximumFileSize(),
                     UploadFolderPath = helper.GetUploadDirectory()
@@ -20,6 +20,7 @@ namespace Images {
 
         void Handle(Input.Save action) {
             Transaction.Commit();
+            new UploadHandlers().RegiserSharedFolder();
         }
     }
 }

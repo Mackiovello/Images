@@ -118,7 +118,7 @@ namespace Images {
         /// <summary>
         /// Add static folder for uploaded mediafiles so they can be accessable via the web
         /// </summary>
-        private void RegiserSharedFolder() {
+        public void RegiserSharedFolder() {
 
             IllustrationHelper helper = new IllustrationHelper();
 

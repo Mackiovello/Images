@@ -8,24 +8,24 @@ namespace Images
 {
     public class IllustrationHelper
     {
-        private readonly ImageSettings _imageSettings;
+        private readonly ImagesSettings _imagesSettings;
 
         public IllustrationHelper()
         {
-            _imageSettings = Db.SQL<ImageSettings>("SELECT s FROM Simplified.Ring6.ImageSettings s").First;
+            _imagesSettings = Db.SQL<ImagesSettings>("SELECT s FROM Simplified.Ring6.ImagesSettings s").First;
         }
         
         public string GetUploadDirectory()
         {
             string path;
-            if (_imageSettings == null)
+            if (_imagesSettings == null)
             {
                 var rootPath = Path.GetPathRoot(Application.Current.FilePath);
                 path = Path.Combine(rootPath, "UploadedFiles");
             }
             else
             {
-                path = _imageSettings.UploadFolderPath;
+                path = _imagesSettings.UploadFolderPath;
             }
 
             return path;
@@ -33,7 +33,7 @@ namespace Images
 
         public int GetMaximumFileSize()
         {
-            return _imageSettings?.MaximumFileSize ?? 1048576;
+            return _imagesSettings?.MaximumFileSize ?? 1048576;
         }
 
         public void DeleteFile(Illustration illustration)
