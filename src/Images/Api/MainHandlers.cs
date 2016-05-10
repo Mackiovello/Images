@@ -26,7 +26,7 @@ namespace Images {
             });
 
             // Workspace root (Launchpad)
-            Partial.Register("/images", (Request request) => {
+            Handle.GET("/images", (Request request) => {
                 return Db.Scope<StandalonePage>(() => {
                     StandalonePage master = this.GetMaster();
 
@@ -36,7 +36,7 @@ namespace Images {
                 });
             });
 
-            Partial.Register("/images/image/{?}", (string objectId) => {
+            Handle.GET("/images/image/{?}", (string objectId) => {
                 return Db.Scope<StandalonePage>(() => {
                     StandalonePage master = this.GetMaster();
 
@@ -46,7 +46,7 @@ namespace Images {
                 });
             });
 
-            Partial.Register("/images/concept/{?}", (string objectId) => {
+            Handle.GET("/images/concept/{?}", (string objectId) => {
                 return Db.Scope<Json>(() => {
                     return Partial.Get<ConceptPage>("/images/partials/concept/" + objectId);
                 });
