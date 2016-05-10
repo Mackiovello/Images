@@ -6,6 +6,7 @@ namespace Images
     partial class ConceptIllustrationPage : Page, IBound<Content>
     {
         protected string OldImageUrl;
+        protected Transaction ObjectTransaction;
         protected IllustrationHelper Helper = new IllustrationHelper();
 
         protected override void OnData()
@@ -47,12 +48,11 @@ namespace Images
             Helper.DeleteFile(Data.URL);
 
             Data?.Delete();
-            Data.Delete();
         }
 
         void Handle(Input.Save action)
         {
-            Transaction.Commit();
+            Transaction.Current.Commit();
         }
     }
 }

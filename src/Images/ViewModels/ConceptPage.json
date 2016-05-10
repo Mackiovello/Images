@@ -1,4 +1,5 @@
 {
+    "Html": "",
     "ImageURL$": "",
     "$ImageURL$": { "Bind": "URL" },
     "Open$": 0,
