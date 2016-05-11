@@ -152,7 +152,7 @@ namespace Images {
             });
 
             Handle.GET("/images/partials/chatmessageimage/{?}", (string contentId) => {
-                return Db.Transact<Json>(() => {
+                return Db.Scope<Json>(() => {
                     var page = new ConceptIllustrationPage
                     {
                         Html = "/Images/viewmodels/ConceptPage.html"
