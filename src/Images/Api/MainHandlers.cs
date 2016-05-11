@@ -141,7 +141,7 @@ namespace Images {
             Handle.GET("/images/partials/chatattachmentimage/{?}", (string chatMessageId) =>
             {
                 var chatMessage = (ChatMessage)DbHelper.FromID(DbHelper.Base64DecodeObjectID(chatMessageId));
-                var content = new Content();
+                var content = new Simplified.Ring1.Content();
                 var relation = new Illustration
                 {
                     Content = content,
@@ -190,8 +190,7 @@ namespace Images {
             UriMapping.Map("/images/menu", UriMapping.MappingUriPrefix + "/menu");
             UriMapping.Map("/images/app-name", UriMapping.MappingUriPrefix + "/app-name");
             UriMapping.Map("/images/settings", UriMapping.MappingUriPrefix + "/settings");
-
-            UriMapping.OntologyMap("/images/partials/concept-chatgroup/@w", typeof(ChatGroup).FullName, null, null);
+            
             UriMapping.OntologyMap("/images/partials/concept-somebody/@w", typeof(Somebody).FullName, null, null);
             UriMapping.OntologyMap("/images/partials/concept-vendible/@w", typeof(Product).FullName, null, null);
 

@@ -13,7 +13,7 @@ namespace Images
         {
             base.OnData();
 
-            MaxFileSize = UploadHandlers.MaxFileSize;
+            MaxFileSize = Helper.GetMaximumFileSize();
 
             foreach (string s in UploadHandlers.AllowedMimeTypes) {
                 AllowedMimeTypes.Add().StringValue = s;
@@ -52,7 +52,7 @@ namespace Images
 
         void Handle(Input.Save action)
         {
-            Transaction.Current.Commit();
+            Transaction.Commit();
         }
     }
 }
