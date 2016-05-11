@@ -12,6 +12,7 @@
     "tests"
   ],
   "dependencies": {
-    "juicy-filedrop": "Juicy/juicy-filedrop#~1.0.2"
+    "juicy-filedrop": "Juicy/juicy-filedrop#~1.0.2",
+    "paper-dialog": "^1.0.4"
   }
 }

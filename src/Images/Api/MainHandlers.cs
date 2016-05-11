@@ -1,4 +1,5 @@
 ﻿using Images.Helpers;
+﻿using System.Web.UI.WebControls;
 using Starcounter;
 using Simplified.Ring1;
 using Simplified.Ring3;
@@ -174,12 +175,23 @@ namespace Images {
                 return page;
             });
             #endregion
+            Handle.GET("/images/settings", () =>
+            {
+                return Db.Scope<Json>(() => {
+                    var page = new SettingsPage();
+                    page.LoadDefaultData();
+                    return page;
+                });
+            }, new HandlerOptions { SelfOnly =  true });
         }
 
         protected void RegisterMapperHandlers() {
 
             UriMapping.Map("/images/menu", UriMapping.MappingUriPrefix + "/menu");
             UriMapping.Map("/images/app-name", UriMapping.MappingUriPrefix + "/app-name");
+            UriMapping.Map("/images/settings", UriMapping.MappingUriPrefix + "/settings");
+
+            UriMapping.OntologyMap("/images/partials/concept-chatgroup/@w", typeof(ChatGroup).FullName, null, null);
             UriMapping.OntologyMap("/images/partials/concept-somebody/@w", typeof(Somebody).FullName, null, null);
             UriMapping.OntologyMap("/images/partials/concept-vendible/@w", typeof(Product).FullName, null, null);
 
