@@ -141,23 +141,25 @@ namespace Images {
             Handle.GET("/images/partials/chatattachmentimage/{?}", (string chatMessageId) =>
             {
                 var chatMessage = (ChatMessage)DbHelper.FromID(DbHelper.Base64DecodeObjectID(chatMessageId));
-                var content = new Simplified.Ring1.Content();
                 var relation = new Illustration
                 {
-                    Content = content,
                     Concept = chatMessage
                 };
                 var draft = Self.GET("/images/partials/imagedraftannouncement/" + relation.GetObjectID());
                 return draft;
             });
 
-            Handle.GET("/images/partials/chatmessageimage/{?}", (string contentId) => {
+            Handle.GET("/images/partials/chatmessageimage/{?}", (string illustrationId) => {
                 return Db.Scope<Json>(() => {
+                    var illustration = (Illustration)DbHelper.FromID(DbHelper.Base64DecodeObjectID(illustrationId));
+                    var content = new Simplified.Ring1.Content();
+                    illustration.Content = content;
+
                     var page = new ConceptIllustrationPage
                     {
                         Html = "/Images/viewmodels/ConceptPage.html"
                     };
-                    page.RefreshData(contentId);
+                    page.RefreshData(content.GetObjectID());
                     return page;
                 });
             });
@@ -211,7 +213,7 @@ namespace Images {
             UriMapping.OntologyMap("/images/partials/chatmessageimage/@w", typeof(ChatAttachment).FullName, (string objectId) => objectId, (string objectId) =>
             {
                 var illustration = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Illustration;
-                return illustration?.Content?.GetObjectID();
+                return illustration?.GetObjectID();
             });
             UriMapping.OntologyMap("/images/partials/imagedraftannouncement/@w", typeof(ChatDraftAnnouncement).FullName, objectId => objectId, objectId => null);
             UriMapping.OntologyMap("/images/partials/imagewarning/@w", typeof(ChatWarning).FullName, (string objectId) => objectId, (string objectId) =>
