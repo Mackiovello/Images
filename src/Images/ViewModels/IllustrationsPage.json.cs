@@ -16,10 +16,6 @@ namespace Images {
             this.RedirectUrl = "images/image/";
         }
         
-        public override string GetHtmlPartialUrl() {
-            return Html;
-        }
-
         [IllustrationsPage_json.Confirm]
         partial class PersonsConfirmPage : Page {
             void Cancel() {
