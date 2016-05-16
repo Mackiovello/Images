@@ -22,13 +22,13 @@ namespace Images {
                 string data;
 
                 ushort port = StarcounterEnvironment.Default.UserHttpPort;
-                string host = request["Host"];
+                string host = request.Headers["Host"];
 
                 if (!host.Contains(":")) {
                     host += ":" + port;
                 }
 
-                string fileJson = Handle.IncomingRequest["x-file"];
+                string fileJson = Handle.IncomingRequest.Headers["x-file"];
 
                 xFile xfile = new xFile();
                 xfile.PopulateFromJson(fileJson);
