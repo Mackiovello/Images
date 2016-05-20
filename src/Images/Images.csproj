@@ -77,6 +77,9 @@
     <Compile Include="ViewModels\ConceptIllustrationPage.json.cs">
       <DependentUpon>ConceptIllustrationPage.json</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\DraftPage.json.cs">
+      <DependentUpon>DraftPage.json</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\SettingsPage.json.cs">
       <DependentUpon>SettingsPage.json</DependentUpon>
     </Compile>
@@ -110,6 +113,7 @@
     <Content Include="wwwroot\Images\viewmodels\AppIcon.html" />
     <Content Include="wwwroot\Images\viewmodels\AppMenu.html" />
     <Content Include="wwwroot\Images\viewmodels\ConceptIllustrationWarningPage.html" />
+    <Content Include="wwwroot\Images\viewmodels\DraftPage.html" />
     <Content Include="wwwroot\Images\viewmodels\SettingsPage.html" />
     <Content Include="wwwroot\Images\viewmodels\ConceptPage.html" />
     <Content Include="wwwroot\Images\viewmodels\ImagePage.html" />
@@ -158,6 +162,11 @@
       <Generator>MsBuild:Compile</Generator>
     </TypedJSON>
     <TypedJSON Include="ViewModels\SettingsPage.json">
+      <Generator>MsBuild:Compile</Generator>
+    </TypedJSON>
+  </ItemGroup>
+  <ItemGroup>
+    <TypedJSON Include="ViewModels\DraftPage.json">
       <Generator>MsBuild:Compile</Generator>
     </TypedJSON>
   </ItemGroup>

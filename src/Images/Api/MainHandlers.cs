@@ -145,21 +145,22 @@ namespace Images {
                 {
                     Concept = chatMessage
                 };
-                var draft = Self.GET("/images/partials/imagedraftannouncement/" + relation.GetObjectID());
+                var draft = new DraftPage
+                {
+                    SubPage = Self.GET("/images/partials/imagedraftannouncement/" + relation.GetObjectID())
+                };
                 return draft;
             });
 
             Handle.GET("/images/partials/chatmessageimage/{?}", (string illustrationId) => {
-                return Db.Scope<Json>(() => {
-                    var illustration = (Illustration)DbHelper.FromID(DbHelper.Base64DecodeObjectID(illustrationId));
-                    var content = new Simplified.Ring1.Content();
-                    illustration.Content = content;
-
+                return Db.Scope<Json>(() =>
+                {
+                    var illustration = (Illustration) DbHelper.FromID(DbHelper.Base64DecodeObjectID(illustrationId));
                     var page = new ConceptIllustrationPage
                     {
                         Html = "/Images/viewmodels/ConceptPage.html"
                     };
-                    page.RefreshData(content.GetObjectID());
+                    page.AddNew(illustration);
                     return page;
                 });
             });
@@ -168,12 +169,13 @@ namespace Images {
                 return Self.GET("/images/partials/preview/" + illustrationId);
             });
 
-            Handle.GET("/images/partials/imagedraftannouncement/{?}", (string objectPath) => null);
+            Handle.GET("/images/partials/imagedraftannouncement/{?}", (string objectPath) => new Page());
 
-            Handle.GET("/images/partials/imagewarning/{?}", (string contentId) =>
+            Handle.GET("/images/partials/imagewarning/{?}", (string illustrationId) =>
             {
+                var illustration = DbHelper.FromID(DbHelper.Base64DecodeObjectID(illustrationId)) as Illustration;
                 var page = new ConceptIllustrationWarningPage();
-                page.RefreshData(contentId);
+                page.RefreshData(illustration);
                 return page;
             });
             #endregion
@@ -215,14 +217,11 @@ namespace Images {
                 var illustration = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Illustration;
                 return illustration?.GetObjectID();
             });
-            UriMapping.OntologyMap("/images/partials/imagedraftannouncement/@w", typeof(ChatDraftAnnouncement).FullName, objectId => objectId, objectId => null);
+            UriMapping.OntologyMap("/images/partials/imagedraftannouncement/@w", typeof(ChatDraftAnnouncement).FullName);
             UriMapping.OntologyMap("/images/partials/imagewarning/@w", typeof(ChatWarning).FullName, (string objectId) => objectId, (string objectId) =>
             {
                 var illustration = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Illustration;
-                if (illustration?.Content == null) return null;
-
-                var result = ImageValidator.IsValid(illustration.Content);
-                return string.IsNullOrEmpty(result) ? null : illustration.Content.GetObjectID();
+                return illustration?.GetObjectID();
             });
             #endregion
         }

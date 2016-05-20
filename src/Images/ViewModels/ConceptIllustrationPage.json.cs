@@ -20,9 +20,10 @@ namespace Images
             }
         }
 
-        public void RefreshData(string contentId)
+        public void AddNew(Illustration illustration)
         {
-            var content = (Content)DbHelper.FromID(DbHelper.Base64DecodeObjectID(contentId));
+            var content = new Content();
+            illustration.Content = content;
             Data = content;
         }
 
