@@ -8,6 +8,7 @@ namespace Images
 {
     public class IllustrationHelper
     {
+        public static string FolderName = "UploadedFiles";
         private readonly ImagesSettings _imagesSettings;
 
         public IllustrationHelper()
@@ -21,7 +22,7 @@ namespace Images
             if (_imagesSettings == null)
             {
                 var rootPath = Path.GetPathRoot(Application.Current.FilePath);
-                path = Path.Combine(rootPath, "UploadedFiles");
+                path = Path.Combine(rootPath, FolderName);
             }
             else
             {

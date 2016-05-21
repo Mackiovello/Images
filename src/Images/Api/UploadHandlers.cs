@@ -8,7 +8,6 @@ using Starcounter.Internal;
 namespace Images {
     public static class UploadHandlers
     {
-        public static int MaxFileSize = 20971520;
         public static string[] AllowedMimeTypes = { "image/gif", "image/jpeg", "image/png", "image/svg+xml" };
         public const string WebSocketGroupName = "SCFileUploadWSG";
         private static UploadTask _uploadingTask;
@@ -65,7 +64,7 @@ namespace Images {
 
                 if (task.FileSize > 0)
                 {
-                    var filePath = task.FilePath.Substring(task.FilePath.IndexOf("media", StringComparison.Ordinal) - 1);
+                    var filePath = task.FilePath.Substring(task.FilePath.IndexOf(IllustrationHelper.FolderName, StringComparison.Ordinal) + IllustrationHelper.FolderName.Length);
                     var progress = "{" +
                                         "\"progress\" : " + task.Progress + "," +
                                         "\"fileUrl\" : \"" + filePath.Replace("\\", "/") + "\"" +
