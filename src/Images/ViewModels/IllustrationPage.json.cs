@@ -13,7 +13,7 @@ namespace Images {
         protected override void OnData() {
             base.OnData();
 
-            this.MaxFileSize = UploadHandlers.MaxFileSize;
+            this.MaxFileSize = helper.GetMaximumFileSize();
             this.AllowedMimeTypes.Clear();
 
             foreach (string s in UploadHandlers.AllowedMimeTypes) {
@@ -29,7 +29,7 @@ namespace Images {
                 this.Data = i;
             }
 
-            this.SessionId = Session.Current.ToAsciiString();
+            this.SessionId = Session.Current.SessionId;
 
             this.Url = string.Format("/images/image/{0}", this.Key);
         }

@@ -1,62 +1,88 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
+using System.Linq;
 using Starcounter;
 using Simplified.Ring1;
+using Simplified.Ring6;
 
-namespace Images {
-    public class IllustrationHelper {
+namespace Images
+{
+    public class IllustrationHelper
+    {
+        private readonly ImagesSettings _imagesSettings;
 
-        public string UploadFolderName = "media";
+        public IllustrationHelper()
+        {
+            _imagesSettings = Db.SQL<ImagesSettings>("SELECT s FROM Simplified.Ring6.ImagesSettings s").First;
+        }
+        
+        public string GetUploadDirectory()
+        {
+            string path;
+            if (_imagesSettings == null)
+            {
+                var rootPath = Path.GetPathRoot(Application.Current.FilePath);
+                path = Path.Combine(rootPath, "UploadedFiles");
+            }
+            else
+            {
+                path = _imagesSettings.UploadFolderPath;
+            }
 
-        public string GetSharedFolder() {
-
-            string rootPath = System.IO.Path.GetPathRoot(Starcounter.Application.Current.FilePath);
-            return System.IO.Path.Combine(rootPath, "UploadedFiles");
+            return path;
         }
 
-        public string GetUploadDirectory() {
-
-            return Path.Combine(this.GetSharedFolder(), this.UploadFolderName);
+        public int GetMaximumFileSize()
+        {
+            return _imagesSettings?.MaximumFileSize ?? 1048576;
         }
 
-        public void DeleteFile(Illustration Illustration) {
-            if (Illustration.Concept == null) {
+        public void DeleteFile(Illustration illustration)
+        {
+            if (illustration.Concept == null)
+            {
                 return;
             }
 
-            FileInfo fi = new FileInfo(this.GetSharedFolder() + Illustration.Content.URL);
+            var fi = new FileInfo(GetUploadDirectory() + illustration.Content.URL);
 
-            if (fi.Exists) {
+            if (fi.Exists)
+            {
                 fi.Delete();
             }
         }
 
-        public void DeleteFile(string ImageUrl) {
-            if (string.IsNullOrEmpty(ImageUrl)) {
+        public void DeleteFile(string imageUrl)
+        {
+            if (string.IsNullOrEmpty(imageUrl))
+            {
                 return;
             }
 
-            FileInfo fi = new FileInfo(this.GetSharedFolder() + ImageUrl);
+            var fi = new FileInfo(GetUploadDirectory() + imageUrl);
 
-            if (fi.Exists) {
+            if (fi.Exists)
+            {
                 fi.Delete();
             }
         }
 
-        public void DeleteOldFiles() {
-            string filePath = this.GetUploadDirectory();
-            DirectoryInfo di = new DirectoryInfo(filePath);
+        public void DeleteOldFiles()
+        {
+            var filePath = GetUploadDirectory();
+            var di = new DirectoryInfo(filePath);
 
-            if (!di.Exists) {
+            if (!di.Exists)
+            {
                 return;
             }
 
-            foreach (FileInfo fi in di.GetFiles()) {
-                Content img = Db.SQL<Content>("SELECT c FROM Simplified.Ring1.Content c WHERE c.URL LIKE ?", "%" + fi.Name).First;
-
-                if (img == null) {
-                    fi.Delete();
-                }
+            foreach (
+                var fi in from fi in di.GetFiles()
+                let img = Db.SQL<Content>("SELECT c FROM Simplified.Ring1.Content c WHERE c.URL LIKE ?", "%" + fi.Name).First
+                where img == null
+                select fi)
+            {
+                fi.Delete();
             }
         }
     }

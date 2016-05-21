@@ -117,9 +117,9 @@ namespace Images {
         /// <summary>
         /// Add static folder for uploaded mediafiles so they can be accessable via the web
         /// </summary>
-        private static void RegiserSharedFolder()
+        public static void RegiserSharedFolder()
         {
-            var folder = Helper.GetSharedFolder();
+            var folder = Helper.GetUploadDirectory();
 
             if (!Directory.Exists(folder))
             {
@@ -194,7 +194,7 @@ namespace Images {
                 FilePath = Path.Combine(filePath, path);
                 FileStream = new FileStream(FilePath, FileMode.Append);
 
-                Handle.AddOutgoingHeader("x-file-location", "/" + Helper.UploadFolderName + "/" + path);
+                Handle.AddOutgoingHeader("x-file-location", "/" + Helper.GetUploadDirectory() + "/" + path);
             }
 
             public string TempFileName => FileStream?.Name;
