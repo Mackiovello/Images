@@ -20,7 +20,7 @@ namespace Images {
 
         void Handle(Input.Save action) {
             Transaction.Commit();
-            UploadHandlers.RegiserSharedFolder();
+            UploadHandlers.ReloadHelperPath();
         }
     }
 }

@@ -147,7 +147,7 @@ namespace Images {
             });
             Handle.GET("/images/settings", () =>
             {
-                return Db.Scope<Json>(() => {
+                return new Transaction().Scope(() => {
                     var page = new SettingsPage();
                     page.LoadDefaultData();
                     return page;

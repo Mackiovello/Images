@@ -11,12 +11,18 @@ namespace Images {
         public static string[] AllowedMimeTypes = { "image/gif", "image/jpeg", "image/png", "image/svg+xml" };
         public const string WebSocketGroupName = "SCFileUploadWSG";
         private static UploadTask _uploadingTask;
-        private static readonly IllustrationHelper Helper = new IllustrationHelper();
+        private static IllustrationHelper Helper;
+
+        public static void ReloadHelperPath()
+        {
+            Helper = new IllustrationHelper();
+        }
 
         public static void GET(string urlGet, Action<UploadTask> uploadingAction)
         {
             var url = urlGet + "?{?}";
-            RegiserSharedFolder();
+            ReloadHelperPath();
+            RegisterSharedFolder();
 
             Handle.GET(url, (string parameters, Request request) => {
                 string sessionId;
@@ -65,7 +71,7 @@ namespace Images {
                 if (task.FileSize > 0)
                 {
                     var uploadedDirectory = Helper.GetUploadDirectory();
-                    var filePath = task.FilePath.Substring(task.FilePath.IndexOf(uploadedDirectory, StringComparison.Ordinal) + uploadedDirectory.Length);
+                    var filePath = task.FilePath.Substring(task.FilePath.IndexOf(uploadedDirectory, StringComparison.Ordinal));
                     var progress = "{" +
                                         "\"progress\" : " + task.Progress + "," +
                                         "\"fileUrl\" : \"" + filePath.Replace("\\", "/") + "\"" +
@@ -117,9 +123,9 @@ namespace Images {
         /// <summary>
         /// Add static folder for uploaded mediafiles so they can be accessable via the web
         /// </summary>
-        public static void RegiserSharedFolder()
+        public static void RegisterSharedFolder()
         {
-            var folder = Helper.GetUploadDirectory();
+            var folder = Helper.GetUploadRoot();
 
             if (!Directory.Exists(folder))
             {
@@ -184,7 +190,7 @@ namespace Images {
 
                 var extention = FileName.Substring(FileName.LastIndexOf(".", StringComparison.Ordinal));
                 var path = Path.GetRandomFileName() + extention;
-                var filePath = Helper.GetUploadDirectory();
+                var filePath = Helper.GetUploadDirectoryWithRoot();
 
                 if (!Directory.Exists(filePath))
                 {
