@@ -8,7 +8,7 @@ namespace Images
 {
     public class IllustrationHelper
     {
-        public static string FolderName = "UploadedFiles";
+        private const string FolderName = "UploadedFiles";
         private readonly ImagesSettings _imagesSettings;
 
         public IllustrationHelper()

@@ -64,7 +64,8 @@ namespace Images {
 
                 if (task.FileSize > 0)
                 {
-                    var filePath = task.FilePath.Substring(task.FilePath.IndexOf(IllustrationHelper.FolderName, StringComparison.Ordinal) + IllustrationHelper.FolderName.Length);
+                    var uploadedDirectory = Helper.GetUploadDirectory();
+                    var filePath = task.FilePath.Substring(task.FilePath.IndexOf(uploadedDirectory, StringComparison.Ordinal) + uploadedDirectory.Length);
                     var progress = "{" +
                                         "\"progress\" : " + task.Progress + "," +
                                         "\"fileUrl\" : \"" + filePath.Replace("\\", "/") + "\"" +
