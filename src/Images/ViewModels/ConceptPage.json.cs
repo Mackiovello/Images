@@ -14,6 +14,8 @@ namespace Images {
             foreach (string s in UploadHandlers.AllowedMimeTypes) {
                 this.AllowedMimeTypes.Add().StringValue = s;
             }
+
+            this.SessionId = Session.Current.SessionId;
         }
 
         public string URL {
