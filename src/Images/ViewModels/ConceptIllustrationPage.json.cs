@@ -8,6 +8,7 @@ namespace Images
         protected string OldImageUrl;
         protected Transaction ObjectTransaction;
         protected IllustrationHelper Helper = new IllustrationHelper();
+        private Illustration _currentIllustration;
 
         protected override void OnData()
         {
@@ -22,8 +23,10 @@ namespace Images
 
         public void AddNew(Illustration illustration)
         {
+            _currentIllustration = illustration;
+
             var content = new Content();
-            illustration.Content = content;
+            _currentIllustration.Content = content;
             Data = content;
         }
 
@@ -47,13 +50,25 @@ namespace Images
         {
             if (Data == null) return;
             Helper.DeleteFile(Data.URL);
-
             Data?.Delete();
+            AddNew(_currentIllustration);
         }
 
         void Handle(Input.Save action)
         {
-            Transaction.Commit();
+            //Trick to commit just current content
+            var contentKey = string.Empty;
+            Db.Transact(content =>
+            {
+                var result = new Content
+                {
+                    URL = content.Url,
+                    Name = content.Name
+                };
+                contentKey = result.GetObjectID();
+            }, new { Url = Data.URL, Name = Data.Name});
+            Data =  Db.SQL<Content>("SELECT c FROM Simplified.Ring1.Content c WHERE c.Key = ?", contentKey).First;
+            _currentIllustration.Content = Data;
         }
     }
 }
