@@ -56,7 +56,7 @@ namespace Images
                 return;
             }
 
-            var fi = new FileInfo(GetUploadDirectory() + illustration.Content.URL);
+            var fi = new FileInfo(GetUploadRoot() + illustration.Content.URL);
 
             if (fi.Exists)
             {
@@ -71,7 +71,7 @@ namespace Images
                 return;
             }
 
-            var fi = new FileInfo(GetUploadDirectory() + imageUrl);
+            var fi = new FileInfo(GetUploadRoot() + imageUrl);
 
             if (fi.Exists)
             {
