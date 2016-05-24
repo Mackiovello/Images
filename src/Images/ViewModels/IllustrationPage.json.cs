@@ -29,6 +29,8 @@ namespace Images {
                 this.Data = i;
             }
 
+            this.SessionId = Session.Current.SessionId;
+
             this.Url = string.Format("/images/image/{0}", this.Key);
         }
 

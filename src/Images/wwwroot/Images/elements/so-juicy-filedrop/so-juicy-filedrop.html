@@ -1,5 +1,5 @@
 ﻿<link rel="import" href="/sys/paper-dialog/paper-dialog.html" />
-<link rel="import" href="/sys/juicy-filedrop/juicy-filedrop.html" />
+<link rel="import" href="juicy-filedrop.html" />
 
 <dom-module id="so-juicy-filedrop">
     <link rel="import" type="css" href="/sys/bootswatch/paper/bootstrap.css" />
@@ -78,17 +78,57 @@
             .container:hover .actions {
                 display: block;
             }
+            .glyphicon-spin {    
+                margin: 10px;
+                font-size: 24pt;
+                -webkit-animation: spin 1000ms infinite linear;
+                animation: spin 1000ms infinite linear;
+            }
+            @-webkit-keyframes spin {
+                0% {
+                    -webkit-transform: rotate(0deg);
+                    transform: rotate(0deg);
+                }
+                100% {
+                    -webkit-transform: rotate(359deg);
+                    transform: rotate(359deg);
+                }
+            }
+            @keyframes spin {
+                0% {
+                    -webkit-transform: rotate(0deg);
+                    transform: rotate(0deg);
+                }
+                100% {
+                    -webkit-transform: rotate(359deg);
+                    transform: rotate(359deg);
+                }
+            }
         </style>
         <div class="container">
-            <juicy-filedrop url="{{uploadUrl}}" value="{{value}}" maxfilesize="{{maxFileSize}}" allowedmimetypes="{{allowedMimeTypes}}" id="jfFileDrop">
+            <juicy-filedrop url="{{uploadUrl}}" sessionId="{{sessionId}}" value="{{value}}" maxfilesize="{{maxFileSize}}" allowedmimetypes="{{allowedMimeTypes}}" progress="{{progress}}" id="jfFileDrop">
                 <template is="dom-if" if="{{!value}}">
-                    <div class="drop-file-here">
-                        <div class="td">
-                            <span>Drop image here</span>
-                            <br />
-                            <a href="javascript:" on-click="openFile">Or select file</a>
+                    <template is="dom-if" if="{{!progress}}">
+                        <div class="drop-file-here">
+                            <div class="td">
+                                <span>Drop image here</span>
+                                <br/>
+                                <a href="javascript:" on-click="openFile">Or select file</a>
+                            </div>
                         </div>
-                    </div>
+                    </template>
+                    <template is="dom-if" if="{{progress}}">
+                        <div class="drop-file-here">
+                            <div class="tr">
+                                <span class="glyphicon glyphicon-refresh glyphicon-spin"></span>
+                            </div>
+                            <div class="tr" style="margin-bottom: 10px">
+                                <span>Progress</span>
+                                <span>{{progress}}</span>
+                                <span>%</span>
+                            </div>
+                        </div>
+                    </template>
                 </template>
                 <template is="dom-if" if="{{value}}">
                     <div class="img-border">
@@ -116,6 +156,8 @@
             properties: {
                 uploadUrl: { type: String },
                 value: { type: String, notify: true },
+                progress: { type: Number, notify: true, value: 0 },
+                sessionId: { type: String },
                 maxFileSize: { type: Number },
                 allowedMimeTypes: { type: Array, value: [] },
                 openClick: { type: Number, value: 0, observer: "openClickChanged" },

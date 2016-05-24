@@ -19,6 +19,8 @@ namespace Images
             foreach (string s in UploadHandlers.AllowedMimeTypes) {
                 AllowedMimeTypes.Add().StringValue = s;
             }
+
+            this.SessionId = Session.Current.SessionId;
         }
 
         public void AddNew(Illustration illustration)

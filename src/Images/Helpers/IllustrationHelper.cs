@@ -8,11 +8,15 @@ namespace Images
 {
     public class IllustrationHelper
     {
+        private readonly string _rootPath;
         private readonly ImagesSettings _imagesSettings;
 
         public IllustrationHelper()
         {
             _imagesSettings = Db.SQL<ImagesSettings>("SELECT s FROM Simplified.Ring6.ImagesSettings s").First;
+
+            var rootPath = Path.GetPathRoot(Application.Current.FilePath);
+            _rootPath = Path.Combine(rootPath, "UploadedFiles");
         }
         
         public string GetUploadDirectory()
@@ -20,8 +24,7 @@ namespace Images
             string path;
             if (_imagesSettings == null)
             {
-                var rootPath = Path.GetPathRoot(Application.Current.FilePath);
-                path = Path.Combine(rootPath, "UploadedFiles");
+                path = "/";
             }
             else
             {
@@ -29,6 +32,16 @@ namespace Images
             }
 
             return path;
+        }
+
+        public string GetUploadRoot()
+        {
+            return _rootPath;
+        }
+
+        public string GetUploadDirectoryWithRoot()
+        {
+            return GetUploadRoot() + GetUploadDirectory();
         }
 
         public int GetMaximumFileSize()
@@ -43,7 +56,7 @@ namespace Images
                 return;
             }
 
-            var fi = new FileInfo(GetUploadDirectory() + illustration.Content.URL);
+            var fi = new FileInfo(GetUploadRoot() + illustration.Content.URL);
 
             if (fi.Exists)
             {
@@ -58,7 +71,7 @@ namespace Images
                 return;
             }
 
-            var fi = new FileInfo(GetUploadDirectory() + imageUrl);
+            var fi = new FileInfo(GetUploadRoot() + imageUrl);
 
             if (fi.Exists)
             {
@@ -68,7 +81,7 @@ namespace Images
 
         public void DeleteOldFiles()
         {
-            var filePath = GetUploadDirectory();
+            var filePath = GetUploadDirectoryWithRoot();
             var di = new DirectoryInfo(filePath);
 
             if (!di.Exists)

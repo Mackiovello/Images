@@ -4,6 +4,7 @@ using Starcounter;
 using Simplified.Ring1;
 using Simplified.Ring3;
 using Simplified.Ring6;
+using Page = Starcounter.Page;
 
 namespace Images {
     internal class MainHandlers {
@@ -42,7 +43,6 @@ namespace Images {
                     StandalonePage master = this.GetMaster();
 
                     master.CurrentPage = Self.GET<IllustrationPage>("/Images/partials/image/" + objectId);
-
                     return master;
                 });
             });
@@ -179,9 +179,14 @@ namespace Images {
                 return page;
             });
             #endregion
+            UploadHandlers.GET("/images/images", task => {
+                Session.ScheduleTask(task.SessionId, (s, id) => {
+                    s.CalculatePatchAndPushOnWebSocket();
+                });
+            });
             Handle.GET("/images/settings", () =>
             {
-                return Db.Scope<Json>(() => {
+                return new Transaction().Scope(() => {
                     var page = new SettingsPage();
                     page.LoadDefaultData();
                     return page;
