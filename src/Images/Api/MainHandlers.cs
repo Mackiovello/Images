@@ -214,7 +214,7 @@ namespace Images {
                 var chatMessage = (ChatMessage)DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId));
                 if (chatMessage.IsDraft) return null;
 
-                var illustration = Db.SQL<Illustration>(@"Select m from Simplified.Ring1.Illustration m Where m.WhatIs = ?", chatMessage).First;
+                var illustration = Db.SQL<Illustration>(@"Select m from Simplified.Ring1.Illustration m Where m.ToWhat = ?", chatMessage).First;
                 return illustration?.GetObjectID();
             });
             UriMapping.OntologyMap("/images/partials/chatmessageimage/@w", typeof(ChatAttachment).FullName, (string objectId) => objectId, (string objectId) =>
