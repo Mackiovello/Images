@@ -173,6 +173,10 @@ namespace Images {
                 });
             });
 
+            Handle.GET("/images/partials/image-upload/{?}", (string illustrationId) => {
+                return Self.GET("/images/partials/imageattachment/" + illustrationId);
+            });
+
             Handle.GET("/images/partials/imagedraftannouncement/{?}", (string objectPath) => new Page());
 
             Handle.GET("/images/partials/imagewarning/{?}", (string illustrationId) =>
@@ -224,6 +228,15 @@ namespace Images {
             UriMapping.OntologyMap("/images/partials/imageattachment/@w", typeof(ChatAttachment).FullName);
             UriMapping.OntologyMap("/images/partials/imagedraftannouncement/@w", typeof(ChatDraftAnnouncement).FullName);
             UriMapping.OntologyMap("/images/partials/imagewarning/@w", typeof(ChatWarning).FullName);
+
+            if (Starcounter.Binding.Bindings.GetTypeDef("Sweoffshore.Checklist.TemplateControlImage") != null)
+            {
+                UriMapping.OntologyMap("/images/partials/image-upload/@w", "Sweoffshore.Checklist.TemplateControlImage", objectId => objectId, objectId =>
+                {
+                    var illustration = Db.SQL<Illustration>("SELECT tci.Image FROM Sweoffshore.Checklist.TemplateControlImage tci WHERE tci.Key = ?", objectId).First;
+                    return illustration?.GetObjectID();
+                });
+            }
             #endregion
         }
     }
