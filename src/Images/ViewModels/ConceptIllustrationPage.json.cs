@@ -27,9 +27,11 @@ namespace Images
         {
             _currentIllustration = illustration;
 
-            var content = new Content();
-            _currentIllustration.Content = content;
-            Data = content;
+            if (illustration.Content == null)
+            {
+                _currentIllustration.Content = new Content();
+            }
+            Data = _currentIllustration.Content;
         }
 
         public string URL
@@ -52,8 +54,9 @@ namespace Images
         {
             if (Data == null) return;
             Helper.DeleteFile(Data.URL);
-            Data?.Delete();
-            AddNew(_currentIllustration);
+            //Data?.Delete();
+            //AddNew(_currentIllustration);
+            Data.URL = string.Empty;
         }
 
         void Handle(Input.Save action)

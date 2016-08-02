@@ -111,7 +111,8 @@ Add web socket support
                 }
                 return true;
             },
-            openFile: function() {
+            openFile: function () {
+                this.$.txtUploadFile.value = "";
                 var element = this.$.txtUploadFile;
                 element.click();
             },

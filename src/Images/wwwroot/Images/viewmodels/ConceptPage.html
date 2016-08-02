@@ -2,9 +2,6 @@
 
 <template>
     <template is="dom-bind">
-        <div class="form-horizontal">
-            <label class="control-label">Image:</label>
-        </div>
         <so-juicy-filedrop session-id="{{model.SessionId}}" upload-url="/images/images" value="{{model.ImageURL$}}" max-file-size="{{model.MaxFileSize}}" allowed-mime-types="{{model.AllowedMimeTypes}}">
             <template is="dom-if" if="{{model.ImageURL$}}">
                 <div>
