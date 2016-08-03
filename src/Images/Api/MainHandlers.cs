@@ -4,6 +4,7 @@ using Starcounter;
 using Simplified.Ring1;
 using Simplified.Ring3;
 using Simplified.Ring6;
+using Simplified.Ring6.Images;
 using Page = Starcounter.Page;
 
 namespace Images {
@@ -229,10 +230,7 @@ namespace Images {
             UriMapping.OntologyMap("/images/partials/imagedraftannouncement/@w", typeof(ChatDraftAnnouncement).FullName);
             UriMapping.OntologyMap("/images/partials/imagewarning/@w", typeof(ChatWarning).FullName);
 
-            if (Starcounter.Binding.Bindings.GetTypeDef("Sweoffshore.Checklist.TemplateControlImage") != null)
-            {
-                UriMapping.OntologyMap("/images/partials/image-upload/@w", "Sweoffshore.Checklist.TemplateControlImage");
-            }
+            UriMapping.OntologyMap("/images/partials/image-upload/@w", typeof(EditAnnouncement).FullName);
             #endregion
         }
     }
