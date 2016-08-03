@@ -231,11 +231,7 @@ namespace Images {
 
             if (Starcounter.Binding.Bindings.GetTypeDef("Sweoffshore.Checklist.TemplateControlImage") != null)
             {
-                UriMapping.OntologyMap("/images/partials/image-upload/@w", "Sweoffshore.Checklist.TemplateControlImage", objectId => objectId, objectId =>
-                {
-                    var illustration = Db.SQL<Illustration>("SELECT tci.Image FROM Sweoffshore.Checklist.TemplateControlImage tci WHERE tci.Key = ?", objectId).First;
-                    return illustration?.GetObjectID();
-                });
+                UriMapping.OntologyMap("/images/partials/image-upload/@w", "Sweoffshore.Checklist.TemplateControlImage");
             }
             #endregion
         }

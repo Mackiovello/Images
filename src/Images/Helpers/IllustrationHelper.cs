@@ -13,7 +13,7 @@ namespace Images
 
         public IllustrationHelper()
         {
-            _imagesSettings = Db.SQL<ImagesSettings>("SELECT s FROM Simplified.Ring6.ImagesSettings s").First;
+            _imagesSettings = Db.SQL("SELECT s FROM Simplified.Ring6.ImagesSettings s").First as ImagesSettings;
 
             var rootPath = Path.GetPathRoot(Application.Current.FilePath);
             _rootPath = Path.Combine(rootPath, "UploadedFiles");
@@ -91,7 +91,7 @@ namespace Images
 
             foreach (
                 var fi in from fi in di.GetFiles()
-                let img = Db.SQL<Content>("SELECT c FROM Simplified.Ring1.Content c WHERE c.URL LIKE ?", "%" + fi.Name).First
+                let img = Db.SQL("SELECT c FROM Simplified.Ring1.Content c WHERE c.URL LIKE ?", "%" + fi.Name).First as Content
                 where img == null
                 select fi)
             {
