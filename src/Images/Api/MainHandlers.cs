@@ -174,8 +174,12 @@ namespace Images {
                 });
             });
 
-            Handle.GET("/images/partials/image-upload/{?}", (string illustrationId) => {
+            Handle.GET("/images/partials/image-edit/{?}", (string illustrationId) => {
                 return Self.GET("/images/partials/imageattachment/" + illustrationId);
+            });
+
+            Handle.GET("/images/partials/image-preview/{?}", (string illustrationId) => {
+                return Self.GET("/images/partials/preview/" + illustrationId);
             });
 
             Handle.GET("/images/partials/imagedraftannouncement/{?}", (string objectPath) => new Page());
@@ -230,7 +234,8 @@ namespace Images {
             UriMapping.OntologyMap("/images/partials/imagedraftannouncement/@w", typeof(ChatDraftAnnouncement).FullName);
             UriMapping.OntologyMap("/images/partials/imagewarning/@w", typeof(ChatWarning).FullName);
 
-            UriMapping.OntologyMap("/images/partials/image-upload/@w", typeof(EditAnnouncement).FullName);
+            UriMapping.OntologyMap("/images/partials/image-edit/@w", typeof(EditAnnouncement).FullName);
+            UriMapping.OntologyMap("/images/partials/image-preview/@w", typeof(PreviewAnnouncement).FullName);
             #endregion
         }
     }
