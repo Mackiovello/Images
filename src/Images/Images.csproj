@@ -108,6 +108,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Content\default-layout.sql" />
     <Content Include="wwwroot\Images\css\standalone.css" />
+    <Content Include="wwwroot\Images\css\video_preview.png" />
     <Content Include="wwwroot\Images\elements\so-juicy-filedrop\juicy-filedrop.html" />
     <Content Include="wwwroot\Images\elements\so-juicy-filedrop\so-juicy-filedrop.html" />
     <Content Include="wwwroot\Images\Images.png" />

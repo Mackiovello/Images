@@ -9,6 +9,14 @@ namespace Images {
     partial class IllustrationPage : Page, IBound<Simplified.Ring1.Illustration> {
         protected List<string> oldImageUrls = new List<string>();
         protected IllustrationHelper helper = new IllustrationHelper();
+        
+        public bool GetIsImage => helper.IsImage(Data?.Content?.MimeType);
+        public bool GetIsVideo => helper.IsVideo(Data?.Content?.MimeType);
+
+        static IllustrationPage() {
+            DefaultTemplate.IsVideo.Bind = nameof(GetIsVideo);
+            DefaultTemplate.IsImage.Bind = nameof(GetIsImage);
+        }
 
         protected override void OnData() {
             base.OnData();
@@ -25,12 +33,12 @@ namespace Images {
 
                 i.Concept = new Something() { Name = "Standalone image" };
                 i.Content = new Content();
-
+                
                 this.Data = i;
             }
 
             this.SessionId = Session.Current.SessionId;
-
+            
             this.Url = string.Format("/images/image/{0}", this.Key);
         }
 

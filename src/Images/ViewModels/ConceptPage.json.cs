@@ -18,24 +18,32 @@ namespace Images {
             this.SessionId = Session.Current.SessionId;
         }
 
-        public string URL {
-            get {
+        public string MimeType
+        {
+            get
+            {
+                return this.Data.Illustration?.Content?.MimeType;
+            }
+            set
+            {
+                Illustration illustration = InitIllustration();
+                illustration.Content.MimeType = value;
+            }
+        }
+
+        public string URL
+        {
+            get
+            {
                 return this.Data.Illustration?.Content?.URL;
             }
-            set {
-                this.helper.DeleteFile(this.oldImageUrl);
+            set
+            {
+                if (URL != value)
+                    oldImageUrl = URL;
 
-                Illustration illustration = this.Data.Illustration;
-
-                if (illustration == null) {
-                    illustration = new Illustration {Concept = this.Data};
-                }
-
-                if (illustration.Content == null)
-                {
-                    illustration.Content = new Content() { URL = value };
-                }
-
+                Illustration illustration = InitIllustration();
+                
                 illustration.Content.URL = value;
                 illustration.Name = value;
 
@@ -52,6 +60,24 @@ namespace Images {
 
         void Handle(Input.Save action) {
             this.Transaction.Commit();
+        }
+
+        Illustration InitIllustration() {
+            if (!string.IsNullOrEmpty(oldImageUrl)) {
+                this.helper.DeleteFile(this.oldImageUrl);
+                oldImageUrl = string.Empty;
+            }
+
+            Illustration illustration = this.Data.Illustration;
+
+            if (illustration == null) {
+                illustration = new Illustration { Concept = this.Data };
+            }
+
+            if (illustration.Content == null) {
+                illustration.Content = new Content() { };
+            }
+            return illustration;
         }
     }
 }

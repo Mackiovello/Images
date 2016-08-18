@@ -68,6 +68,14 @@
                 border-radius: 3px;
             }
 
+            .video-preview {
+                min-width:320px;
+                min-height:240px;
+                height: 100%;
+                width: 100%;
+                text-align:center;
+            }
+
             .actions {
                 position: absolute;
                 right: 4px;
@@ -78,7 +86,7 @@
             .container:hover .actions {
                 display: block;
             }
-            .glyphicon-spin {    
+            .glyphicon-spin {
                 margin: 10px;
                 font-size: 24pt;
                 -webkit-animation: spin 1000ms infinite linear;
@@ -106,34 +114,55 @@
             }
         </style>
         <div class="container">
-            <juicy-filedrop url="{{uploadUrl}}" sessionId="{{sessionId}}" value="{{value}}" maxfilesize="{{maxFileSize}}" allowedmimetypes="{{allowedMimeTypes}}" progress="{{progress}}" id="jfFileDrop">
-                <template is="dom-if" if="{{!value}}">
-                    <template is="dom-if" if="{{!progress}}">
+            <juicy-filedrop url="{{uploadUrl}}" sessionId="{{sessionId}}" value="{{value}}" filetype="{{filetype}}" maxfilesize="{{maxFileSize}}" allowedmimetypes="{{allowedMimeTypes}}" progress="{{progress}}" id="jfFileDrop">
+                <template is="dom-if" if="{{progress}}">
+                    <div class="drop-file-here">
+                        <div class="tr">
+                            <span class="glyphicon glyphicon-refresh glyphicon-spin"></span>
+                        </div>
+                        <div class="tr" style="margin-bottom: 10px">
+                            <span>Progress</span>
+                            <span>{{progress}}</span>
+                            <span>%</span>
+                        </div>
+                    </div>
+                </template>
+
+                <template is="dom-if" if="{{!progress}}">
+                    <template is="dom-if" if="{{value}}">
+                        <template is="dom-if" if="{{isVideo}}" restamp="true">
+                            <div class="img-border">
+                                <div class="video-preview">
+                                    <video controls>
+                                        <source src="{{value}}" type="{{filetype}}">
+                                        Your browser does not support the video tag for file type
+                                        <span>{{filetype}}</span>.
+                                    </video>
+                                </div>
+                            </div>
+                        </template>
+                        <template is="dom-if" if="{{!isVideo}}" restamp="true">
+                            <template is="dom-if" if="{{isImage}}">
+                                <div class="img-border">
+                                    <div class="img-thumbnail" style$="{{getStyle(value)}}"></div>
+                                </div>
+                            </template>
+                            <template is="dom-if" if="{{!isImage}}">
+                                <div class="img-border">
+                                    <div class="img-thumbnail" style$="{{getStyle()}}"></div>
+                                </div>
+                            </template>
+                        </template>
+                    </template>
+                    <template is="dom-if" if="{{!value}}">
                         <div class="drop-file-here">
                             <div class="td">
                                 <span>Drop image here</span>
-                                <br/>
+                                <br />
                                 <a href="javascript:" on-click="openFile">Or select file</a>
                             </div>
                         </div>
                     </template>
-                    <template is="dom-if" if="{{progress}}">
-                        <div class="drop-file-here">
-                            <div class="tr">
-                                <span class="glyphicon glyphicon-refresh glyphicon-spin"></span>
-                            </div>
-                            <div class="tr" style="margin-bottom: 10px">
-                                <span>Progress</span>
-                                <span>{{progress}}</span>
-                                <span>%</span>
-                            </div>
-                        </div>
-                    </template>
-                </template>
-                <template is="dom-if" if="{{value}}">
-                    <div class="img-border">
-                        <div class="img-thumbnail" style$="{{getStyle(value)}}"></div>
-                    </div>
                 </template>
             </juicy-filedrop>
             <paper-dialog modal="true" backdrop="true" layered="true" role="dialog" id="pacAlertDialog">
@@ -156,6 +185,9 @@
             properties: {
                 uploadUrl: { type: String },
                 value: { type: String, notify: true },
+                filetype: { type: String, notify: true, observer: "fileTypeChanged" },
+                isVideo: { type: Boolean, notify: true },
+                isImage: { type: Boolean, notify: true },
                 progress: { type: Number, notify: true, value: 0 },
                 sessionId: { type: String },
                 maxFileSize: { type: Number },
@@ -182,6 +214,9 @@
                 this.$.jfFileDrop.addEventListener("fileSelectError", function (e) {
                     that.openAlert(e.detail.message);
                 });
+
+                this.$.jfFileDrop.addEventListener("statechange", function (e) {
+                });
             },
             openFile: function () {
                 this.$.jfFileDrop.openFile();
@@ -196,13 +231,17 @@
             },
             openClickChanged: function (newVal) {
                 if (newVal > 0) {
-                  //in IE and Edge, openClickChanged gets incorrectly called on page load, changing openClick value from "undefined" to 0
-                  //this caused https://github.com/StarcounterSamples/Images/issues/23
-                  this.openFile();
+                    //in IE and Edge, openClickChanged gets incorrectly called on page load, changing openClick value from "undefined" to 0
+                    //this caused https://github.com/StarcounterSamples/Images/issues/23
+                    this.openFile();
                 }
             },
             getStyle: function (url) {
-                return "background-image:url(" + url + ")";
+                return "background-image:url(" + (url || "/images/css/file_preview.png") + ")";
+            },
+            fileTypeChanged: function (newVal) {
+                this.isVideo = /video\//gi.test(newVal);
+                this.isImage = /image\//gi.test(newVal);
             }
         });
     </script>

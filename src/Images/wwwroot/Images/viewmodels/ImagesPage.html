@@ -14,8 +14,9 @@
             <thead>
                 <tr>
                     <th>Name</th>
+                    <th>Mime type</th>
                     <th>ImageURL</th>
-                    <th>Picture</th>
+                    <th>Preview</th>
                     <th></th>
                 </tr>
             </thead>
@@ -23,11 +24,19 @@
                 <template is="dom-repeat" items="{{model.Illustrations}}">
                     <tr>
                         <td>{{item.Name$}}</td>
+                        <td>{{item.MimeType$}}</td>
                         <td>{{item.ImageURL$}}</td>
                         <td>
-                            <a href="{{item.Url}}">
-                                <img class="img-illustration img-thumbnail" src="{{item.ImageURL$}}" />
-                            </a>
+                            <template is="dom-if" if="{{item.IsImage}}">
+                                <a href="{{item.Url}}">
+                                    <img class="img-illustration img-thumbnail" src="{{item.ImageURL$}}" />
+                                </a>
+                            </template>
+                            <template is="dom-if" if="{{item.IsVideo}}">
+                                <a href="{{item.Url}}">
+                                    <img class="img-illustration img-thumbnail" src="/images/css/video_preview.png" />
+                                </a>
+                            </template>
                         </td>
                         <td>
                             <button class="btn btn-sm btn-default" onclick="++this.value;" value="{{item.Delete$::click}}">Delete</button>

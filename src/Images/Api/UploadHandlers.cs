@@ -8,7 +8,7 @@ using Starcounter.Internal;
 namespace Images {
     public static class UploadHandlers
     {
-        public static string[] AllowedMimeTypes = { "image/gif", "image/jpeg", "image/png", "image/svg+xml" };
+        public static string[] AllowedMimeTypes = { "image/gif", "image/jpeg", "image/png", "image/svg+xml", "video/mp4", "video/webm", "video/ogg" };
         public const string WebSocketGroupName = "SCFileUploadWSG";
         private static UploadTask _uploadingTask;
         private static IllustrationHelper Helper;

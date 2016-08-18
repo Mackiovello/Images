@@ -51,6 +51,9 @@ Add web socket support
                 value: {
                     notify: true
                 },
+                filetype: {
+                    notify: true
+                },
                 chunkLength: {
                     type: Number,
                     value: 8192
@@ -125,12 +128,15 @@ Add web socket support
                 var that = this;
                 this.set("tasks.error", null);
                 var self = this;
-				this.progress = 0;
+                this.progress = 0;
+                this.filetype = "";
+                this.value = "";
                 this.executeTask(task, function (task) {
                     // Success
                     that.fire("statechange", task);
                     that.progress = 0;
-					that.value = task.fileUrl;
+                    that.value = task.fileUrl;
+                    that.filetype = task.file.type;
                 }, function (task) {
                     // Error
                     self.notifyPath("tasks.error", task.error);
@@ -319,7 +325,7 @@ Add web socket support
                     return false;
                 };
             },
-            handleResponse: function(ev, xhr) {
+            handleResponse: function (ev, xhr) {
                 this.value = xhr.getResponseHeader('x-file-location');
                 var xFile = JSON.parse(xhr.getResponseHeader(this.customheader));
                 xFile.status = xhr.status;
