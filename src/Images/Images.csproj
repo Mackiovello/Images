@@ -114,6 +114,7 @@
     <Content Include="wwwroot\Images\viewmodels\AppIcon.html" />
     <Content Include="wwwroot\Images\viewmodels\AppMenu.html" />
     <Content Include="wwwroot\Images\viewmodels\ConceptIllustrationWarningPage.html" />
+    <Content Include="wwwroot\Images\viewmodels\EditPage.html" />
     <Content Include="wwwroot\Images\viewmodels\DraftPage.html" />
     <Content Include="wwwroot\Images\viewmodels\SettingsPage.html" />
     <Content Include="wwwroot\Images\viewmodels\ConceptPage.html" />

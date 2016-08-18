@@ -175,7 +175,16 @@ namespace Images {
             });
 
             Handle.GET("/images/partials/image-edit/{?}", (string illustrationId) => {
-                return Self.GET("/images/partials/imageattachment/" + illustrationId);
+                return Db.Scope<Json>(() =>
+                {
+                    var illustration = DbHelper.FromID(DbHelper.Base64DecodeObjectID(illustrationId)) as Illustration;
+                    var page = new ConceptIllustrationPage
+                    {
+                        Html = "/Images/viewmodels/EditPage.html"
+                    };
+                    page.AddNew(illustration);
+                    return page;
+                });
             });
 
             Handle.GET("/images/partials/image-preview/{?}", (string illustrationId) => {
