@@ -6,5 +6,10 @@ namespace Images {
             base.OnData();
             this.Url = string.Format("/images/image/{0}", this.Key);
         }
+
+        public void Handle(Input.ShowLightBox action)
+        {
+            IsLightBoxVisible = true;
+        }
     }
 }

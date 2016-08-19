@@ -63,3 +63,13 @@ nav#top-menu ul li a:hover {
 table.table {
     margin-bottom: 23px;
 }
+
+.images-preview-image-dialog {
+    margin: 0 15px 0 15px;
+}
+
+.images-preview-image-dialog-image {
+    width: 100%;
+    margin: 0 !important;
+    padding: 0;
+}

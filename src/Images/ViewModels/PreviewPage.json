@@ -3,7 +3,9 @@
     "Name": "",
     "Key": "",
     "Url": "",
-    "Content": { 
-        "URL": ""
-    }
+    "Content": {
+      "URL": ""
+    },
+    "IsLightBoxVisible$": false,
+    "ShowLightBox$": 0
 }

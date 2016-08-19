@@ -1,4 +1,6 @@
-﻿<link rel="import" href="/Images/elements/so-juicy-filedrop/so-juicy-filedrop.html" />
+﻿<link rel="import" href="/sys/paper-dialog/paper-dialog.html"/>
+<link href="/Images/css/standalone.css" rel="stylesheet" />
+
 <style>
     .chatter-img-thumbnail {
         min-height: 50px;
@@ -13,13 +15,21 @@
 
 <template>
     <template is="dom-bind">
-        <div class="chatter-img-thumbnail" style$="{{getStyle(model.Content.URL)}}"></div>
+        <div class="chatter-img-thumbnail" style$="{{getStyle(model.Content.URL)}}" onmousedown="++this.value;" value="{{model.ShowLightBox$::click}}"></div>
+        <div id="lightbox">
+            <paper-dialog opened="[[model.IsLightBoxVisible$]]" with-backdrop="true" class="images-preview-image-dialog" on-mousedown="closeEvent" on-iron-overlay-closed="closeEvent">
+                <img src="{{model.Content.URL}}" class="images-preview-image-dialog-image"/>
+            </paper-dialog>
+        </div>
     </template>
     <script>
         (function (template) {
             template.getStyle = function (url) {
                 return "background-image:url(" + url + ")";
             };
+            template.closeEvent = function () {
+                template.set("model.IsLightBoxVisible$", false);
+            }
         })(document.currentScript.previousElementSibling);
     </script>
 </template>
