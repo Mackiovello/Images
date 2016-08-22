@@ -1,7 +1,7 @@
 {
     "Html": "",
     "Uri": "",
-    "$Illustrations": { "Bind": "_Illustrations" },
+    //"$Illustrations": { "Bind": "_Illustrations" },
     "Illustrations": [
         {
             "$": { "Reuse": "Images.IllustrationPage" }

@@ -144,12 +144,12 @@
                         <template is="dom-if" if="{{!isVideo}}" restamp="true">
                             <template is="dom-if" if="{{isImage}}">
                                 <div class="img-border">
-                                    <div class="img-thumbnail" style$="{{getStyle(value)}}"></div>
+                                    <div class="img-thumbnail" style$="{{getImageStyle(value)}}"></div>
                                 </div>
                             </template>
                             <template is="dom-if" if="{{!isImage}}">
                                 <div class="img-border">
-                                    <div class="img-thumbnail" style$="{{getStyle()}}"></div>
+                                    <div class="img-thumbnail" style$="{{getFileStyle()}}"></div>
                                 </div>
                             </template>
                         </template>
@@ -236,8 +236,11 @@
                     this.openFile();
                 }
             },
-            getStyle: function (url) {
-                return "background-image:url(" + (url || "/images/css/file_preview.png") + ")";
+            getImageStyle: function (url) {
+                return "background-image:url('" + url + "')";
+            },
+            getFileStyle: function () {
+                return "background-image:url('/images/css/file_preview.png')";
             },
             fileTypeChanged: function (newVal) {
                 this.isVideo = /video\//gi.test(newVal);

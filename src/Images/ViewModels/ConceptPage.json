@@ -1,9 +1,7 @@
 {
     "Html": "",
     "ImageURL$": "",
-    "$ImageURL$": { "Bind": "URL" },
     "ImageMimeType$": "",
-    "$ImageMimeType$": { "Bind": "MimeType" },
     "Open$": 0,
     "Delete$": 0,
     "Save$": 0,

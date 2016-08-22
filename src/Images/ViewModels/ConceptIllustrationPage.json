@@ -1,11 +1,11 @@
 {
-  "Html": "",
-  "ImageURL$": "",
-  "$ImageURL$": { "Bind": "URL" },
-  "Open$": 0,
-  "Delete$": 0,
-  "Save$": 0,
-  "MaxFileSize": 0,
-  "AllowedMimeTypes": [ "" ],
-  "SessionId": ""
+    "Html": "",
+    "ImageURL$": "",
+    "ImageMimeType$": "",
+    "Open$": 0,
+    "Delete$": 0,
+    "Save$": 0,
+    "MaxFileSize": 0,
+    "AllowedMimeTypes": [ "" ],
+    "SessionId": ""
 }
