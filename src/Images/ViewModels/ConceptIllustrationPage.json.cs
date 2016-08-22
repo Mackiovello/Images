@@ -5,10 +5,54 @@ namespace Images
 {
     partial class ConceptIllustrationPage : Page, IBound<Content>
     {
-        protected string OldImageUrl;
+        protected string oldImageUrl;
         protected Transaction ObjectTransaction;
         protected IllustrationHelper Helper = new IllustrationHelper();
         private Illustration _currentIllustration;
+
+        static ConceptIllustrationPage()
+        {
+            DefaultTemplate.ImageURL.Bind = nameof(URL);
+            DefaultTemplate.ImageMimeType.Bind = nameof(MimeType);
+        }
+
+        public string MimeType
+        {
+            get
+            {
+                return this.Data?.MimeType;
+            }
+            set
+            {
+                if (Data == null)
+                {
+                    Data = new Content();
+                }
+                Data.MimeType = value;
+            }
+        }
+
+        public string URL
+        {
+            get
+            {
+                return this.Data?.URL;
+            }
+            set
+            {
+                if (URL != value)
+                {
+                    oldImageUrl = URL;
+                }
+                if (Data == null)
+                {
+                    Data = new Content();
+                }
+
+                Data.URL = value;
+                Data.Name = value;
+            }
+        }
 
         protected override void OnData()
         {
@@ -16,7 +60,8 @@ namespace Images
 
             MaxFileSize = Helper.GetMaximumFileSize();
 
-            foreach (string s in UploadHandlers.AllowedMimeTypes) {
+            foreach (string s in UploadHandlers.AllowedMimeTypes)
+            {
                 AllowedMimeTypes.Add().StringValue = s;
             }
 
@@ -30,22 +75,6 @@ namespace Images
             var content = new Content();
             _currentIllustration.Content = content;
             Data = content;
-        }
-
-        public string URL
-        {
-            get {
-                return Data?.URL;
-            }
-            set {
-                if (Data == null)
-                {
-                    Data = new Content();
-                }
-                Data.URL = value;
-                Data.Name = value;
-                OldImageUrl = Data.URL;
-            }
         }
 
         void Handle(Input.Delete action)
@@ -65,11 +94,12 @@ namespace Images
                 var result = new Content
                 {
                     URL = content.Url,
-                    Name = content.Name
+                    Name = content.Name,
+                    MimeType = content.MimeType
                 };
                 contentKey = result.GetObjectID();
-            }, new { Url = Data.URL, Name = Data.Name});
-            Data =  Db.SQL<Content>("SELECT c FROM Simplified.Ring1.Content c WHERE c.Key = ?", contentKey).First;
+            }, new { Url = Data.URL, Name = Data.Name, MimeType = Data.MimeType });
+            Data = Db.SQL<Content>("SELECT c FROM Simplified.Ring1.Content c WHERE c.Key = ?", contentKey).First;
             _currentIllustration.Content = Data;
         }
     }
