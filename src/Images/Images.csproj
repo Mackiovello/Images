@@ -67,7 +67,6 @@
   <ItemGroup>
     <Compile Include="Api\UploadHandlers.cs" />
     <Compile Include="Api\MainHandlers.cs" />
-    <Compile Include="Helpers\DefaultStyles.cs" />
     <Compile Include="Helpers\IllustrationHelper.cs" />
     <Compile Include="Helpers\ImageValidator.cs" />
     <Compile Include="Program.cs" />
@@ -106,7 +105,6 @@
     </TypedJSON>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Content\default-layout.sql" />
     <Content Include="wwwroot\Images\css\standalone.css" />
     <Content Include="wwwroot\Images\elements\so-juicy-filedrop\juicy-filedrop.html" />
     <Content Include="wwwroot\Images\elements\so-juicy-filedrop\so-juicy-filedrop.html" />

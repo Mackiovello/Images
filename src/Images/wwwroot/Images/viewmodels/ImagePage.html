@@ -3,19 +3,70 @@
 
 <template>
     <template is="dom-bind">
-        <so-juicy-filedrop session-id="{{model.SessionId}}" upload-url="/images/images" value="{{model.ImageURL$}}" max-file-size="{{model.MaxFileSize}}" allowed-mime-types="{{model.AllowedMimeTypes}}" open-click="{{model.Open$}}"></so-juicy-filedrop>
-        <div class="form-horizontal box-button">
-            <input type="text" readonly="readonly" value="{{model.ImageURL$}}" class="form-control" />
-        </div>
-        <div class="box-button">
-            <button type="button" class="btn btn-sm btn-default" onclick="++this.value;" value="{{model.Open$::click}}">Select file</button>
-        </div>
-        <div class="box-button">
-            <button type="button" class="btn btn-primary" onclick="++this.value;" value="{{model.Save$::click}}">Save</button>
-        </div>
-        <div class="box-button">
-            <button type="button" class="btn btn-default" onclick="++this.value;" value="{{model.Cancel$::click}}">Cancel</button>
-        </div>
+        <so-juicy-filedrop slot="Images/preview" session-id="{{model.SessionId}}" upload-url="/images/images" value="{{model.ImageURL$}}" max-file-size="{{model.MaxFileSize}}" allowed-mime-types="{{model.AllowedMimeTypes}}" open-click="{{model.Open$}}"></so-juicy-filedrop>
+        <input slot="Images/image-url" type="text" readonly="readonly" value="{{model.ImageURL$}}" class="form-control" />
+        <button slot="Images/button-select" type="button" class="btn btn-sm btn-default" onclick="++this.value;" value="{{model.Open$::click}}">Select file</button>
+        <button slot="Images/button-save" type="button" class="btn btn-primary" onclick="++this.value;" value="{{model.Save$::click}}">Save</button>
+        <button slot="Images/button-cancel" type="button" class="btn btn-default" onclick="++this.value;" value="{{model.Cancel$::click}}">Cancel</button>
         <link is="puppet-redirect" history url$="{{model.RedirectUrl$}}" />
+    </template>
+    <template is="starcounter-composition">
+        <!--
+            Please note, that this style is encapsulated in Shadow DOM,
+            so it won't affect element outside this composition.
+            However, please keep in mind that other apps' responses and
+            default compositions will be merged with this one, so use App namespace
+            to avoid colliding class names and ids.
+        -->
+        <style>
+            .images-form {
+                display: flex;
+                margin-bottom: 20px;
+            }
+
+            .images-form__preview {
+                width: 250px; 
+                height: 250px;
+                margin-right: 15px;
+            }
+
+            .images-toolbar {
+                display: flex;
+                align-items: baseline;
+                margin-bottom: 20px;
+            }
+
+            .images-toolbar__item {
+                margin-right: 15px;
+            }
+
+            .images-toolbar__item--full-width {
+                margin-right: 15px;
+                width: 100%;
+            }
+        </style>
+        <div class="images-form">
+            <div class="images-form__preview">
+                <content select="[slot='Images/preview']"></content>
+            </div>
+            <div>
+                <div class="images-toolbar">
+                    <div class="images-toolbar__item">
+                        <content select="[slot='Images/button-select']"></content>
+                    </div>
+                    <div class="images-toolbar__item--full-width">
+                        <content select="[slot='Images/image-url']"></content>
+                    </div>
+                </div>
+                <div class="images-toolbar">
+                    <div class="images-toolbar__item">
+                        <content select="[slot='Images/button-save']"></content>
+                    </div>
+                    <div class="images-toolbar__item">
+                        <content select="[slot='Images/button-cancel']"></content>
+                    </div>
+                </div>
+            </div>
+        </div>
     </template>
 </template>
