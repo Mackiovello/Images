@@ -1,40 +1,46 @@
 using Starcounter;
 using Simplified.Ring1;
 
-namespace Images {
-    partial class ConceptPage : Page, IBound<Something> {
+namespace Images
+{
+    partial class ConceptPage : Page, IBound<Something>
+    {
         protected string oldImageUrl = null;
         protected IllustrationHelper helper = new IllustrationHelper();
 
-        protected override void OnData() {
-            base.OnData();
-
-            this.MaxFileSize = helper.GetMaximumFileSize();
-
-            foreach (string s in UploadHandlers.AllowedMimeTypes) {
-                this.AllowedMimeTypes.Add().StringValue = s;
-            }
-
-            this.SessionId = Session.Current.SessionId;
+        static ConceptPage()
+        {
+            DefaultTemplate.ImageURL.Bind = nameof(URL);
+            DefaultTemplate.ImageMimeType.Bind = nameof(MimeType);
         }
 
-        public string URL {
-            get {
+        public string MimeType
+        {
+            get
+            {
+                return this.Data.Illustration?.Content?.MimeType;
+            }
+            set
+            {
+                Illustration illustration = InitIllustration();
+                illustration.Content.MimeType = value;
+            }
+        }
+
+        public string URL
+        {
+            get
+            {
                 return this.Data.Illustration?.Content?.URL;
             }
-            set {
-                this.helper.DeleteFile(this.oldImageUrl);
-
-                Illustration illustration = this.Data.Illustration;
-
-                if (illustration == null) {
-                    illustration = new Illustration {Concept = this.Data};
-                }
-
-                if (illustration.Content == null)
+            set
+            {
+                if (URL != value)
                 {
-                    illustration.Content = new Content() { URL = value };
+                    oldImageUrl = URL;
                 }
+
+                Illustration illustration = InitIllustration();
 
                 illustration.Content.URL = value;
                 illustration.Name = value;
@@ -43,15 +49,56 @@ namespace Images {
             }
         }
 
-        void Handle(Input.Delete action) {
-            if (this.Data.Illustration == null) return;
+        protected override void OnData()
+        {
+            base.OnData();
+
+            this.MaxFileSize = helper.GetMaximumFileSize();
+
+            foreach (string s in UploadHandlers.AllowedMimeTypes)
+            {
+                this.AllowedMimeTypes.Add().StringValue = s;
+            }
+
+            this.SessionId = Session.Current.SessionId;
+        }
+
+        void Handle(Input.Delete action)
+        {
+            if (this.Data.Illustration == null)
+            {
+                return;
+            }
 
             this.helper.DeleteFile(this.Data.Illustration);
             this.Data.Illustration.Content?.Delete();
         }
 
-        void Handle(Input.Save action) {
+        void Handle(Input.Save action)
+        {
             this.Transaction.Commit();
+        }
+
+        Illustration InitIllustration()
+        {
+            if (!string.IsNullOrEmpty(oldImageUrl))
+            {
+                this.helper.DeleteFile(this.oldImageUrl);
+                oldImageUrl = string.Empty;
+            }
+
+            Illustration illustration = this.Data.Illustration;
+
+            if (illustration == null)
+            {
+                illustration = new Illustration { Concept = this.Data };
+            }
+
+            if (illustration.Content == null)
+            {
+                illustration.Content = new Content() { };
+            }
+            return illustration;
         }
     }
 }

@@ -5,22 +5,73 @@ using System.IO;
 using Simplified.Ring1;
 using Starcounter;
 
-namespace Images {
-    partial class IllustrationPage : Page, IBound<Simplified.Ring1.Illustration> {
+namespace Images
+{
+    partial class IllustrationPage : Page, IBound<Simplified.Ring1.Illustration>
+    {
         protected List<string> oldImageUrls = new List<string>();
         protected IllustrationHelper helper = new IllustrationHelper();
 
-        protected override void OnData() {
+        public bool GetIsImage => helper.IsImage(Data?.Content?.MimeType);
+        public bool GetIsVideo => helper.IsVideo(Data?.Content?.MimeType);
+
+        public string ConceptName
+        {
+            get
+            {
+                return Data?.Concept?.Name;
+            }
+            set
+            {
+                Data.Concept.Name = value;
+            }
+        }
+        public string ContentMimeType
+        {
+            get
+            {
+                return Data?.Content?.MimeType;
+            }
+            set
+            {
+                Data.Content.MimeType = value;
+            }
+        }
+        public string ContentURL
+        {
+            get
+            {
+                return Data?.Content?.URL;
+            }
+            set
+            {
+                Data.Content.URL = value;
+            }
+        }
+
+        static IllustrationPage()
+        {
+            DefaultTemplate.IsVideo.Bind = nameof(GetIsVideo);
+            DefaultTemplate.IsImage.Bind = nameof(GetIsImage);
+            DefaultTemplate.Name.Bind = nameof(ConceptName);
+            DefaultTemplate.MimeType.Bind = nameof(ContentMimeType);
+            DefaultTemplate.ImageURL.Bind = nameof(ContentURL);
+        }
+
+        protected override void OnData()
+        {
             base.OnData();
 
             this.MaxFileSize = helper.GetMaximumFileSize();
             this.AllowedMimeTypes.Clear();
 
-            foreach (string s in UploadHandlers.AllowedMimeTypes) {
+            foreach (string s in UploadHandlers.AllowedMimeTypes)
+            {
                 this.AllowedMimeTypes.Add().StringValue = s;
             }
 
-            if (this.Data == null) {
+            if (this.Data == null)
+            {
                 Illustration i = new Illustration();
 
                 i.Concept = new Something() { Name = "Standalone image" };
@@ -34,12 +85,16 @@ namespace Images {
             this.Url = string.Format("/images/image/{0}", this.Key);
         }
 
-        void Handle(Input.Delete Action) {
-            this.ParentPage.ConfirmAction = () => {
-                Db.Transact(() => {
+        void Handle(Input.Delete Action)
+        {
+            this.ParentPage.ConfirmAction = () =>
+            {
+                Db.Transact(() =>
+                {
                     this.helper.DeleteFile(this.Data);
 
-                    if (this.Data.Content != null) {
+                    if (this.Data.Content != null)
+                    {
                         this.Data.Content.Delete();
                     }
 
@@ -47,23 +102,28 @@ namespace Images {
                 });
             };
 
-            if (this.Data.Concept != null) {
+            if (this.Data.Concept != null)
+            {
                 this.ParentPage.Confirm.Message = "Are you sure want to delete image [" + this.Data.Concept.Name + "]?";
             } else {
                 this.ParentPage.Confirm.Message = "Are you sure want to delete this image?";
             }
         }
 
-        void Handle(Input.Name Action) {
+        void Handle(Input.Name Action)
+        {
             this.Data.Concept = Db.SQL<Simplified.Ring1.Something>("SELECT o FROM Simplified.Ring1.Something o WHERE Name = ?", Action.Value).First;
         }
 
-        void Handle(Input.Cancel Action) {
+        void Handle(Input.Cancel Action)
+        {
             this.RedirectUrl = "/images";
         }
 
-        void Handle(Input.Save Action) {
-            foreach (string s in this.oldImageUrls) {
+        void Handle(Input.Save Action)
+        {
+            foreach (string s in this.oldImageUrls)
+            {
                 this.helper.DeleteFile(s);
             }
 
@@ -72,12 +132,15 @@ namespace Images {
             this.RedirectUrl = "/images";
         }
 
-        void Handle(Input.ImageURL Action) {
+        void Handle(Input.ImageURL Action)
+        {
             oldImageUrls.Add(Action.OldValue);
         }
 
-        IllustrationsPage ParentPage {
-            get {
+        IllustrationsPage ParentPage
+        {
+            get
+            {
                 return this.Parent.Parent as IllustrationsPage;
             }
         }
