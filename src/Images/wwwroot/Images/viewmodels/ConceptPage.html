@@ -2,10 +2,8 @@
 
 <template>
     <template is="dom-bind">
-        <div class="form-horizontal">
-            <label class="control-label">Image:</label>
-        </div>
-        <so-juicy-filedrop session-id="{{model.SessionId}}" upload-url="/images/images" value="{{model.ImageURL$}}" filetype="{{model.ImageMimeType$}}" max-file-size="{{model.MaxFileSize}}" allowed-mime-types="{{model.AllowedMimeTypes}}">
+        <label slot="Images/upload-label" class="control-label">Image:</label>
+        <so-juicy-filedrop slot="Images/upload-control" session-id="{{model.SessionId}}" upload-url="/images/images" value="{{model.ImageURL$}}" filetype="{{model.ImageMimeType$}}" max-file-size="{{model.MaxFileSize}}" allowed-mime-types="{{model.AllowedMimeTypes}}">
             <template is="dom-if" if="{{model.ImageURL$}}">
                 <div>
                     <button class="btn btn-default btn-xs" onclick="++this.value;" value="{{model.Delete$::click}}">Clear</button>
@@ -13,5 +11,16 @@
                 </div>
             </template>
         </so-juicy-filedrop>
+    </template>
+    <template is="starcounter-composition">
+        <!--
+            Please note, that this style is encapsulated in Shadow DOM,
+            so it won't affect element outside this composition.
+            However, please keep in mind that other apps' responses and
+            default compositions will be merged with this one, so use App namespace
+            to avoid colliding class names and ids.
+        -->
+        <content select="[slot='Images/upload-label']"></content>
+        <content select="[slot='Images/upload-control']"></content>
     </template>
 </template>
