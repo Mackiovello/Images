@@ -15,7 +15,7 @@
 
 <template>
     <template is="dom-bind">
-        <div class="chatter-img-thumbnail" style$="{{getStyle(model.Content.URL)}}" onmousedown="++this.value;" value="{{model.ShowLightBox$::click}}"></div>
+        <img src="{{model.Content.URL}}" class="images-preview-image-dialog-image" onmousedown="++this.value;" value="{{model.ShowLightBox$::click}}"/>
         <div id="lightbox">
             <paper-dialog opened="[[model.IsLightBoxVisible$]]" with-backdrop="true" class="images-preview-image-dialog" on-mousedown="closeEvent" on-iron-overlay-closed="closeEvent">
                 <img src="{{model.Content.URL}}" class="images-preview-image-dialog-image"/>
@@ -24,9 +24,6 @@
     </template>
     <script>
         (function (template) {
-            template.getStyle = function (url) {
-                return "background-image:url(" + url + ")";
-            };
             template.closeEvent = function () {
                 template.set("model.IsLightBoxVisible$", false);
             }
