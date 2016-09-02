@@ -1,11 +1,24 @@
 {
     "Html": "",
-    "ImageURL$": "",
-    "ImageMimeType$": "",
-    "Open$": 0,
-    "Delete$": 0,
-    "Save$": 0,
     "MaxFileSize": 0,
     "AllowedMimeTypes": [ "" ],
-    "SessionId": ""
+    "Add$": 0,
+    "Delete$": 0,
+    "Save$": 0,
+
+    "Illustrations": [
+        {
+            "Name$": "",
+            "MimeType$": "",
+            "Key": "",
+            "Url": "",
+            "ImageURL$": "",
+            "IsVideo": false,
+            "IsImage": false,
+            "Select$": 0
+        }
+    ],
+    "Selected": {
+        "$": { "Reuse": "Images.IllustrationPage" }
+    }
 }
