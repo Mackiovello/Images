@@ -4,27 +4,17 @@
 <template>
     <template is="dom-bind">
         <juicy-carousel slot="Images/carousel">
-            <template is="dom-repeat" items="{{model.Illustrations}}">
-                <template is="dom-if" if="{{item.IsVideo}}">
-                    <img slot="thumbnail" src="/images/css/video_preview.png" onclick="++this.value;" value="{{item.Select$::click}}"/>
-                </template>
-                <template is="dom-if" if="{{!item.IsVideo}}">
-                    <template is="dom-if" if="{{item.IsImage}}">
-                        <img slot="thumbnail" src="{{item.ImageURL$}}" onclick="++this.value;" value="{{item.Select$::click}}"/>
-                    </template>
-                    <template is="dom-if" if="{{!isImage}}">
-                        <img slot="thumbnail" src="/images/css/file_preview.png" onclick="++this.value;" value="{{item.Select$::click}}"/>
-                    </template>
-                </template>
+            <template is="dom-repeat" items="{{model.Illustrations}}" restamp="true">
+                <img slot="thumbnail" src="{{item.PreviewURL}}" onclick="++this.value;" value="{{item.Select$::click}}" />
             </template>
 
             <so-juicy-filedrop slot="big" session-id="{{model.Selected.SessionId}}" upload-url="/images/images" value="{{model.Selected.ImageURL$}}" filetype="{{model.Selected.MimeType$}}" max-file-size="{{model.MaxFileSize}}" allowed-mime-types="{{model.AllowedMimeTypes}}">
-                <template is="dom-if" if="{{model.Selected.ImageURL$}}">
-                    <div>
-                        <button class="btn btn-default btn-xs" onclick="++this.value;" value="{{model.Delete$::click}}">Clear</button>
+                <div>
+                    <button class="btn btn-default btn-xs" onclick="++this.value;" value="{{model.Delete$::click}}">Delete</button>
+                    <template is="dom-if" if="{{model.Selected.ImageURL$}}">
                         <button class="btn btn-primary btn-xs" onclick="++this.value;" value="{{model.Selected.Save$::click}}">Save</button>
-                    </div>
-                </template>
+                    </template>
+                </div>
             </so-juicy-filedrop>
 
             <button slot="add" onclick="++this.value;" value="{{model.Add$::click}}">+ Image</button>

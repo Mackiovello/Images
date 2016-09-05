@@ -129,6 +129,7 @@ namespace Images
             public ConceptPage ParentPage => Parent.Parent as ConceptPage;
             public bool GetIsImage => ParentPage.helper.IsImage(Data?.Content?.MimeType);
             public bool GetIsVideo => ParentPage.helper.IsVideo(Data?.Content?.MimeType);
+            public string GetPreviewURL => GetIsVideo ? "/images/css/video_preview.png" : GetIsImage ? ContentURL : "/images/css/file_preview.png";
 
             public string ConceptName
             {
@@ -172,6 +173,7 @@ namespace Images
                 DefaultTemplate.Name.Bind = nameof(ConceptName);
                 DefaultTemplate.MimeType.Bind = nameof(ContentMimeType);
                 DefaultTemplate.ImageURL.Bind = nameof(ContentURL);
+                DefaultTemplate.PreviewURL.Bind = nameof(GetPreviewURL);
             }
 
             protected override void OnData()
