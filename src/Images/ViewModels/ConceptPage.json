@@ -8,11 +8,11 @@
 
     "Illustrations": [
         {
-            "Name$": "",
-            "MimeType$": "",
+            "Name": "",
+            "MimeType": "",
             "Key": "",
             "Url": "",
-            "ImageURL$": "",
+            "ImageURL": "",
             "PreviewURL": "",
             "IsVideo": false,
             "IsImage": false,

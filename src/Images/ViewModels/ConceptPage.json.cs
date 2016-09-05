@@ -5,24 +5,22 @@ using System.Linq;
 
 namespace Images
 {
-    partial class ConceptPage : Page, IBound<Something>
+    partial class ConceptPage : Json, IBound<Something>
     {
-        protected string oldImageUrl = null;
-        protected IllustrationHelper helper = new IllustrationHelper();
-
         static ConceptPage()
         {
-            //DefaultTemplate.ImageURL.Bind = nameof(URL);
-            //DefaultTemplate.ImageMimeType.Bind = nameof(MimeType);
             DefaultTemplate.Illustrations.Bind = nameof(ConceptIllustrations);
 
             DefaultTemplate.Selected.MimeType.Bind = nameof(IllustrationPage.ContentMimeType);
-            DefaultTemplate.Selected.IsVideo.Bind = nameof(IllustrationPage.GetIsVideo);
-            DefaultTemplate.Selected.IsImage.Bind = nameof(IllustrationPage.GetIsImage);
+            DefaultTemplate.Selected.IsVideo.Bind = nameof(IllustrationPage.IsVideoBind);
+            DefaultTemplate.Selected.IsImage.Bind = nameof(IllustrationPage.IsImageBind);
             DefaultTemplate.Selected.Name.Bind = nameof(IllustrationPage.ConceptName);
             DefaultTemplate.Selected.MimeType.Bind = nameof(IllustrationPage.ContentMimeType);
             DefaultTemplate.Selected.ImageURL.Bind = nameof(IllustrationPage.ContentURL);
         }
+
+        protected string oldImageUrl = null;
+        protected IllustrationHelper helper = new IllustrationHelper();
 
         public string MimeType
         {
@@ -71,9 +69,8 @@ namespace Images
             {
                 this.AllowedMimeTypes.Add().StringValue = s;
             }
-            
-            //this.SessionId = Session.Current.SessionId;
-            this.Selected.Data = ConceptIllustrations.FirstOrDefault() ?? new Illustration() { Concept = this.Data, Content = new Content() }; ;
+
+            this.Selected.Data = ConceptIllustrations.FirstOrDefault() ?? new Illustration() { Concept = this.Data, Content = new Content() };
         }
 
         void Handle(Input.Delete action)
@@ -124,12 +121,37 @@ namespace Images
         }
 
         [ConceptPage_json.Illustrations]
-        partial class IllustrationPage : Page, IBound<Simplified.Ring1.Illustration>
+        partial class IllustrationItemPage : Page, IBound<Simplified.Ring1.Illustration>
         {
-            public ConceptPage ParentPage => Parent.Parent as ConceptPage;
-            public bool GetIsImage => ParentPage.helper.IsImage(Data?.Content?.MimeType);
-            public bool GetIsVideo => ParentPage.helper.IsVideo(Data?.Content?.MimeType);
-            public string GetPreviewURL => GetIsVideo ? "/images/css/video_preview.png" : GetIsImage ? ContentURL : "/images/css/file_preview.png";
+            static IllustrationItemPage()
+            {
+                DefaultTemplate.IsVideo.Bind = nameof(IsVideoBind);
+                DefaultTemplate.IsImage.Bind = nameof(IsImageBind);
+                DefaultTemplate.Name.Bind = nameof(ConceptName);
+                DefaultTemplate.MimeType.Bind = nameof(ContentMimeType);
+                DefaultTemplate.ImageURL.Bind = nameof(ContentURL);
+                DefaultTemplate.PreviewURL.Bind = nameof(PreviewURLBind);
+            }
+
+            ConceptPage ParentPage => Parent.Parent as ConceptPage;
+            public bool IsImageBind => ParentPage.helper.IsImage(Data?.Content?.MimeType);
+            public bool IsVideoBind => ParentPage.helper.IsVideo(Data?.Content?.MimeType);
+            public string PreviewURLBind
+            {
+                get
+                {
+                    if (IsVideoBind)
+                    {
+                        return "/images/css/video_preview.png";
+                    } else if (IsImageBind)
+                    {
+                        return ContentURL;
+                    } else
+                    {
+                        return "/images/css/file_preview.png";
+                    }
+                }
+            }
 
             public string ConceptName
             {
@@ -137,20 +159,12 @@ namespace Images
                 {
                     return Data?.Concept?.Name;
                 }
-                set
-                {
-                    Data.Concept.Name = value;
-                }
             }
             public string ContentMimeType
             {
                 get
                 {
                     return Data?.Content?.MimeType;
-                }
-                set
-                {
-                    Data.Content.MimeType = value;
                 }
             }
 
@@ -160,20 +174,6 @@ namespace Images
                 {
                     return Data?.Content?.URL;
                 }
-                set
-                {
-                    Data.Content.URL = value;
-                }
-            }
-
-            static IllustrationPage()
-            {
-                DefaultTemplate.IsVideo.Bind = nameof(GetIsVideo);
-                DefaultTemplate.IsImage.Bind = nameof(GetIsImage);
-                DefaultTemplate.Name.Bind = nameof(ConceptName);
-                DefaultTemplate.MimeType.Bind = nameof(ContentMimeType);
-                DefaultTemplate.ImageURL.Bind = nameof(ContentURL);
-                DefaultTemplate.PreviewURL.Bind = nameof(GetPreviewURL);
             }
 
             protected override void OnData()

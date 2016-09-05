@@ -12,8 +12,8 @@ namespace Images
         protected List<string> oldImageUrls = new List<string>();
         protected IllustrationHelper helper = new IllustrationHelper();
 
-        public bool GetIsImage => helper.IsImage(Data?.Content?.MimeType);
-        public bool GetIsVideo => helper.IsVideo(Data?.Content?.MimeType);
+        public bool IsImageBind => helper.IsImage(Data?.Content?.MimeType);
+        public bool IsVideoBind => helper.IsVideo(Data?.Content?.MimeType);
 
         public string ConceptName
         {
@@ -51,8 +51,8 @@ namespace Images
 
         static IllustrationPage()
         {
-            DefaultTemplate.IsVideo.Bind = nameof(GetIsVideo);
-            DefaultTemplate.IsImage.Bind = nameof(GetIsImage);
+            DefaultTemplate.IsVideo.Bind = nameof(IsVideoBind);
+            DefaultTemplate.IsImage.Bind = nameof(IsImageBind);
             DefaultTemplate.Name.Bind = nameof(ConceptName);
             DefaultTemplate.MimeType.Bind = nameof(ContentMimeType);
             DefaultTemplate.ImageURL.Bind = nameof(ContentURL);
