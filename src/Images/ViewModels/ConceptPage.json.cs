@@ -121,7 +121,7 @@ namespace Images
         }
 
         [ConceptPage_json.Illustrations]
-        partial class IllustrationItemPage : Page, IBound<Simplified.Ring1.Illustration>
+        partial class IllustrationItemPage : Json, IBound<Simplified.Ring1.Illustration>
         {
             static IllustrationItemPage()
             {
@@ -143,10 +143,12 @@ namespace Images
                     if (IsVideoBind)
                     {
                         return "/images/css/video_preview.png";
-                    } else if (IsImageBind)
+                    }
+                    else if (IsImageBind)
                     {
                         return ContentURL;
-                    } else
+                    }
+                    else
                     {
                         return "/images/css/file_preview.png";
                     }
