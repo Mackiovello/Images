@@ -66,6 +66,7 @@
                 background-color: #ffffff;
                 border: 1px solid #dddddd;
                 border-radius: 3px;
+                text-align: center;
             }
 
             .actions {
@@ -132,7 +133,7 @@
                 </template>
                 <template is="dom-if" if="{{value}}">
                     <div class="img-border">
-                        <div class="img-thumbnail" style$="{{getStyle(value)}}"></div>
+                        <img src="{{value}}"/>
                     </div>
                 </template>
             </juicy-filedrop>

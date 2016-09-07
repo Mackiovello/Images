@@ -9,7 +9,6 @@ namespace Images {
     public static class UploadHandlers
     {
         public static string[] AllowedMimeTypes = { "image/gif", "image/jpeg", "image/png", "image/svg+xml" };
-        public const string WebSocketGroupName = "SCFileUploadWSG";
         private static UploadTask _uploadingTask;
         private static IllustrationHelper Helper;
 
@@ -23,7 +22,7 @@ namespace Images {
             var url = urlGet + "?{?}";
             ReloadHelperPath();
             RegisterSharedFolder();
-
+            var webSocketUrlName = "SCFileUploadWSG_" + Guid.NewGuid().ToString().Replace("-","");
             Handle.GET(url, (string parameters, Request request) => {
                 string sessionId;
                 string fileName;
@@ -44,7 +43,7 @@ namespace Images {
                     return 404;
                 }
 
-                request.SendUpgrade(WebSocketGroupName);
+                request.SendUpgrade(webSocketUrlName);
                 var task = new UploadTask(sessionId, fileName, fileSize, parameters);
 
                 task.StateChange += (s, a) =>
@@ -57,7 +56,7 @@ namespace Images {
                 return HandlerStatus.Handled;
             }, new HandlerOptions { SkipRequestFilters = true });
 
-            Handle.WebSocket(WebSocketGroupName, (data, ws) => {
+            Handle.WebSocket(webSocketUrlName, (data, ws) => {
                 if (_uploadingTask == null)
                 {
                     ws.Disconnect("Could not find correct socket to handle the incoming data.", WebSocket.WebSocketCloseCodes.WS_CLOSE_CANT_ACCEPT_DATA);
@@ -81,7 +80,7 @@ namespace Images {
                 }
             });
 
-            Handle.WebSocketDisconnect(WebSocketGroupName, ws => {
+            Handle.WebSocketDisconnect(webSocketUrlName, ws => {
                 var task = _uploadingTask;
                 task?.Close();
             });
@@ -132,7 +131,6 @@ namespace Images {
                 Directory.CreateDirectory(folder);
             }
             AppsBootstrapper.AddStaticFileDirectory(folder);
-
         }
 
         public enum UploadTaskState
