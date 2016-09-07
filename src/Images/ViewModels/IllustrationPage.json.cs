@@ -24,7 +24,10 @@ namespace Images {
                 Illustration i = new Illustration();
 
                 i.Concept = new Something() { Name = "Standalone image" };
-                i.Content = new Content();
+                i.Content = new Content
+                {
+                    Path = helper.GetUploadDirectoryWithRoot().Replace("/", "\\")
+                };
 
                 this.Data = i;
             }
@@ -67,7 +70,8 @@ namespace Images {
                 this.helper.DeleteFile(s);
             }
 
-            this.Data.Name = this.Data.Content.URL;
+            this.Data.Name = Data.Content.URL;
+            this.Data.Content.Name = Path.GetFileName(Data.Content.URL);
             this.Transaction.Commit();
             this.RedirectUrl = "/images";
         }

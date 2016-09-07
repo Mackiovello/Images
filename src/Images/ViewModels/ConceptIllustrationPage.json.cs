@@ -1,3 +1,4 @@
+using System.IO;
 using Starcounter;
 using Simplified.Ring1;
 
@@ -9,6 +10,7 @@ namespace Images
         protected Transaction ObjectTransaction;
         protected IllustrationHelper Helper = new IllustrationHelper();
         private Illustration _currentIllustration;
+        protected IllustrationHelper helper = new IllustrationHelper();
 
         protected override void OnData()
         {
@@ -29,7 +31,10 @@ namespace Images
 
             if (illustration.Content == null)
             {
-                _currentIllustration.Content = new Content();
+                _currentIllustration.Content = new Content
+                {
+                    Path = helper.GetUploadDirectoryWithRoot().Replace("/", "\\")
+                };
             }
             Data = _currentIllustration.Content;
         }
@@ -45,7 +50,7 @@ namespace Images
                     Data = new Content();
                 }
                 Data.URL = value;
-                Data.Name = value;
+                Data.Name = Path.GetFileName(value);
                 OldImageUrl = Data.URL;
             }
         }

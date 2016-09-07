@@ -1,3 +1,4 @@
+using System.IO;
 using Starcounter;
 using Simplified.Ring1;
 
@@ -33,7 +34,12 @@ namespace Images {
 
                 if (illustration.Content == null)
                 {
-                    illustration.Content = new Content() { URL = value };
+                    illustration.Content = new Content()
+                    {
+                        URL = value,
+                        Path = helper.GetUploadDirectoryWithRoot().Replace("/", "\\"),
+                        Name = Path.GetFileName(value)
+                    };
                 }
 
                 illustration.Content.URL = value;
