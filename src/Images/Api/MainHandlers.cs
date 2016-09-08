@@ -187,6 +187,19 @@ namespace Images {
                 });
             });
 
+            Handle.GET("/images/partials/image-mobile-edit/{?}", (string illustrationId) => {
+                return Db.Scope<Json>(() =>
+                {
+                    var illustration = DbHelper.FromID(DbHelper.Base64DecodeObjectID(illustrationId)) as Illustration;
+                    var page = new MobileEditPage
+                    {
+                        Html = "/Images/viewmodels/MobileEditPage.html"
+                    };
+                    page.AddNew(illustration);
+                    return page;
+                });
+            });
+
             Handle.GET("/images/partials/image-preview/{?}", (string illustrationId) => {
                 return Self.GET("/images/partials/preview/" + illustrationId);
             });
@@ -244,6 +257,7 @@ namespace Images {
             UriMapping.OntologyMap("/images/partials/imagewarning/@w", typeof(ChatWarning).FullName);
 
             UriMapping.OntologyMap("/images/partials/image-edit/@w", typeof(EditAnnouncement).FullName);
+            UriMapping.OntologyMap("/images/partials/image-mobile-edit/@w", typeof(MobileEditAnnouncement).FullName);
             UriMapping.OntologyMap("/images/partials/image-preview/@w", typeof(PreviewAnnouncement).FullName);
             #endregion
         }

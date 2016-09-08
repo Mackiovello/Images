@@ -58,6 +58,14 @@
                 background-repeat: no-repeat;
             }
 
+            .mobile-link {
+                font-size: 22px;
+            }
+
+            .mobile-drop-file {
+                padding: 20px;
+            }
+
             .img-border {
                 box-sizing: border-box;
                 width: 100%;
@@ -111,16 +119,26 @@
             }
         </style>
         <div class="container">
-            <juicy-filedrop url="{{uploadUrl}}" sessionId="{{sessionId}}" value="{{value}}" maxfilesize="{{maxFileSize}}" allowedmimetypes="{{allowedMimeTypes}}" progress="{{progress}}" id="jfFileDrop">
+            <juicy-filedrop url="{{uploadUrl}}" sessionId="{{sessionId}}" value="{{value}}" maxfilesize="{{maxFileSize}}" allowedmimetypes="{{allowedMimeTypes}}" progress="{{progress}}" ismobile="{{ismobile}}" id="jfFileDrop">
                 <template is="dom-if" if="{{!value}}">
                     <template is="dom-if" if="{{!progress}}">
-                        <div class="drop-file-here">
-                            <div class="td">
-                                <span>Drop image here</span>
-                                <br/>
-                                <a href="javascript:" on-click="openFile">Or select file</a>
+                        <template is="dom-if" if="{{!ismobile}}">
+                            <div class="drop-file-here">
+                                <div class="td">
+                                    <span>Drop image here</span>
+                                    <br />
+                                    <a href="javascript:" on-click="openFile">Or select file</a>
+                                </div>
                             </div>
-                        </div>
+                        </template>
+                        <template is="dom-if" if="{{ismobile}}">
+                            <div class="drop-file-here mobile-drop-file">
+                                <div class="td">
+                                    <a href="javascript:" class="mobile-link" on-click="openFile">Select file</a>
+                                </div>
+                            </div>
+                        </template>
+
                     </template>
                     <template is="dom-if" if="{{progress}}">
                         <div class="drop-file-here">
@@ -166,7 +184,8 @@
                 maxFileSize: { type: Number },
                 allowedMimeTypes: { type: Array, value: [] },
                 openClick: { type: Number, value: 0, observer: "openClickChanged" },
-                alertMessage: { type: String }
+                alertMessage: { type: String },
+                ismobile: { type: Boolean, notify: true }
             },
             isDomReady: false,
             ready: function () {
