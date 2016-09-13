@@ -44,9 +44,13 @@ namespace Images
             return GetUploadRoot() + GetUploadDirectory();
         }
 
-        public int GetMaximumFileSize()
+        public int GetMaximumFileSizeMB()
         {
-            return _imagesSettings?.MaximumFileSize ?? 1048576;
+            return _imagesSettings?.MaximumFileSize ?? 10;
+        }
+
+        public int GetMaximumFileSizeBytes() {
+            return GetMaximumFileSizeMB() * 1024 * 1024;
         }
 
         public void DeleteFile(Illustration illustration)

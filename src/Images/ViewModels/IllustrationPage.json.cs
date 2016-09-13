@@ -13,7 +13,7 @@ namespace Images {
         protected override void OnData() {
             base.OnData();
 
-            this.MaxFileSize = helper.GetMaximumFileSize();
+            this.MaxFileSize = helper.GetMaximumFileSizeBytes();
             this.AllowedMimeTypes.Clear();
 
             foreach (string s in UploadHandlers.AllowedMimeTypes) {
