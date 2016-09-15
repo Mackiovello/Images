@@ -1,26 +1,26 @@
 <link rel="import" href="/Images/elements/so-juicy-filedrop/so-juicy-filedrop.html" />
+<link rel="import" href="/Images/elements/juicy-carousel/juicy-carousel.html" />
 
 <template>
     <template is="dom-bind">
-        <label slot="Images/upload-label" class="control-label">Image:</label>
-        <so-juicy-filedrop slot="Images/upload-control" session-id="{{model.SessionId}}" upload-url="/images/images" value="{{model.ImageURL$}}" filetype="{{model.ImageMimeType$}}" max-file-size="{{model.MaxFileSize}}" allowed-mime-types="{{model.AllowedMimeTypes}}">
-            <template is="dom-if" if="{{model.ImageURL$}}">
-                <div>
-                    <button class="btn btn-default btn-xs" onclick="++this.value;" value="{{model.Delete$::click}}">Clear</button>
-                    <button class="btn btn-primary btn-xs" onclick="++this.value;" value="{{model.Save$::click}}">Save</button>
-                </div>
+        <juicy-carousel slot="Images/carousel">
+            <template is="dom-repeat" items="{{model.Illustrations}}" restamp="true">
+                <img slot="thumbnail" src="{{item.PreviewURL}}" onclick="++this.value;" value="{{item.Select$::click}}" />
             </template>
-        </so-juicy-filedrop>
+
+            <so-juicy-filedrop slot="big" session-id="{{model.Selected.SessionId}}" upload-url="/images/images" value="{{model.Selected.ImageURL$}}" filetype="{{model.Selected.MimeType$}}" max-file-size="{{model.MaxFileSize}}" allowed-mime-types="{{model.AllowedMimeTypes}}">
+                <div>
+                    <button class="btn btn-default btn-xs" onclick="++this.value;" value="{{model.Delete$::click}}">Delete</button>
+                    <template is="dom-if" if="{{model.Selected.ImageURL$}}">
+                        <button class="btn btn-primary btn-xs" onclick="++this.value;" value="{{model.Selected.Save$::click}}">Save</button>
+                    </template>
+                </div>
+            </so-juicy-filedrop>
+
+            <button slot="add" onclick="++this.value;" value="{{model.Add$::click}}">+ Image</button>
+        </juicy-carousel>
     </template>
     <template is="starcounter-composition">
-        <!--
-            Please note, that this style is encapsulated in Shadow DOM,
-            so it won't affect element outside this composition.
-            However, please keep in mind that other apps' responses and
-            default compositions will be merged with this one, so use App namespace
-            to avoid colliding class names and ids.
-        -->
-        <content select="[slot='Images/upload-label']"></content>
-        <content select="[slot='Images/upload-control']"></content>
+        <content select="[slot='Images/carousel']"></content>
     </template>
 </template>

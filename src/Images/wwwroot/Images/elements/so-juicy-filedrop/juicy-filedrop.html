@@ -66,7 +66,7 @@ Add web socket support
                     notify: true
                 }
             },
-            ready: function() {
+            ready: function () {
                 this.setupDrop();
                 this.setupSelect();
                 if (!this.maxfilesize) {
@@ -84,7 +84,7 @@ Add web socket support
                     this.allowedmimetypes = this.allowedmimetypes.split(',');
                 }
             },
-            checkFile: function(file) {
+            checkFile: function (file) {
                 var m;
                 if (this.allowedmimetypes.indexOf(file.type) < 0) {
                     if (file.type) {
@@ -114,11 +114,11 @@ Add web socket support
                 }
                 return true;
             },
-            openFile: function() {
+            openFile: function () {
                 var element = this.$.txtUploadFile;
                 element.click();
             },
-            fileToJson: function(file) {
+            fileToJson: function (file) {
                 return JSON.stringify({
                     type: file.type,
                     name: encodeURIComponent(file.name)
@@ -142,7 +142,7 @@ Add web socket support
                     self.notifyPath("tasks.error", task.error);
                     that.progress = 0;
                     console.log(task.error)
-					that.fire("statechange", task);
+                    that.fire("statechange", task);
                 }, function (task) {
                     // Progress
                     if (task) {
@@ -171,7 +171,7 @@ Add web socket support
                 var chunkLength = this.chunkLength;
                 var url = this.getUploadUrl(file);
                 var socket = new WebSocket(url);
-				
+
                 task.socket = socket;
 
                 socket.onopen = function () {
@@ -230,7 +230,7 @@ Add web socket support
                 };
 
                 socket.onmessage = function (evt) {
-					var json = JSON.parse(evt.data);
+                    var json = JSON.parse(evt.data);
                     task.progress = json.progress;
                     task.fileUrl = json.fileUrl;
 
@@ -256,20 +256,20 @@ Add web socket support
 
                 return url;
             },
-            readData: function(file) {
+            readData: function (file) {
                 var reader = new FileReader();
                 var that = this;
-				
-				var task = {
-					file: file,
-					error: null
-				};
-				
-				this.fire("statechange", task);
-				this.processTask(task);
+
+                var task = {
+                    file: file,
+                    error: null
+                };
+
+                this.fire("statechange", task);
+                this.processTask(task);
             },
-            setupSelect: function() {
-                var onFileSelected = function(e) {
+            setupSelect: function () {
+                var onFileSelected = function (e) {
                     var files = e.target.files;
                     for (var i = 0; i < files.length; i++) {
                         var file = files[i];
@@ -281,10 +281,10 @@ Add web socket support
                 };
                 this.$.txtUploadFile.addEventListener('change', onFileSelected.bind(this), false);
             },
-            setupDrop: function() {
-                if (typeof window.FileReader === 'undefined') {} // TODO: Browser does not support 'FileReader'
+            setupDrop: function () {
+                if (typeof window.FileReader === 'undefined') { } // TODO: Browser does not support 'FileReader'
                 // TODO: Browser does not support 'FileReader'
-                this.onpaste = function(event) {
+                this.onpaste = function (event) {
                     for (var i = 0, item; item = event.clipboardData.items[i]; i++) {
                         if (item.kind == 'file') {
                             var blob = item.getAsFile();
@@ -292,25 +292,25 @@ Add web socket support
                         }
                     }
                 };
-                this.ondragleave = function() {
+                this.ondragleave = function () {
                     if (this.classList.contains('hover')) {
                         this.classList.remove('hover');
                     }
                 };
-                this.ondragover = function(e) {
+                this.ondragover = function (e) {
                     e.stopPropagation();
                     if (!this.classList.contains('hover')) {
                         this.classList.add('hover');
                     }
                     return false;
                 };
-                this.ondragend = function() {
+                this.ondragend = function () {
                     if (this.classList.contains('hover')) {
                         this.classList.remove('hover');
                     }
                     return false;
                 };
-                this.ondrop = function(e) {
+                this.ondrop = function (e) {
                     if (this.classList.contains('hover')) {
                         this.classList.remove('hover');
                     }
@@ -332,7 +332,7 @@ Add web socket support
                 xFile.statusText = xhr.statusText;
                 this.fire('fileUploaded', xFile);
             },
-            handleError: function(ev, xhr) {
+            handleError: function (ev, xhr) {
                 var xFile = xhr.xFile;
                 xFile.status = xhr.status;
                 xFile.statusText = xhr.statusText;
