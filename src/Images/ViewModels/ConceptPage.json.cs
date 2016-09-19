@@ -18,44 +18,8 @@ namespace Images
             DefaultTemplate.Selected.MimeType.Bind = nameof(IllustrationPage.ContentMimeType);
             DefaultTemplate.Selected.ImageURL.Bind = nameof(IllustrationPage.ContentURL);
         }
-
-        protected string oldImageUrl = null;
+        
         protected IllustrationHelper helper = new IllustrationHelper();
-
-        public string MimeType
-        {
-            get
-            {
-                return this.Data.Illustration?.Content?.MimeType;
-            }
-            set
-            {
-                Illustration illustration = InitIllustration();
-                illustration.Content.MimeType = value;
-            }
-        }
-
-        public string URL
-        {
-            get
-            {
-                return this.Data.Illustration?.Content?.URL;
-            }
-            set
-            {
-                if (URL != value)
-                {
-                    oldImageUrl = URL;
-                }
-
-                Illustration illustration = InitIllustration();
-
-                illustration.Content.URL = value;
-                illustration.Name = value;
-
-                oldImageUrl = illustration.Content.URL;
-            }
-        }
 
         public IEnumerable<Illustration> ConceptIllustrations => Illustration.GetIllustrations(this.Data);
 
@@ -95,29 +59,8 @@ namespace Images
 
         void Handle(Input.Add action)
         {
-            Selected.Data = new Illustration() { Concept = this.Data, Content = new Content() };
-        }
-
-        Illustration InitIllustration()
-        {
-            if (!string.IsNullOrEmpty(oldImageUrl))
-            {
-                this.helper.DeleteFile(this.oldImageUrl);
-                oldImageUrl = string.Empty;
-            }
-
-            Illustration illustration = this.Data.Illustration;
-
-            if (illustration == null)
-            {
-                illustration = new Illustration { Concept = this.Data };
-            }
-
-            if (illustration.Content == null)
-            {
-                illustration.Content = new Content() { };
-            }
-            return illustration;
+            Illustration empty = ConceptIllustrations.FirstOrDefault(val => string.IsNullOrEmpty(val.Content.URL));
+            Selected.Data = empty ?? new Illustration() { Concept = this.Data, Content = new Content() };
         }
 
         [ConceptPage_json.Illustrations]
@@ -148,9 +91,13 @@ namespace Images
                     {
                         return ContentURL;
                     }
-                    else
+                    else if (!string.IsNullOrEmpty(ContentURL))
                     {
                         return "/images/css/file_preview.png";
+                    }
+                    else
+                    {
+                        return "/images/css/empty_preview.png";
                     }
                 }
             }
