@@ -11,7 +11,7 @@ namespace Images {
                 var helper = new IllustrationHelper();
                 settings = new ImagesSettings
                 {
-                    MaximumFileSize = helper.GetMaximumFileSize(),
+                    MaximumFileSize = helper.GetMaximumFileSizeMB(),
                     UploadFolderPath = helper.GetUploadDirectory()
                 };
             }
