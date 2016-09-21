@@ -100,11 +100,11 @@ Add web socket support
                     return false;
                 }
                 if (file.size > this.maxfilesize) {
-                    var maxfilesizeKb = this.maxfilesize / 1024,
-                        maxfilesizeMb = maxfilesizeKb / 1024,
+                    var maxfilesizeKb = this.maxfilesize / 1000,
+                        maxfilesizeMb = maxfilesizeKb / 1000,
                         maxfilesizeString = '';
 
-                    if (maxfilesizeKb > 1024) {
+                    if (maxfilesizeKb > 1000) {
                         maxfilesizeString = '' + maxfilesizeMb.toFixed(2) + 'MB';
                     } else {
                         maxfilesizeString = '' + maxfilesizeKb.toFixed(2) + 'KB';
