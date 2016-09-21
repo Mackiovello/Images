@@ -105,9 +105,9 @@ Add web socket support
                         maxfilesizeString = '';
 
                     if (maxfilesizeKb > 1024) {
-                        maxfilesizeString = '' + parseFloat(maxfilesizeMb).toFixed(2) + 'MB';
+                        maxfilesizeString = '' + maxfilesizeMb.toFixed(2) + 'MB';
                     } else {
-                        maxfilesizeString = '' + parseFloat(maxfilesizeKb).toFixed(2) + 'KB';
+                        maxfilesizeString = '' + maxfilesizeKb.toFixed(2) + 'KB';
                     }
 
                     m = [
