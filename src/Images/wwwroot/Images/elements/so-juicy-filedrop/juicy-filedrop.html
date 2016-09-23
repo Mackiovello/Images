@@ -126,8 +126,8 @@ Add web socket support
                 return true;
             },
             openFile: function () {
-                this.$.txtUploadFile.value = "";
                 var element = this.$.txtUploadFile;
+                element.value = "";
                 element.click();
             },
             fileToJson: function(file) {
