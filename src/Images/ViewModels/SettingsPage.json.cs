@@ -21,10 +21,10 @@ namespace Images
             Data = settings;
         }
 
-        public decimal MaximumFileSizeMB
+        public decimal MaximumFileSizeMiB
         {
-            get { return helper.GetMaximumFileSizeMB(); }
-            set { helper.SetMaximumFileSizeMB(value); }
+            get { return helper.GetMaximumFileSizeMiB(); }
+            set { helper.SetMaximumFileSizeMiB(value); }
         }
 
 

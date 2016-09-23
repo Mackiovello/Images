@@ -18,7 +18,7 @@ namespace Images
             var rootPath = Path.GetPathRoot(Application.Current.FilePath);
             _rootPath = Path.Combine(rootPath, "UploadedFiles");
         }
-        
+
         public string GetUploadDirectory()
         {
             string path;
@@ -44,19 +44,19 @@ namespace Images
             return GetUploadRoot() + GetUploadDirectory();
         }
 
-        public decimal GetMaximumFileSizeMB()
+        public decimal GetMaximumFileSizeMiB()
         {
-            return ((decimal)GetMaximumFileSizeBytes() / (1000 * 1000));
+            return ((decimal)GetMaximumFileSizeBytes() / (1024 * 1024));
         }
 
-        public void SetMaximumFileSizeMB(decimal size)
+        public void SetMaximumFileSizeMiB(decimal size)
         {
-            _imagesSettings.MaximumFileSize = (int)(size * 1000 * 1000);
+            _imagesSettings.MaximumFileSize = (int)(size * 1024 * 1024);
         }
 
         public int GetMaximumFileSizeBytes()
         {
-            return _imagesSettings?.MaximumFileSize ?? 10 * 1000 * 1000;
+            return _imagesSettings?.MaximumFileSize ?? 10 * 1024 * 1024;
         }
 
         public void DeleteFile(Illustration illustration)
