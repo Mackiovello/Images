@@ -16,7 +16,7 @@
 <template>
     <template is="dom-bind">
         <img src="{{model.Content.URL}}" class="images-preview-image-dialog-image" onmousedown="++this.value;" value="{{model.ShowLightBox$::click}}"/>
-        <div id="lightbox">
+        <div>
             <paper-dialog opened="[[model.IsLightBoxVisible$]]" with-backdrop="true" class="images-preview-image-dialog" on-mousedown="closeEvent" on-iron-overlay-closed="closeEvent">
                 <img src="{{model.Content.URL}}" class="images-preview-image-dialog-image"/>
             </paper-dialog>

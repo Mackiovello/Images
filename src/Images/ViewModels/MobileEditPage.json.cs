@@ -25,6 +25,11 @@ namespace Images
             this.SessionId = Session.Current.SessionId;
         }
 
+        public void Handle(Input.ShowLightBox action)
+        {
+            IsLightBoxVisible = true;
+        }
+
         public void AddNew(Illustration illustration)
         {
             _currentIllustration = illustration;

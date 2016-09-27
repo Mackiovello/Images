@@ -6,5 +6,7 @@
   "Delete$": 0,
   "MaxFileSize": 0,
   "AllowedMimeTypes": [ "" ],
-  "SessionId": ""
+  "SessionId": "",
+  "IsLightBoxVisible$": false,
+  "ShowLightBox$": 0
 }
