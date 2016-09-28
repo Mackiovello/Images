@@ -14,7 +14,7 @@ namespace Images
             {
                 settings = new ImagesSettings
                 {
-                    MaximumFileSize = helper.GetMaximumFileSizeBytes(),
+                    MaximumFileSize = IllustrationHelper.DefaultMaximumFileSize,
                     UploadFolderPath = helper.GetUploadDirectory()
                 };
             }
@@ -23,8 +23,8 @@ namespace Images
 
         public decimal MaximumFileSizeMiB
         {
-            get { return helper.GetMaximumFileSizeMiB(); }
-            set { helper.SetMaximumFileSizeMiB(value); }
+            get { return helper.BytesToMiB(Data.MaximumFileSize); }
+            set { Data.MaximumFileSize = helper.MiBToBytes(value); }
         }
 
 

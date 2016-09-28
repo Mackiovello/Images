@@ -10,6 +10,8 @@ namespace Images
     {
         private readonly string _rootPath;
         private readonly ImagesSettings _imagesSettings;
+        static public readonly int BytesInMiB = 1024 * 1024;
+        static public readonly int DefaultMaximumFileSize = 10 * BytesInMiB;
 
         public IllustrationHelper()
         {
@@ -44,19 +46,19 @@ namespace Images
             return GetUploadRoot() + GetUploadDirectory();
         }
 
-        public decimal GetMaximumFileSizeMiB()
+        public decimal BytesToMiB(int size)
         {
-            return ((decimal)GetMaximumFileSizeBytes() / (1024 * 1024));
+            return (decimal)size / BytesInMiB;
         }
 
-        public void SetMaximumFileSizeMiB(decimal size)
+        public int MiBToBytes(decimal size)
         {
-            _imagesSettings.MaximumFileSize = (int)(size * 1024 * 1024);
+            return (int)(size * BytesInMiB);
         }
 
         public int GetMaximumFileSizeBytes()
         {
-            return _imagesSettings?.MaximumFileSize ?? 10 * 1024 * 1024;
+            return _imagesSettings?.MaximumFileSize ?? DefaultMaximumFileSize;
         }
 
         public void DeleteFile(Illustration illustration)
