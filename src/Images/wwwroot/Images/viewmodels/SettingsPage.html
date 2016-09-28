@@ -3,8 +3,8 @@
         <h3>Images</h3>
         <label class="control-label" style="font-size: 12pt; margin: 0;">Upload folder path</label>
         <input type="text" value="{{model.UploadFolderPath$::input}}" class="form-control" style="width: 50%"/>
-        <label class="control-label" style="font-size: 12pt; margin: 10px 0 0 0;">Maximum file size (bytes)</label>
-        <input type="number" value="{{model.MaximumFileSize$::input}}" class="form-control" style="width: 50%"/>
+        <label class="control-label" style="font-size: 12pt; margin: 10px 0 0 0;">Maximum file size (MB)</label>
+        <input type="number" value="{{model.MaximumFileSizeMiB$::input}}" class="form-control" style="width: 50%"/>
         <button class="btn btn-small btn-success" style="margin-top: 20px;" onclick="++this.value;" value="{{model.Save$::click}}">Save</button>
     </template>
 </template>

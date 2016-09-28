@@ -10,13 +10,12 @@ namespace Images
         protected Transaction ObjectTransaction;
         protected IllustrationHelper Helper = new IllustrationHelper();
         private Illustration _currentIllustration;
-        protected IllustrationHelper helper = new IllustrationHelper();
 
         protected override void OnData()
         {
             base.OnData();
 
-            MaxFileSize = Helper.GetMaximumFileSize();
+            MaxFileSize = Helper.GetMaximumFileSizeBytes();
 
             foreach (string s in UploadHandlers.AllowedMimeTypes) {
                 AllowedMimeTypes.Add().StringValue = s;
@@ -38,7 +37,7 @@ namespace Images
             {
                 _currentIllustration.Content = new Content
                 {
-                    Path = helper.GetUploadDirectoryWithRoot().Replace("/", "\\")
+                    Path = Helper.GetUploadDirectoryWithRoot().Replace("/", "\\")
                 };
             }
             Data = _currentIllustration.Content;

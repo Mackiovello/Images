@@ -100,12 +100,22 @@ Add web socket support
                     return false;
                 }
                 if (file.size > this.maxfilesize) {
+                    var maxfilesizeKiB = this.maxfilesize / 1024,
+                        maxfilesizeMiB = maxfilesizeKiB / 1024,
+                        maxfilesizeString = '';
+
+                    if (maxfilesizeKiB > 1024) {
+                        maxfilesizeString = '' + maxfilesizeMiB.toFixed(2) + 'MiB';
+                    } else {
+                        maxfilesizeString = '' + maxfilesizeKiB.toFixed(2) + 'KiB';
+                    }
+
                     m = [
                         'File ',
                         file.name,
                         ' is too big. Maximum file size is: ',
-                        this.maxfilesize / 1024,
-                        'kb.'
+                        maxfilesizeString,
+                        '.'
                     ].join('');
                     this.fire('fileSelectError', {
                         file: file,
@@ -170,7 +180,7 @@ Add web socket support
                 var chunkLength = this.chunkLength;
                 var url = this.getUploadUrl(file);
                 var socket = new WebSocket(url);
-				
+
                 task.socket = socket;
 
                 socket.onopen = function () {
@@ -258,12 +268,12 @@ Add web socket support
             readData: function(file) {
                 var reader = new FileReader();
                 var that = this;
-				
+
 				var task = {
 					file: file,
 					error: null
 				};
-				
+
 				this.fire("statechange", task);
 				this.processTask(task);
             },

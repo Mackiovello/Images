@@ -15,7 +15,7 @@ namespace Images
         {
             base.OnData();
 
-            MaxFileSize = Helper.GetMaximumFileSize();
+            MaxFileSize = Helper.GetMaximumFileSizeBytes();
 
             foreach (string s in UploadHandlers.AllowedMimeTypes) {
                 AllowedMimeTypes.Add().StringValue = s;
