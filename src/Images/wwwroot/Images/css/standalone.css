@@ -65,11 +65,16 @@ table.table {
 }
 
 .images-preview-image-dialog {
-    margin: 0 15px 0 15px;
+    margin: 55px 15px 55px 15px;
+}
+
+.images-preview-image-dialog-fix-size {
+    max-height: 100% !important;
+    top: 0 !important;
 }
 
 .images-preview-image-dialog-image {
-    width: 100%;
+    max-width:100%;
     margin: 0 !important;
     padding: 0;
 }

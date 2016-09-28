@@ -88,6 +88,13 @@
                 display: none;
             }
 
+            .actions-mobile {
+                position: absolute;
+                right: 4px;
+                top: 4px;
+                display: block;
+            }
+
             .container:hover .actions {
                 display: block;
             }
@@ -168,9 +175,16 @@
                     <button class="btn btn-sm btn-default" affirmative role="button" tabindex="1" on-click="closeAlert">Close</button>
                 </div>
             </paper-dialog>
-            <div class="actions">
-                <content id="content"></content>
-            </div>
+            <template is="dom-if" if="{{ismobile}}">
+                <div class="actions-mobile">
+                    <content id="content"></content>
+                </div>
+            </template>
+            <template is="dom-if" if="{{!ismobile}}">
+                <div class="actions">
+                    <content id="content"></content>
+                </div>
+            </template>
         </div>
     </template>
     <script>
