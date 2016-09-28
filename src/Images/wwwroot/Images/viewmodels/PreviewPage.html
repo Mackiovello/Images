@@ -1,18 +1,6 @@
 ﻿<link rel="import" href="/sys/paper-dialog/paper-dialog.html"/>
 <link href="/Images/css/standalone.css" rel="stylesheet" />
 
-<style>
-    .chatter-img-thumbnail {
-        min-height: 50px;
-        min-width: 50px;
-        height: 100%;
-        width: 100%;
-        background-size: contain;
-        background-position: left center;
-        background-repeat: no-repeat;
-    }
-</style>
-
 <template>
     <template is="dom-bind">
         <img src="{{model.Content.URL}}" class="images-preview-image-dialog-image" onmousedown="imageClickEvent(this)" />
