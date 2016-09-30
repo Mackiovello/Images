@@ -110,6 +110,10 @@ namespace Images {
                 });
             });
 
+            Handle.GET("/images/partials/concept-expense/{?}", (string objectId) => {
+                return Self.GET("/images/partials/concept/" + objectId);
+            });
+
             Handle.GET("/images/partials/concept-somebody/{?}", (string objectId) => {
                 return Self.GET("/images/partials/concept/" + objectId);
             });
