@@ -57,3 +57,7 @@ nav#top-menu ul li a:hover {
 table.table {
     margin-bottom: 23px;
 }
+
+button.btn-carousel-add {
+    background-image:url('/images/css/add.png');
+}
