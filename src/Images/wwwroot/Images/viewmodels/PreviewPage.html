@@ -3,7 +3,7 @@
 
 <template>
     <template is="dom-bind">
-        <img src="{{model.Content.URL}}" class="images-preview-image-dialog-image" onmousedown="imageClickEvent(this)" />
+        <img src="{{model.Content.URL}}" class="images-preview-image-dialog-image" on-mousedown="imageClickEvent" />
         <div>
             <paper-dialog opened="[[model.IsLightBoxVisible$]]" with-backdrop="true" class="images-preview-image-dialog" on-mousedown="closeEvent" on-iron-overlay-closed="closeEvent">
                 <img id="imageThumbnail" src="{{model.Content.URL}}" class="images-preview-image-dialog-image" />
@@ -11,12 +11,7 @@
         </div>
     </template>
     <script>
-        var globalTemplate;
-        function imageClickEvent(e) {
-            globalTemplate.imageClickEvent(e);
-        }
         (function (template) {
-            globalTemplate = template;
             template.closeEvent = function () {
                 template.set("model.IsLightBoxVisible$", false);
             }
