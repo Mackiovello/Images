@@ -8,17 +8,25 @@ Put an image on anything. Supports drag'n'drop. Try it with **people** or **prod
 
 ## Partials
 
-### GET /images/partials/concept/{?}
+### GET /images/partials/concept/`{Something ObjectID}`
 
-Parameter: ObjectID of Something class
+Shows a drag'n'drop upload area for images that become `Illustration` of `Something`. In case the provided something already has an illustration, shows that illustration and allows to overwrite it. In case of unexisting something, shows empty partial.
 
-How to use in your app: OntologyMap
+Screenshot:
 
-In case of error: Produces empty partial
+![image](docs/screenshot-partial-concept.png)
 
-Screensot: XXXXX
+Sample mapping:
 
-Sample mapping: 
+```cs
+StarcounterEnvironment.RunWithinApplication("Images", () => {
+    Handle.GET("/images/partials/concept-YOURCLASS/{?}", (string objectId) => {
+        return Self.GET("/images/partials/concept/" + objectId);
+    });
+
+    UriMapping.OntologyMap<YOURAPP.YOURCLASS>("/images/partials/concept-YOURCLASS/{?}");
+});
+```
 
 ## License
 
