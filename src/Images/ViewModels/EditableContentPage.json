@@ -1,0 +1,14 @@
+{
+    "Html": "/Images/ViewModels/EditableContentPage.html",
+    "URL$": "",
+    "MimeType$": "",
+    "MaxFileSize": 0,
+    "AllowedMimeTypes": [ "" ],
+    "SessionId": "",
+    "Open$": 0,
+    "Clear$": 0,
+    "Save$": 0,
+    "ContentPage": {
+        "$": { "Reuse": "Images.ContentPage" }
+    }
+}

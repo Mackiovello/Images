@@ -15,7 +15,6 @@ namespace Images
             DefaultTemplate.Selected.IsVideo.Bind = nameof(IllustrationPage.IsVideoBind);
             DefaultTemplate.Selected.IsImage.Bind = nameof(IllustrationPage.IsImageBind);
             DefaultTemplate.Selected.Name.Bind = nameof(IllustrationPage.ConceptName);
-            DefaultTemplate.Selected.MimeType.Bind = nameof(IllustrationPage.ContentMimeType);
             DefaultTemplate.Selected.ImageURL.Bind = nameof(IllustrationPage.ContentURL);
         }
         

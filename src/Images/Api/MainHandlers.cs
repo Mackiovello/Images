@@ -65,6 +65,31 @@ namespace Images
                 });
             });
 
+            Handle.GET("/images/content/{?}", (string objectId) =>
+            {
+                return Db.Scope<Json>(() =>
+                {
+                    return Self.GET<ContentPage>("/images/partials/content/" + objectId);
+                });
+            });
+
+            Handle.GET("/images/content-edit/{?}", (string objectId) =>
+            {
+                return Db.Scope<Json>(() =>
+                {
+                    return Self.GET<EditableContentPage>("/images/partials/content-edit/" + objectId);
+                });
+            });
+
+            Handle.GET("/images/illustrations/{?}", (string objectId) =>
+            {
+                return Db.Scope<Json>(() =>
+                {
+                    return Self.GET<IllustrationsPage>("/images/partials/illustrations/" + objectId);
+                });
+            });
+
+
             this.RegisterPartials();
             this.RegisterLauncherHooks();
             this.RegisterMapperHandlers();
@@ -95,13 +120,11 @@ namespace Images
 
         protected void RegisterPartials()
         {
-            Handle.GET("/images/partials/images", (Request request) =>
+            Handle.GET("/images/partials/illustrations/{?}", (string objectId) =>
             {
-                IllustrationsPage page = new IllustrationsPage()
-                {
-                    Html = "/Images/viewmodels/ImagesPage.html",
-                    Uri = request.Uri
-                };
+                Something data = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Something;
+                IllustrationsPage page = new IllustrationsPage();
+                page.Data = data;
 
                 return page;
             });
@@ -166,6 +189,32 @@ namespace Images
             Handle.GET("/images/partials/preview-chatattachment/{?}", (string objectId) =>
             {
                 return Self.GET("/images/partials/preview/" + objectId);
+            });
+
+            Handle.GET("/images/partials/content/{?}", (string objectId) =>
+            {
+                return Db.Scope<Json>(() =>
+                {
+                    Simplified.Ring1.Content content = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Simplified.Ring1.Content;
+                    ContentPage page = new ContentPage();
+
+                    page.Data = content;
+
+                    return page;
+                });
+            });
+
+            Handle.GET("/images/partials/content-edit/{?}", (string objectId) =>
+            {
+                return Db.Scope<Json>(() =>
+                {
+                    Simplified.Ring1.Content content = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Simplified.Ring1.Content;
+                    EditableContentPage page = new EditableContentPage();
+
+                    page.Data = content;
+
+                    return page;
+                });
             });
 
             #region Custom application handlers
@@ -245,7 +294,7 @@ namespace Images
             UriMapping.Map("/images/settings", UriMapping.MappingUriPrefix + "/settings");
 
             UriMapping.OntologyMap("/images/partials/concept-somebody/@w", typeof(Somebody).FullName, null, null);
-            UriMapping.OntologyMap("/images/partials/concept-vendible/@w", typeof(Product).FullName, null, null);
+            UriMapping.OntologyMap("/images/partials/illustrations/@w", typeof(Product).FullName, null, null);
 
             #region Custom application handlers
             UriMapping.OntologyMap("/images/partials/images/@w", typeof(ChatMessage).FullName, (string objectId) => objectId, (string objectId) =>

@@ -85,30 +85,30 @@ namespace Images
             this.Url = string.Format("/images/image/{0}", this.Key);
         }
 
-        void Handle(Input.Delete Action)
-        {
-            this.ParentPage.ConfirmAction = () =>
-            {
-                Db.Transact(() =>
-                {
-                    this.helper.DeleteFile(this.Data);
+        //void Handle(Input.Delete Action)
+        //{
+        //    this.ParentPage.ConfirmAction = () =>
+        //    {
+        //        Db.Transact(() =>
+        //        {
+        //            this.helper.DeleteFile(this.Data);
 
-                    if (this.Data.Content != null)
-                    {
-                        this.Data.Content.Delete();
-                    }
+        //            if (this.Data.Content != null)
+        //            {
+        //                this.Data.Content.Delete();
+        //            }
 
-                    this.Data.Delete();
-                });
-            };
+        //            this.Data.Delete();
+        //        });
+        //    };
 
-            if (this.Data.Concept != null)
-            {
-                this.ParentPage.Confirm.Message = "Are you sure want to delete image [" + this.Data.Concept.Name + "]?";
-            } else {
-                this.ParentPage.Confirm.Message = "Are you sure want to delete this image?";
-            }
-        }
+        //    if (this.Data.Concept != null)
+        //    {
+        //        this.ParentPage.Confirm.Message = "Are you sure want to delete image [" + this.Data.Concept.Name + "]?";
+        //    } else {
+        //        this.ParentPage.Confirm.Message = "Are you sure want to delete this image?";
+        //    }
+        //}
 
         void Handle(Input.Name Action)
         {
