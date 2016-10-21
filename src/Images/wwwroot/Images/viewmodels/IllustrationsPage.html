@@ -10,6 +10,30 @@
 
             <div slot="big">
                 <starcounter-include partial="{{model.Selected.Content}}"></starcounter-include>
+                <!--<template is="dom-if" if="{{model.Selected.Content.IsVideo}}" restamp="true">
+                    <div class="img-border content-video">
+                        <div class="video-preview">
+                            <div class="cover"></div>
+                            <video controls>
+                                <source src="{{model.Selected.Content.URL}}" type="{{model.Selected.Content.MimeType}}">
+                                Your browser does not support the video tag for file type
+                                <span>{{model.Selected.Content.MimeType}}</span>.
+                            </video>
+                        </div>
+                    </div>
+                </template>
+                <template is="dom-if" if="{{!model.Selected.Content.IsVideo}}" restamp="true">
+                    <template is="dom-if" if="{{model.Selected.Content.IsImage}}">
+                        <div class="img-border content-image">
+                            <div class="img-thumbnail" style$="{{getImageStyle(model.Selected.Content.URL)}}"></div>
+                        </div>
+                    </template>
+                    <template is="dom-if" if="{{!model.Selected.Content.IsImage}}">
+                        <div class="img-border content-image">
+                            <div class="img-thumbnail" style$="{{getFileStyle()}}"></div>
+                        </div>
+                    </template>
+                </template>-->
             </div>
         </juicy-carousel>
     </template>

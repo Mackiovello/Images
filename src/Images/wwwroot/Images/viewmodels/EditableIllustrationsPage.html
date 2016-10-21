@@ -1,0 +1,29 @@
+﻿<link rel="import" href="/Images/elements/so-juicy-filedrop/so-juicy-filedrop.html" />
+<link rel="import" href="/Images/elements/juicy-carousel/juicy-carousel.html" />
+
+<template>
+    <template is="dom-bind">
+        <juicy-carousel slot="Images/carousel">
+            <template is="dom-repeat" items="{{model.Illustrations}}" restamp="true">
+                <img slot="thumbnail" src="{{item.PreviewURL}}" onclick="++this.value;" value="{{item.Select$::click}}" />
+            </template>
+
+            <so-juicy-filedrop slot="big" session-id="{{model.SessionId}}" upload-url="/images/images" value="{{model.Selected.Content.URL$}}" filetype="{{model.Selected.Content.MimeType$}}" max-file-size="{{model.MaxFileSize}}" allowed-mime-types="{{model.AllowedMimeTypes}}">
+                <div>
+                    <button class="btn btn-default btn-xs" onclick="++this.value;" value="{{model.Delete$::click}}">Delete</button>
+                    <template is="dom-if" if="{{model.Selected.Content.URL$}}">
+                        <button class="btn btn-primary btn-xs" onclick="++this.value;" value="{{model.Save$::click}}">Save</button>
+                    </template>
+                </div>
+            </so-juicy-filedrop>
+
+            <button slot="add" onclick="++this.value;" value="{{model.Add$::click}}" class="btn-carousel-add"
+                    style="background-color: #6A6A6A; background-image:url('/images/css/add.png'); background-position:center; background-repeat:no-repeat;">
+                &nbsp;
+            </button>
+        </juicy-carousel>
+    </template>
+    <template is="starcounter-composition">
+        <content select="[slot='Images/carousel']"></content>
+    </template>
+</template>

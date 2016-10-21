@@ -85,6 +85,12 @@
     <Compile Include="ViewModels\EditableContentPage.json.cs">
       <DependentUpon>EditableContentPage.json</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\EditableIllustrationsPage.json.cs">
+      <DependentUpon>EditableIllustrationsPage.json</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\ImagesPage.json.cs">
+      <DependentUpon>ImagesPage.json</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\SettingsPage.json.cs">
       <DependentUpon>SettingsPage.json</DependentUpon>
     </Compile>
@@ -128,10 +134,17 @@
     <TypedJSON Include="ViewModels\EditableContentPage.json">
       <Generator>MsBuild:Compile</Generator>
     </TypedJSON>
+    <TypedJSON Include="ViewModels\ImagesPage.json">
+      <Generator>MsBuild:Compile</Generator>
+    </TypedJSON>
+    <TypedJSON Include="ViewModels\EditableIllustrationsPage.json">
+      <Generator>MsBuild:Compile</Generator>
+    </TypedJSON>
     <None Include="wwwroot\Images\viewmodels\ContentPage.html" />
     <Content Include="wwwroot\Images\viewmodels\DraftPage.html" />
     <None Include="wwwroot\Images\viewmodels\EditableContentPage.html" />
     <None Include="wwwroot\Images\viewmodels\IllustrationsPage.html" />
+    <None Include="wwwroot\Images\viewmodels\EditableIllustrationsPage.html" />
     <Content Include="wwwroot\Images\viewmodels\SettingsPage.html" />
     <Content Include="wwwroot\Images\viewmodels\ConceptPage.html" />
     <Content Include="wwwroot\Images\viewmodels\ImagePage.html" />

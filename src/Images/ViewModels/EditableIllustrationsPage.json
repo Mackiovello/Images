@@ -1,0 +1,21 @@
+{
+    "Html": "/Images/viewmodels/EditableIllustrationsPage.html",
+    "MaxFileSize": 0,
+    "AllowedMimeTypes": [ "" ],
+    "Add$": 0,
+    "Delete$": 0,
+    "Save$": 0,
+    "SessionId": "",
+
+    "Illustrations": [
+        {
+            "PreviewURL": "",
+            "Select$": 0
+        }
+    ],
+    "Selected": {
+        "Content": {
+            "$": { "Reuse": "Images.EditableContentPage" }
+        }
+    }
+}

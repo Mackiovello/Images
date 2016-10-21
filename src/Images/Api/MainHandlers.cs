@@ -120,10 +120,30 @@ namespace Images
 
         protected void RegisterPartials()
         {
+            Handle.GET("/images/partials/images", (Request request) =>
+            {
+                ImagesPage page = new ImagesPage()
+                {
+                    Html = "/Images/viewmodels/ImagesPage.html",
+                    Uri = request.Uri
+                };
+
+                return page;
+            });
+
             Handle.GET("/images/partials/illustrations/{?}", (string objectId) =>
             {
                 Something data = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Something;
                 IllustrationsPage page = new IllustrationsPage();
+                page.Data = data;
+
+                return page;
+            });
+
+            Handle.GET("/images/partials/illustrations-edit/{?}", (string objectId) =>
+            {
+                Something data = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Something;
+                EditableIllustrationsPage page = new EditableIllustrationsPage();
                 page.Data = data;
 
                 return page;
@@ -294,7 +314,7 @@ namespace Images
             UriMapping.Map("/images/settings", UriMapping.MappingUriPrefix + "/settings");
 
             UriMapping.OntologyMap("/images/partials/concept-somebody/@w", typeof(Somebody).FullName, null, null);
-            UriMapping.OntologyMap("/images/partials/illustrations/@w", typeof(Product).FullName, null, null);
+            UriMapping.OntologyMap("/images/partials/illustrations-edit/@w", typeof(Product).FullName, null, null);
 
             #region Custom application handlers
             UriMapping.OntologyMap("/images/partials/images/@w", typeof(ChatMessage).FullName, (string objectId) => objectId, (string objectId) =>
