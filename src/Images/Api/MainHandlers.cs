@@ -52,7 +52,18 @@ namespace Images
                 {
                     StandalonePage master = this.GetMaster();
 
-                    master.CurrentPage = Self.GET<IllustrationPage>("/Images/partials/image/" + objectId);
+                    master.CurrentPage = Self.GET<EditableContentPage>("/Images/partials/content-edit/" + objectId);
+                    return master;
+                });
+            });
+
+            Handle.GET("/images/image", () =>
+            {
+                return Db.Scope<StandalonePage>(() =>
+                {
+                    StandalonePage master = this.GetMaster();
+
+                    master.CurrentPage = Self.GET<EditableContentPage>("/Images/partials/content-edit");
                     return master;
                 });
             });
@@ -61,7 +72,7 @@ namespace Images
             {
                 return Db.Scope<Json>(() =>
                 {
-                    return Self.GET<ConceptPage>("/images/partials/concept/" + objectId);
+                    return Self.GET<IllustrationsPage>("/images/partials/illustrations-edit/" + objectId);
                 });
             });
 
@@ -149,43 +160,14 @@ namespace Images
                 return page;
             });
 
-            Handle.GET("/images/partials/image/{?}", (string objectId) =>
-            {
-                return Db.Scope<Json>(() =>
-                {
-                    var a = new IllustrationPage()
-                    {
-                        Html = "/Images/viewmodels/ImagePage.html",
-                        Data = Db.SQL<Simplified.Ring1.Illustration>("SELECT o FROM Simplified.Ring1.Illustration o WHERE ObjectID=?", objectId).First
-                    };
-
-                    return a;
-                });
-            });
-
-            Handle.GET("/images/partials/concept/{?}", (string objectId) =>
-            {
-                return Db.Scope<Json>(() =>
-                {
-                    Something something = Db.SQL<Something>("SELECT o FROM Simplified.Ring1.Something o WHERE ObjectID = ?", objectId).First;
-                    ConceptPage a = new ConceptPage()
-                    {
-                        Html = "/Images/viewmodels/ConceptPage.html",
-                        Data = something
-                    };
-
-                    return a;
-                });
-            });
-
             Handle.GET("/images/partials/concept-somebody/{?}", (string objectId) =>
             {
-                return Self.GET("/images/partials/concept/" + objectId);
+                return Self.GET("/images/partials/illustrations-edit/" + objectId);
             });
 
             Handle.GET("/images/partials/concept-vendible/{?}", (string objectId) =>
             {
-                return Self.GET("/images/partials/concept/" + objectId);
+                return Self.GET("/images/partials/illustrations-edit/" + objectId);
             });
 
             Handle.GET("/images/partials/preview/{?}", (string objectId) =>
@@ -219,6 +201,27 @@ namespace Images
                     ContentPage page = new ContentPage();
 
                     page.Data = content;
+
+                    return page;
+                });
+            });
+            
+
+            Handle.GET("/images/partials/content-edit", () =>
+            {
+                return Db.Scope<Json>(() =>
+                {
+                    string name = "Standalone image";
+                    Illustration illustration = new Illustration()
+                    {
+                        Concept = new Something() { Name = name },
+                        Content = new Simplified.Ring1.Content() { Name = name },
+                        Name = name
+                    };
+
+                    EditableContentPage page = new EditableContentPage();
+
+                    page.Data = illustration.Content;
 
                     return page;
                 });
@@ -314,7 +317,7 @@ namespace Images
             UriMapping.Map("/images/settings", UriMapping.MappingUriPrefix + "/settings");
 
             UriMapping.OntologyMap("/images/partials/concept-somebody/@w", typeof(Somebody).FullName, null, null);
-            UriMapping.OntologyMap("/images/partials/illustrations-edit/@w", typeof(Product).FullName, null, null);
+            UriMapping.OntologyMap("/images/partials/concept-vendible/@w", typeof(Product).FullName, null, null);
 
             #region Custom application handlers
             UriMapping.OntologyMap("/images/partials/images/@w", typeof(ChatMessage).FullName, (string objectId) => objectId, (string objectId) =>

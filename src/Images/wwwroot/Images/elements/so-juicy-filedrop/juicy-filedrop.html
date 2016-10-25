@@ -24,7 +24,7 @@ Add web socket support
                 display: none;
             }
         </style>
-        <input type="file" id="txtUploadFile">
+        <input type="file" id="txtUploadFile" value="{{filepath}}">
         <content id="content"></content>
     </template>
     <script>
@@ -53,6 +53,9 @@ Add web socket support
                 },
                 filetype: {
                     notify: true
+                },
+                filepath: {
+                    type: String
                 },
                 chunkLength: {
                     type: Number,
@@ -137,12 +140,14 @@ Add web socket support
                     that.progress = 0;
                     that.value = task.fileUrl;
                     that.filetype = task.file.type;
+                    that.filepath = "";
                 }, function (task) {
                     // Error
                     self.notifyPath("tasks.error", task.error);
                     that.progress = 0;
                     console.log(task.error)
                     that.fire("statechange", task);
+                    that.filepath = "";
                 }, function (task) {
                     // Progress
                     if (task) {

@@ -230,6 +230,9 @@
                 });
 
                 this.$.jfFileDrop.addEventListener("statechange", function (e) {
+                    if (that.$.jfFileDrop.progress == 100 && e.detail.progress == 100) {
+                        that.fire('fileUploaded', e.detail);
+                    }
                 });
             },
             openFile: function () {

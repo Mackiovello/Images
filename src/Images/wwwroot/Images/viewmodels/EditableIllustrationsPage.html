@@ -8,7 +8,7 @@
                 <img slot="thumbnail" src="{{item.PreviewURL}}" onclick="++this.value;" value="{{item.Select$::click}}" />
             </template>
 
-            <so-juicy-filedrop slot="big" session-id="{{model.SessionId}}" upload-url="/images/images" value="{{model.Selected.Content.URL$}}" filetype="{{model.Selected.Content.MimeType$}}" max-file-size="{{model.MaxFileSize}}" allowed-mime-types="{{model.AllowedMimeTypes}}">
+            <so-juicy-filedrop id="jfFileDrop" slot="big" session-id="{{model.SessionId}}" upload-url="/images/images" value="{{model.Selected.Content.URL$}}" filetype="{{model.Selected.Content.MimeType$}}" max-file-size="{{model.MaxFileSize}}" allowed-mime-types="{{model.AllowedMimeTypes}}">
                 <div>
                     <button class="btn btn-default btn-xs" onclick="++this.value;" value="{{model.Delete$::click}}">Delete</button>
                     <template is="dom-if" if="{{model.Selected.Content.URL$}}">
@@ -23,6 +23,19 @@
             </button>
         </juicy-carousel>
     </template>
+    <script>
+        (function () {
+            var script = document._currentScript || document.currentScript;
+            var template = script.previousElementSibling;
+
+            template.addEventListener('dom-change', function () {
+                var jf = document.getElementById("jfFileDrop");
+                jf.addEventListener("fileUploaded", function (e) {
+                    template.set("model.Selected.Content.Name$", e.detail.file.name);
+                });
+            });
+        })();
+    </script>
     <template is="starcounter-composition">
         <content select="[slot='Images/carousel']"></content>
     </template>

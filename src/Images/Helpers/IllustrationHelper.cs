@@ -73,6 +73,16 @@ namespace Images
             }
         }
 
+        public void DeleteFile(Content content)
+        {
+            var fi = new FileInfo(GetUploadRoot() + content.URL);
+
+            if (fi.Exists)
+            {
+                fi.Delete();
+            }
+        }
+
         public void DeleteFile(string imageUrl)
         {
             if (string.IsNullOrEmpty(imageUrl))

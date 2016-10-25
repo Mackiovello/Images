@@ -7,7 +7,7 @@
                 <starcounter-include partial="{{model.ContentPage}}"></starcounter-include>
             </template>
         </div>
-        <so-juicy-filedrop style$="{{getUploaderStyle(model.URL$)}}" slot="Content/upload-control" session-id="{{model.SessionId}}" upload-url="/images/images" value="{{model.URL$}}" filetype="{{model.MimeType$}}" max-file-size="{{model.MaxFileSize}}" allowed-mime-types="{{model.AllowedMimeTypes}}" open-click="{{model.Open$}}"></so-juicy-filedrop>
+        <so-juicy-filedrop id="jfFileDrop" style$="{{getUploaderStyle(model.URL$)}}" slot="Content/upload-control" session-id="{{model.SessionId}}" upload-url="/images/images" value="{{model.URL$}}" filetype="{{model.MimeType$}}" max-file-size="{{model.MaxFileSize}}" allowed-mime-types="{{model.AllowedMimeTypes}}" open-click="{{model.Open$}}"></so-juicy-filedrop>
         <input slot="Content/image-url" type="text" readonly="readonly" value="{{model.URL$}}" class="form-control" />
         <button slot="Content/button-select" type="button" class="btn btn-sm btn-default" onclick="++this.value;" value="{{model.Open$::click}}">Select file</button>
         <button slot="Content/button-save" type="button" class="btn btn-primary" onclick="++this.value;" value="{{model.Save$::click}}">Save</button>
@@ -17,6 +17,13 @@
         (function () {
             var script = document._currentScript || document.currentScript;
             var template = script.previousElementSibling;
+
+            template.addEventListener('dom-change', function () {
+                var jf = document.getElementById("jfFileDrop");
+                jf.addEventListener("fileUploaded", function (e) {
+                    template.set("model.Name$", e.detail.file.name);
+                });
+            });
 
             template.getUploaderStyle = function (url) {
                 return url ? "display:none;" : "";

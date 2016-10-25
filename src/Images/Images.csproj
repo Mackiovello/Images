@@ -94,12 +94,6 @@
     <Compile Include="ViewModels\SettingsPage.json.cs">
       <DependentUpon>SettingsPage.json</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\ConceptPage.json.cs">
-      <DependentUpon>ConceptPage.json</DependentUpon>
-    </Compile>
-    <Compile Include="ViewModels\IllustrationPage.json.cs">
-      <DependentUpon>IllustrationPage.json</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\IllustrationsPage.json.cs">
       <DependentUpon>IllustrationsPage.json</DependentUpon>
@@ -152,16 +146,6 @@
     <Content Include="wwwroot\Images\viewmodels\LauncherWrapperPage.html" />
     <Content Include="wwwroot\Images\viewmodels\PreviewPage.html" />
     <Content Include="wwwroot\Images\viewmodels\StandalonePage.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypedJSON Include="ViewModels\IllustrationPage.json">
-      <Generator>MsBuild:Compile</Generator>
-    </TypedJSON>
-  </ItemGroup>
-  <ItemGroup>
-    <TypedJSON Include="ViewModels\ConceptPage.json">
-      <Generator>MsBuild:Compile</Generator>
-    </TypedJSON>
   </ItemGroup>
   <ItemGroup>
     <TypedJSON Include="ViewModels\AppName.json">

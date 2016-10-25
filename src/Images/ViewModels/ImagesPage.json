@@ -1,9 +1,14 @@
 {
     "Html": "",
     "Uri": "",
-    "Illustrations": [
+    "Images": [
         {
-            "$": { "Reuse": "Images.IllustrationPage" }
+            "Delete$": 0,
+            "PreviewURL": "",
+            "ContentURL": "",
+            "ContentEditURL": "",
+            "URL": "",
+            "Name": ""
         }
     ],
     "Add$": 0,

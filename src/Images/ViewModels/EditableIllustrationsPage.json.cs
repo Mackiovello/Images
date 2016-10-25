@@ -58,13 +58,14 @@ namespace Images
                     Concept = this.Data,
                     Content = new Content()
                     {
+                        Name = Selected.Content.Name,
                         MimeType = Selected.Content.MimeType,
                         URL = Selected.Content.URL
                     }
                 };
             }
 
-            Selected.Data.Name = Selected.Content.URL;
+            Selected.Data.Name = Selected.Content.Name;
             Selected.Data.Concept = this.Data;
             Selected.Content.SaveChanges();
         }
