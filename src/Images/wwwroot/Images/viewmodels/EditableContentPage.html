@@ -1,0 +1,88 @@
+﻿<link rel="import" href="/sys/polymer/polymer.html">
+<link rel="import" href="/Images/elements/so-juicy-filedrop/so-juicy-filedrop.html" />
+<template>
+    <template is="dom-bind">
+        <div slot="Content/Preview">
+            <template is="dom-if" if="{{model.URL$}}" restamp="true">
+                <starcounter-include partial="{{model.ContentPage}}"></starcounter-include>
+            </template>
+        </div>
+        <so-juicy-filedrop id="jfFileDrop" style$="{{getUploaderStyle(model.URL$)}}" slot="Content/upload-control" session-id="{{model.SessionId}}" upload-url="/images/images" value="{{model.URL$}}" filetype="{{model.MimeType$}}" max-file-size="{{model.MaxFileSize}}" allowed-mime-types="{{model.AllowedMimeTypes}}" open-click="{{model.Open$}}"></so-juicy-filedrop>
+        <input slot="Content/image-url" type="text" readonly="readonly" value="{{model.URL$}}" class="form-control" />
+        <button slot="Content/button-select" type="button" class="btn btn-sm btn-default" onclick="++this.value;" value="{{model.Open$::click}}">Select file</button>
+        <button slot="Content/button-save" type="button" class="btn btn-primary" onclick="++this.value;" value="{{model.Save$::click}}">Save</button>
+        <button slot="Content/button-clear" type="button" class="btn btn-default" onclick="++this.value;" value="{{model.Clear$::click}}">Clear</button>
+    </template>
+    <script>
+        (function () {
+            var script = document._currentScript || document.currentScript;
+            var template = script.previousElementSibling;
+
+            template.addEventListener('dom-change', function () {
+                var jf = document.getElementById("jfFileDrop");
+                jf.addEventListener("fileUploaded", function (e) {
+                    template.set("model.Name$", e.detail.file.name);
+                });
+            });
+
+            template.getUploaderStyle = function (url) {
+                return url ? "display:none;" : "";
+            };
+        })();
+    </script>
+    <template is="starcounter-composition">
+        <style>
+            .content-form {
+                display: flex;
+                margin-bottom: 20px;
+            }
+
+            .content-form__upload_ {
+                width: 250px;
+                height: 250px;
+                margin-right: 15px;
+            }
+
+            .content-toolbar {
+                display: flex;
+                align-items: baseline;
+                margin-bottom: 20px;
+            }
+
+            .content-toolbar__item {
+                margin-right: 15px;
+            }
+
+            .content-toolbar__item--full-width {
+                margin-right: 15px;
+                width: 100%;
+            }
+        </style>
+        <div class="content-edit">
+            <div class="content-form__preview">
+                <content select="[slot='Content/Preview']"></content>
+            </div>
+            <div class="content-form__upload">
+                <content select="[slot='Content/upload-control']"></content>
+            </div>
+            <div>
+                <div class="content-toolbar">
+                    <div class="content-toolbar__item">
+                        <content select="[slot='Content/button-select']"></content>
+                    </div>
+                    <div class="content-toolbar__item--full-width">
+                        <content select="[slot='Content/image-url']"></content>
+                    </div>
+                </div>
+                <div class="content-toolbar">
+                    <div class="content-toolbar__item">
+                        <content select="[slot='Content/button-save']"></content>
+                    </div>
+                    <div class="content-toolbar__item">
+                        <content select="[slot='Content/button-clear']"></content>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+</template>

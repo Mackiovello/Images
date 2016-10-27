@@ -1,0 +1,21 @@
+{
+    "Html": "",
+    "Uri": "",
+    "Images": [
+        {
+            "Delete$": 0,
+            "PreviewURL": "",
+            "ContentURL": "",
+            "ContentEditURL": "",
+            "URL": "",
+            "Name": ""
+        }
+    ],
+    "Add$": 0,
+    "RedirectUrl$": "",
+    "Confirm": {
+        "Message": "",
+        "Ok$": "",
+        "Reject$": ""
+    }
+}
