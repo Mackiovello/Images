@@ -322,27 +322,27 @@ namespace Images
             UriMapping.Map("/images/app-name", UriMapping.MappingUriPrefix + "/app-name");
             UriMapping.Map("/images/settings", UriMapping.MappingUriPrefix + "/settings");
 
-            UriMapping.OntologyMap("/images/partials/concept-somebody/@w", typeof(Somebody).FullName, null, null);
-            UriMapping.OntologyMap("/images/partials/concept-vendible/@w", typeof(Product).FullName, null, null);
+            UriMapping.OntologyMap("/images/partials/concept-somebody/{?}", typeof(Somebody).FullName, null, null);
+            UriMapping.OntologyMap("/images/partials/concept-vendible/{?}", typeof(Product).FullName, null, null);
 
             #region Custom application handlers
             Handle.GET("/images/partials/concept-chatmessage/{?}", (string objectId) =>
             {
                 return Self.GET("/images/partials/somethings-single/" + objectId);
             });
-            UriMapping.OntologyMap("/images/partials/concept-chatmessage/@w", typeof(ChatMessage).FullName, (string objectId) => objectId, (string objectId) =>
+            UriMapping.OntologyMap("/images/partials/concept-chatmessage/{?}", typeof(ChatMessage).FullName, (string objectId) => objectId, (string objectId) =>
             {
                 var message = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as ChatMessage;
                 return message.IsDraft ? null : objectId;
             });
-            UriMapping.OntologyMap("/images/partials/images-draft/@w", typeof(ChatMessage).FullName, (string objectId) => objectId, (string objectId) =>
+            UriMapping.OntologyMap("/images/partials/images-draft/{?}", typeof(ChatMessage).FullName, (string objectId) => objectId, (string objectId) =>
             {
                 var chatMessage = (ChatMessage)DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId));
                 return chatMessage.IsDraft ? objectId : null;
             });
-            UriMapping.OntologyMap("/images/partials/imageattachment/@w", typeof(ChatAttachment).FullName);
-            UriMapping.OntologyMap("/images/partials/imagedraftannouncement/@w", typeof(ChatDraftAnnouncement).FullName);
-            UriMapping.OntologyMap("/images/partials/imagewarning/@w", typeof(ChatWarning).FullName);
+            UriMapping.OntologyMap("/images/partials/imageattachment/{?}", typeof(ChatAttachment).FullName);
+            UriMapping.OntologyMap("/images/partials/imagedraftannouncement/{?}", typeof(ChatDraftAnnouncement).FullName);
+            UriMapping.OntologyMap("/images/partials/imagewarning/{?}", typeof(ChatWarning).FullName);
             #endregion
         }
     }
