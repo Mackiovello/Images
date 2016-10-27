@@ -183,16 +183,6 @@ namespace Images
                 });
             });
 
-            Handle.GET("/images/partials/preview-chatmessage/{?}", (string objectId) =>
-            {
-                return Self.GET("/images/partials/preview/" + objectId);
-            });
-
-            Handle.GET("/images/partials/preview-chatattachment/{?}", (string objectId) =>
-            {
-                return Self.GET("/images/partials/preview/" + objectId);
-            });
-
             Handle.GET("/images/partials/contents/{?}", (string objectId) =>
             {
                 return Db.Scope<Json>(() =>
