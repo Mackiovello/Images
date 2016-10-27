@@ -160,16 +160,6 @@ namespace Images
                 return page;
             });
 
-            Handle.GET("/images/partials/concept-somebody/{?}", (string objectId) =>
-            {
-                return Self.GET("/images/partials/somethings-edit/" + objectId);
-            });
-
-            Handle.GET("/images/partials/concept-vendible/{?}", (string objectId) =>
-            {
-                return Self.GET("/images/partials/somethings-edit/" + objectId);
-            });
-
             Handle.GET("/images/partials/illustrations/{?}", (string illustrationId) =>
             {
                 var illustration = DbHelper.FromID(DbHelper.Base64DecodeObjectID(illustrationId)) as Illustration;
@@ -322,14 +312,24 @@ namespace Images
             UriMapping.Map("/images/app-name", UriMapping.MappingUriPrefix + "/app-name");
             UriMapping.Map("/images/settings", UriMapping.MappingUriPrefix + "/settings");
 
-            UriMapping.OntologyMap("/images/partials/concept-somebody/{?}", typeof(Somebody).FullName, null, null);
-            UriMapping.OntologyMap("/images/partials/concept-vendible/{?}", typeof(Product).FullName, null, null);
-
-            #region Custom application handlers
+            #region Wrapper URI handlers for usage in OntologyMap
+            Handle.GET("/images/partials/concept-somebody/{?}", (string objectId) =>
+            {
+                return Self.GET("/images/partials/somethings-edit/" + objectId);
+            });
+            Handle.GET("/images/partials/concept-vendible/{?}", (string objectId) =>
+            {
+                return Self.GET("/images/partials/somethings-edit/" + objectId);
+            });
             Handle.GET("/images/partials/concept-chatmessage/{?}", (string objectId) =>
             {
                 return Self.GET("/images/partials/somethings-single/" + objectId);
             });
+            #endregion
+            
+            #region OntologyMap
+            UriMapping.OntologyMap("/images/partials/concept-somebody/{?}", typeof(Somebody).FullName, null, null);
+            UriMapping.OntologyMap("/images/partials/concept-vendible/{?}", typeof(Product).FullName, null, null);
             UriMapping.OntologyMap("/images/partials/concept-chatmessage/{?}", typeof(ChatMessage).FullName, (string objectId) => objectId, (string objectId) =>
             {
                 var message = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as ChatMessage;
