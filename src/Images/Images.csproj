@@ -88,6 +88,9 @@
     <Compile Include="ViewModels\EditableIllustrationsPage.json.cs">
       <DependentUpon>EditableIllustrationsPage.json</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\ErrorPage.json.cs">
+      <DependentUpon>ErrorPage.json</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\ImagesPage.json.cs">
       <DependentUpon>ImagesPage.json</DependentUpon>
     </Compile>
@@ -97,9 +100,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\IllustrationsPage.json.cs">
       <DependentUpon>IllustrationsPage.json</DependentUpon>
-    </Compile>
-    <Compile Include="ViewModels\PreviewPage.json.cs">
-      <DependentUpon>PreviewPage.json</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\StandalonePage.json.cs">
       <DependentUpon>StandalonePage.json</DependentUpon>
@@ -134,17 +134,20 @@
     <TypedJSON Include="ViewModels\EditableIllustrationsPage.json">
       <Generator>MsBuild:Compile</Generator>
     </TypedJSON>
+    <TypedJSON Include="ViewModels\ErrorPage.json">
+      <Generator>MsBuild:Compile</Generator>
+    </TypedJSON>
     <None Include="wwwroot\Images\viewmodels\ContentPage.html" />
     <Content Include="wwwroot\Images\viewmodels\DraftPage.html" />
     <None Include="wwwroot\Images\viewmodels\EditableContentPage.html" />
     <None Include="wwwroot\Images\viewmodels\IllustrationsPage.html" />
     <None Include="wwwroot\Images\viewmodels\EditableIllustrationsPage.html" />
+    <Content Include="wwwroot\Images\viewmodels\ErrorPage.html" />
     <Content Include="wwwroot\Images\viewmodels\SettingsPage.html" />
     <Content Include="wwwroot\Images\viewmodels\ConceptPage.html" />
     <Content Include="wwwroot\Images\viewmodels\ImagePage.html" />
     <Content Include="wwwroot\Images\viewmodels\ImagesPage.html" />
     <Content Include="wwwroot\Images\viewmodels\LauncherWrapperPage.html" />
-    <Content Include="wwwroot\Images\viewmodels\PreviewPage.html" />
     <Content Include="wwwroot\Images\viewmodels\StandalonePage.html" />
   </ItemGroup>
   <ItemGroup>
@@ -159,11 +162,6 @@
   </ItemGroup>
   <ItemGroup>
     <TypedJSON Include="ViewModels\StandalonePage.json">
-      <Generator>MsBuild:Compile</Generator>
-    </TypedJSON>
-  </ItemGroup>
-  <ItemGroup>
-    <TypedJSON Include="ViewModels\PreviewPage.json">
       <Generator>MsBuild:Compile</Generator>
     </TypedJSON>
   </ItemGroup>

@@ -170,17 +170,21 @@ namespace Images
                 return Self.GET("/images/partials/somethings-edit/" + objectId);
             });
 
-            Handle.GET("/images/partials/preview/{?}", (string objectId) =>
+            Handle.GET("/images/partials/illustrations/{?}", (string illustrationId) =>
             {
-                return Db.Scope<Json>(() =>
+                var illustration = DbHelper.FromID(DbHelper.Base64DecodeObjectID(illustrationId)) as Illustration;
+                if (illustration.Content == null)
                 {
-                    Illustration img = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Illustration;
-                    PreviewPage page = new PreviewPage();
-
-                    page.Data = img;
-
-                    return page;
-                });
+                    var errorPage = new ErrorPage()
+                    {
+                        ErrorText = "Images cannot present an illustration without content"
+                    };
+                    return errorPage;
+                }
+                else
+                {
+                    return Self.GET("/images/partials/contents/" + illustration.Content.Key);
+                }
             });
 
             Handle.GET("/images/partials/contents/{?}", (string objectId) =>
@@ -261,7 +265,7 @@ namespace Images
             {
                 var message = (Something)DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId));
                 var illustration = Db.SQL<Illustration>(@"Select m from Simplified.Ring1.Illustration m Where m.ToWhat = ?", message).First;
-                return illustration == null ? new Page() : Self.GET("/images/partials/preview/" + illustration.GetObjectID());
+                return illustration == null ? new Page() : Self.GET("/images/partials/illustrations/" + illustration.GetObjectID());
             });
 
             Handle.GET("/images/partials/imageattachment/{?}", (string illustrationId) =>

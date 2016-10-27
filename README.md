@@ -30,6 +30,20 @@ Screenshot:
 
 ![image](docs/screenshot-content-edit-emtpy.png)
 
+### GET /images/partials/illustrations/`{Illustration ObjectID}`
+
+Shows the content of an illustration relation object. Uses `/images/partials/contents/` internally, so looks like that partial.
+
+Screenshot:
+
+![image](docs/screenshot-illustrations.png)
+
+In case the illustration does not have a content, shows an error message.
+
+Screenshot:
+
+![image](docs/screenshot-illustrations-error.png)
+
 ### GET /images/partials/somethings/`{Something ObjectID}`
 
 Shows a carousel for images that become `Illustration` of `Something` in read only mode. 
