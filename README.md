@@ -44,6 +44,14 @@ Screenshot:
 
 ![image](docs/screenshot-illustrations-error.png)
 
+### GET /images/partials/illustrations-edit/`{Illustration ObjectID}`
+
+Shows the content of an illustration relation object and allows to update it with new file. Uses `/images/partials/contents-edit/` internally, so looks like that partial.
+
+Screenshot:
+
+![image](docs/screenshot-illustrations-edit.png)
+
 ### GET /images/partials/somethings/`{Something ObjectID}`
 
 Shows a carousel for images that become `Illustration` of `Something` in read only mode. 

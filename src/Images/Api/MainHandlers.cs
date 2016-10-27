@@ -242,7 +242,8 @@ namespace Images
                 var chatMessage = (ChatMessage)DbHelper.FromID(DbHelper.Base64DecodeObjectID(chatMessageId));
                 var relation = new Illustration
                 {
-                    Concept = chatMessage
+                    Concept = chatMessage,
+                    Content = new Simplified.Ring1.Content() { Name = "Content for illustration of a chat message" },
                 };
                 var draft = new DraftPage
                 {
@@ -258,20 +259,21 @@ namespace Images
                 return illustration == null ? new Page() : Self.GET("/images/partials/illustrations/" + illustration.GetObjectID());
             });
 
-            Handle.GET("/images/partials/imageattachment/{?}", (string illustrationId) =>
+            Handle.GET("/images/partials/illustrations-edit/{?}", (string illustrationId) =>
             {
-                return Db.Scope<Json>(() =>
+                var illustration = DbHelper.FromID(DbHelper.Base64DecodeObjectID(illustrationId)) as Illustration;
+                if (illustration.Content == null)
                 {
-                    var illustration = DbHelper.FromID(DbHelper.Base64DecodeObjectID(illustrationId)) as Illustration;
-                    if (illustration == null) return new Page();
-
-                    var page = new ConceptIllustrationPage
+                    var errorPage = new ErrorPage()
                     {
-                        Html = "/Images/viewmodels/ConceptPage.html"
+                        ErrorText = "Images cannot present an illustration without content"
                     };
-                    page.AddNew(illustration);
-                    return page;
-                });
+                    return errorPage;
+                }
+                else
+                {
+                    return Self.GET("/images/partials/contents-edit/" + illustration.Content.Key);
+                }
             });
 
             Handle.GET("/images/partials/imagedraftannouncement/{?}", (string objectPath) => new Page());
@@ -325,8 +327,12 @@ namespace Images
             {
                 return Self.GET("/images/partials/somethings-single/" + objectId);
             });
-            #endregion
-            
+            Handle.GET("/images/partials/concept-chatattachment/{?}", (string objectId) =>
+            {
+                return Self.GET("/images/partials/illustrations-edit/" + objectId);
+            });
+            # endregion
+
             #region OntologyMap
             UriMapping.OntologyMap("/images/partials/concept-somebody/{?}", typeof(Somebody).FullName, null, null);
             UriMapping.OntologyMap("/images/partials/concept-vendible/{?}", typeof(Product).FullName, null, null);
@@ -340,7 +346,15 @@ namespace Images
                 var chatMessage = (ChatMessage)DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId));
                 return chatMessage.IsDraft ? objectId : null;
             });
-            UriMapping.OntologyMap("/images/partials/imageattachment/{?}", typeof(ChatAttachment).FullName);
+            UriMapping.OntologyMap("/images/partials/concept-chatattachment/{?}", typeof(ChatAttachment).FullName, (string objectId) => objectId, (string objectId) =>
+            {
+                var illustration = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Illustration;
+                if (illustration == null)
+                {
+                    return null;
+                }
+                return objectId;
+            });
             UriMapping.OntologyMap("/images/partials/imagedraftannouncement/{?}", typeof(ChatDraftAnnouncement).FullName);
             UriMapping.OntologyMap("/images/partials/imagewarning/{?}", typeof(ChatWarning).FullName);
             #endregion
