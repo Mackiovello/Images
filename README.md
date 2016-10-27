@@ -36,13 +36,13 @@ Shows a carousel for images that become `Illustration` of `Something` in read on
 
 Screenshot:
 
-![image](docs/screenshot-illustrations.png)
+![image](docs/screenshot-somethings.png)
 
 In case of unexisting something, shows empty carousel with single empty file preview image.
 
 Screenshot:
 
-![image](docs/screenshot-illustrations-empty.png)
+![image](docs/screenshot-somethings-empty.png)
 
 ### GET /images/partials/somethings-edit/`{Something ObjectID}`
 
@@ -50,13 +50,13 @@ Shows a carousel for images that become `Illustration` of `Something` with drag'
 
 Screenshot:
 
-![image](docs/screenshot-illustrations-edit.png)
+![image](docs/screenshot-somethings-edit.png)
 
 In case of unexisting something, shows empty carousel with empty drag'n'drop upload area.
 
 Screenshot:
 
-![image](docs/screenshot-illustrations-edit-empty.png)
+![image](docs/screenshot-somethings-edit-empty.png)
 
 Sample mapping:
 
