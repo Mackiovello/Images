@@ -46,57 +46,57 @@ namespace Images
                 });
             });
 
-            Handle.GET("/images/image/{?}", (string objectId) =>
-            {
-                return Db.Scope<StandalonePage>(() =>
-                {
-                    StandalonePage master = this.GetMaster();
-
-                    master.CurrentPage = Self.GET<EditableContentPage>("/Images/partials/content-edit/" + objectId);
-                    return master;
-                });
-            });
-
             Handle.GET("/images/image", () =>
             {
                 return Db.Scope<StandalonePage>(() =>
                 {
                     StandalonePage master = this.GetMaster();
 
-                    master.CurrentPage = Self.GET<EditableContentPage>("/Images/partials/content-edit");
+                    master.CurrentPage = Self.GET<EditableContentPage>("/Images/partials/contents-edit");
                     return master;
                 });
             });
 
-            Handle.GET("/images/concept/{?}", (string objectId) =>
+            Handle.GET("/images/image/{?}", (string objectId) =>
             {
-                return Db.Scope<Json>(() =>
+                return Db.Scope<StandalonePage>(() =>
                 {
-                    return Self.GET<IllustrationsPage>("/images/partials/illustrations-edit/" + objectId);
+                    StandalonePage master = this.GetMaster();
+
+                    master.CurrentPage = Self.GET<EditableContentPage>("/Images/partials/contents-edit/" + objectId);
+                    return master;
                 });
             });
 
-            Handle.GET("/images/content/{?}", (string objectId) =>
+            Handle.GET("/images/contents/{?}", (string objectId) =>
             {
                 return Db.Scope<Json>(() =>
                 {
-                    return Self.GET<ContentPage>("/images/partials/content/" + objectId);
+                    return Self.GET<ContentPage>("/images/partials/contents/" + objectId);
                 });
             });
 
-            Handle.GET("/images/content-edit/{?}", (string objectId) =>
+            Handle.GET("/images/contents-edit/{?}", (string objectId) =>
             {
                 return Db.Scope<Json>(() =>
                 {
-                    return Self.GET<EditableContentPage>("/images/partials/content-edit/" + objectId);
+                    return Self.GET<EditableContentPage>("/images/partials/contents-edit/" + objectId);
                 });
             });
 
-            Handle.GET("/images/illustrations/{?}", (string objectId) =>
+            Handle.GET("/images/somethings/{?}", (string objectId) =>
             {
                 return Db.Scope<Json>(() =>
                 {
-                    return Self.GET<IllustrationsPage>("/images/partials/illustrations/" + objectId);
+                    return Self.GET<IllustrationsPage>("/images/partials/somethings/" + objectId);
+                });
+            });
+
+            Handle.GET("/images/somethings-edit/{?}", (string objectId) =>
+            {
+                return Db.Scope<Json>(() =>
+                {
+                    return Self.GET<EditableIllustrationsPage>("/images/partials/somethings-edit/" + objectId);
                 });
             });
 
@@ -142,7 +142,7 @@ namespace Images
                 return page;
             });
 
-            Handle.GET("/images/partials/illustrations/{?}", (string objectId) =>
+            Handle.GET("/images/partials/somethings/{?}", (string objectId) =>
             {
                 Something data = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Something;
                 IllustrationsPage page = new IllustrationsPage();
@@ -151,7 +151,7 @@ namespace Images
                 return page;
             });
 
-            Handle.GET("/images/partials/illustrations-edit/{?}", (string objectId) =>
+            Handle.GET("/images/partials/somethings-edit/{?}", (string objectId) =>
             {
                 Something data = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Something;
                 EditableIllustrationsPage page = new EditableIllustrationsPage();
@@ -162,12 +162,12 @@ namespace Images
 
             Handle.GET("/images/partials/concept-somebody/{?}", (string objectId) =>
             {
-                return Self.GET("/images/partials/illustrations-edit/" + objectId);
+                return Self.GET("/images/partials/somethings-edit/" + objectId);
             });
 
             Handle.GET("/images/partials/concept-vendible/{?}", (string objectId) =>
             {
-                return Self.GET("/images/partials/illustrations-edit/" + objectId);
+                return Self.GET("/images/partials/somethings-edit/" + objectId);
             });
 
             Handle.GET("/images/partials/preview/{?}", (string objectId) =>
@@ -193,7 +193,7 @@ namespace Images
                 return Self.GET("/images/partials/preview/" + objectId);
             });
 
-            Handle.GET("/images/partials/content/{?}", (string objectId) =>
+            Handle.GET("/images/partials/contents/{?}", (string objectId) =>
             {
                 return Db.Scope<Json>(() =>
                 {
@@ -207,7 +207,7 @@ namespace Images
             });
             
 
-            Handle.GET("/images/partials/content-edit", () =>
+            Handle.GET("/images/partials/contents-edit", () =>
             {
                 return Db.Scope<Json>(() =>
                 {
@@ -227,13 +227,25 @@ namespace Images
                 });
             });
 
-            Handle.GET("/images/partials/content-edit/{?}", (string objectId) =>
+            Handle.GET("/images/partials/contents-edit/{?}", (string objectId) =>
             {
                 return Db.Scope<Json>(() =>
                 {
                     Simplified.Ring1.Content content = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Simplified.Ring1.Content;
-                    EditableContentPage page = new EditableContentPage();
 
+                    if (content == null)
+                    {
+                        string name = "Standalone image";
+                        Illustration illustration = new Illustration()
+                        {
+                            Concept = new Something() { Name = name },
+                            Content = new Simplified.Ring1.Content() { Name = name },
+                            Name = name
+                        };
+                        content = illustration.Content;
+                    }
+
+                    EditableContentPage page = new EditableContentPage();
                     page.Data = content;
 
                     return page;

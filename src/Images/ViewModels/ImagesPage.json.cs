@@ -90,7 +90,7 @@ namespace Images
                 get
                 {
 
-                    return string.Format("/images/content/{0}", this.Data.Key);
+                    return string.Format("/images/contents/{0}", this.Data.Key);
                 }
             }
 
@@ -99,7 +99,7 @@ namespace Images
                 get
                 {
 
-                    return string.Format("/images/content-edit/{0}", this.Data.Key);
+                    return string.Format("/images/contents-edit/{0}", this.Data.Key);
                 }
             }
 
