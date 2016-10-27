@@ -261,7 +261,7 @@ namespace Images
                 return draft;
             });
 
-            Handle.GET("/images/partials/images/{?}", (string objectId) =>
+            Handle.GET("/images/partials/somethings-single/{?}", (string objectId) =>
             {
                 var message = (Something)DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId));
                 var illustration = Db.SQL<Illustration>(@"Select m from Simplified.Ring1.Illustration m Where m.ToWhat = ?", message).First;
@@ -326,7 +326,11 @@ namespace Images
             UriMapping.OntologyMap("/images/partials/concept-vendible/@w", typeof(Product).FullName, null, null);
 
             #region Custom application handlers
-            UriMapping.OntologyMap("/images/partials/images/@w", typeof(ChatMessage).FullName, (string objectId) => objectId, (string objectId) =>
+            Handle.GET("/images/partials/concept-chatmessage/{?}", (string objectId) =>
+            {
+                return Self.GET("/images/partials/somethings-single/" + objectId);
+            });
+            UriMapping.OntologyMap("/images/partials/concept-chatmessage/@w", typeof(ChatMessage).FullName, (string objectId) => objectId, (string objectId) =>
             {
                 var message = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as ChatMessage;
                 return message.IsDraft ? null : objectId;
