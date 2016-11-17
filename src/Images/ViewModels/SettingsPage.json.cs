@@ -6,7 +6,6 @@ namespace Images
     partial class SettingsPage : Page, IBound<ImagesSettings>
     {
         private IllustrationHelper helper = new IllustrationHelper();
-
         public void LoadDefaultData()
         {
             var settings = Db.SQL<ImagesSettings>("SELECT s FROM Simplified.Ring6.ImagesSettings s").First;
@@ -32,6 +31,12 @@ namespace Images
         {
             Transaction.Commit();
             UploadHandlers.ReloadHelperPath();
+        }
+
+        void Handle(Input.CleanUpFiles action)
+        {
+            IllustrationHelper.DeleteOldFiles();
+            Transaction.Commit();
         }
     }
 }
