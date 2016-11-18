@@ -120,3 +120,6 @@ wwwroot/media/*.*
 *.sln.dotsettings
 
 dist/*
+
+#OSX temp files
+*.DS_Store
