@@ -5,7 +5,7 @@ namespace Images
 {
     partial class SettingsPage : Page, IBound<ImagesSettings>
     {
-        private IllustrationHelper helper = new IllustrationHelper();
+        private IllustrationHelper IllustrationHelper = new IllustrationHelper();
         public void LoadDefaultData()
         {
             var settings = Db.SQL<ImagesSettings>("SELECT s FROM Simplified.Ring6.ImagesSettings s").First;
@@ -14,7 +14,7 @@ namespace Images
                 settings = new ImagesSettings
                 {
                     MaximumFileSize = IllustrationHelper.DefaultMaximumFileSize,
-                    UploadFolderPath = helper.GetUploadDirectory()
+                    UploadFolderPath = IllustrationHelper.GetUploadDirectory()
                 };
             }
             Data = settings;
@@ -22,8 +22,8 @@ namespace Images
 
         public decimal MaximumFileSizeMiB
         {
-            get { return helper.BytesToMiB(Data.MaximumFileSize); }
-            set { Data.MaximumFileSize = helper.MiBToBytes(value); }
+            get { return IllustrationHelper.BytesToMiB(Data.MaximumFileSize); }
+            set { Data.MaximumFileSize = IllustrationHelper.MiBToBytes(value); }
         }
 
 
