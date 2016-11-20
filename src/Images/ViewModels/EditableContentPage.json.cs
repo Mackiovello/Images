@@ -1,7 +1,6 @@
 using Starcounter;
 using Simplified.Ring1;
 using System.Collections.Generic;
-using System;
 
 namespace Images
 {
@@ -14,7 +13,7 @@ namespace Images
         {
             base.OnData();
 
-            this.MaxFileSize = helper.GetMaximumFileSize();
+            this.MaxFileSize = helper.GetMaximumFileSizeBytes();
 
             foreach (string s in UploadHandlers.AllowedMimeTypes)
             {

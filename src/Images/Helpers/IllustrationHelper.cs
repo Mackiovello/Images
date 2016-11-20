@@ -11,8 +11,8 @@ namespace Images
     {
         private readonly string _rootPath;
         private readonly ImagesSettings _imagesSettings;
-        static public readonly int BytesInMiB = 1024 * 1024;
-        static public readonly int DefaultMaximumFileSize = 10 * BytesInMiB;
+        public static readonly int BytesInMiB = 1024 * 1024;
+        public static readonly int DefaultMaximumFileSize = 10 * BytesInMiB;
 
         public IllustrationHelper()
         {

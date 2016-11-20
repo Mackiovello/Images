@@ -273,19 +273,6 @@ namespace Images
                 }
             });
 
-            Handle.GET("/images/partials/image-edit/{?}", (string illustrationId) => {
-                return Db.Scope<Json>(() =>
-                {
-                    var illustration = DbHelper.FromID(DbHelper.Base64DecodeObjectID(illustrationId)) as Illustration;
-                    var page = new ConceptIllustrationPage
-                    {
-                        Html = "/Images/viewmodels/EditPage.html"
-                    };
-                    page.AddNew(illustration);
-                    return page;
-                });
-            });
-
             Handle.GET("/images/partials/image-mobile-edit/{?}", (string illustrationId) => {
                 return Db.Scope<Json>(() =>
                 {

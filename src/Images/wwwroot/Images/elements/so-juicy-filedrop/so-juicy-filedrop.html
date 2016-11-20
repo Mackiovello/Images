@@ -42,10 +42,10 @@
                 overflow: hidden;
             }
 
-                .drop-file-here .td {
-                    display: table-cell;
-                    vertical-align: middle;
-                }
+            .drop-file-here .td {
+                display: table-cell;
+                vertical-align: middle;
+            }
 
             .img-thumbnail {
                 min-height: 50px;
@@ -89,13 +89,13 @@
                 position:relative;
             }
 
-                .video-preview .cover {
-                    position:absolute;
-                    height:100%;
-                    width:100%;
-                    background-color:white;
-                    z-index:10;
-                }
+            .video-preview .cover {
+                position:absolute;
+                height:100%;
+                width:100%;
+                background-color:white;
+                z-index:10;
+            }
 
             .actions {
                 position: absolute;
@@ -148,26 +148,6 @@
         </style>
         <div class="container">
             <juicy-filedrop url="{{uploadUrl}}" sessionId="{{sessionId}}" value="{{value}}" filetype="{{filetype}}" maxfilesize="{{maxFileSize}}" allowedmimetypes="{{allowedMimeTypes}}" progress="{{progress}}" ismobile="{{ismobile}}" id="jfFileDrop">
-                        <template is="dom-if" if="{{!ismobile}}">
-                          <template is="dom-if" if="{{!value}}">
-                    <template is="dom-if" if="{{!progress}}">
-                            <div class="drop-file-here">
-                                <div class="td">
-                                    <span>Drop image here</span>
-                                    <br />
-                                    <a href="javascript:" on-click="openFile">Or select file</a>
-                                </div>
-                            </div>
-                        </template>
-                        <template is="dom-if" if="{{ismobile}}">
-                            <div class="drop-file-here mobile-drop-file">
-                                <div class="td">
-                                    <a href="javascript:" class="mobile-link" on-click="openFile">Select file</a>
-                                </div>
-                            </div>
-                        </template>
-
-                    </template>
                 <template is="dom-if" if="{{progress}}">
                     <div class="drop-file-here">
                         <div class="tr">
@@ -180,12 +160,11 @@
                         </div>
                     </div>
                 </template>
-
                 <template is="dom-if" if="{{!progress}}">
                     <template is="dom-if" if="{{value}}">
                         <template is="dom-if" if="{{isVideo}}" restamp="true">
                             <div class="img-border">
-                        <img src="{{value}}"/>
+                                <img src="{{value}}"/>
                                 <div class="video-preview">
                                     <div class="cover"></div>
                                     <video controls>
@@ -210,13 +189,22 @@
                         </template>
                     </template>
                     <template is="dom-if" if="{{!value}}">
-                        <div class="drop-file-here">
-                            <div class="td">
-                                <span>Drop image here</span>
-                                <br />
-                                <a href="javascript:" on-click="openFile">Or select file</a>
+                        <template is="dom-if" if="{{ismobile}}">
+                            <div class="drop-file-here mobile-drop-file">
+                                <div class="td">
+                                    <a href="javascript:" class="mobile-link" on-click="openFile">Select file</a>
+                                </div>
                             </div>
-                        </div>
+                        </template>
+                        <template is="dom-if" if="{{!ismobile}}">
+                            <div class="drop-file-here">
+                                <div class="td">
+                                    <span>Drop image here</span>
+                                    <br />
+                                    <a href="javascript:" on-click="openFile">Or select file</a>
+                                </div>
+                            </div>
+                        </template>
                     </template>
                 </template>
             </juicy-filedrop>
