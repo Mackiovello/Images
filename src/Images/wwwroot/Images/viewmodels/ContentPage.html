@@ -1,0 +1,74 @@
+﻿<link rel="import" href="/sys/polymer/polymer.html">
+
+<style>
+    .content-image, .content-video, .content-preview {
+        min-height: 50px;
+        min-width: 50px;
+        height: 100%;
+        width: 100%;
+    }
+
+    .content-image .img-thumbnail {
+        min-height: 50px;
+        min-width: 50px;
+        height: 100%;
+        width: 100%;
+        background-size: contain;
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
+</style>
+
+<template>
+    <template is="dom-bind">
+        <div slot="Content/preview" class="content-preview">
+            <template is="dom-if" if="{{model.IsVideo}}" restamp="true">
+                <div class="img-border content-video">
+                    <div class="video-preview">
+                        <div class="cover"></div>
+                        <video controls>
+                            <source src="{{model.URL}}" type="{{model.MimeType}}">
+                            Your browser does not support the video tag for file type
+                            <span>{{model.MimeType}}</span>.
+                        </video>
+                    </div>
+                </div>
+            </template>
+            <template is="dom-if" if="{{!model.IsVideo}}" restamp="true">
+                <template is="dom-if" if="{{model.IsImage}}">
+                    <div class="img-border content-image">
+                        <div class="img-thumbnail" style$="{{getImageStyle(model.URL)}}"></div>
+                    </div>
+                </template>
+                <template is="dom-if" if="{{!model.IsImage}}">
+                    <div class="img-border content-image">
+                        <div class="img-thumbnail" style$="{{getFileStyle()}}"></div>
+                    </div>
+                </template>
+            </template>
+        </div>
+    </template>
+    <script>
+        (function () {
+            var script = document._currentScript || document.currentScript;
+            var template = script.previousElementSibling;
+
+            template.getImageStyle = function (url) {
+                return "background-image:url('" + url + "')";
+            };
+            template.getFileStyle = function () {
+                return "background-image:url('/images/css/file_preview.png')";
+            };
+        })();
+    </script>
+    <template is="starcounter-composition">
+        <style>
+            .content-preview {
+                height: 100%;
+            }
+        </style>
+        <div class="content-preview">
+            <content select="[slot='Content/preview']"></content>
+        </div>
+    </template>
+</template>

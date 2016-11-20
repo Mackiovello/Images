@@ -40,13 +40,7 @@ nav#top-menu ul li a:hover {
     padding: 10px 15px;
 }
 
-.box-button {
-    float: left;
-    margin-right: 10px;
-}
-
 .box-label {
-    float: left;
     width: 70px;
 }
 
@@ -62,6 +56,10 @@ nav#top-menu ul li a:hover {
 
 table.table {
     margin-bottom: 23px;
+}
+
+button.btn-carousel-add {
+    background-image:url('/images/css/add.png');
 }
 
 .images-preview-image-dialog {

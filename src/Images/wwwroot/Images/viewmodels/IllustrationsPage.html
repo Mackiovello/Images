@@ -1,0 +1,19 @@
+﻿<link rel="import" href="/Images/elements/so-juicy-filedrop/so-juicy-filedrop.html" />
+<link rel="import" href="/Images/elements/juicy-carousel/juicy-carousel.html" />
+
+<template>
+    <template is="dom-bind">
+        <juicy-carousel slot="Images/carousel">
+            <template is="dom-repeat" items="{{model.Illustrations}}" restamp="true">
+                <img slot="thumbnail" src="{{item.PreviewURL}}" onclick="++this.value;" value="{{item.Select$::click}}" />
+            </template>
+
+            <div slot="big">
+                <starcounter-include partial="{{model.Selected.Content}}"></starcounter-include>
+            </div>
+        </juicy-carousel>
+    </template>
+    <template is="starcounter-composition">
+        <content select="[slot='Images/carousel']"></content>
+    </template>
+</template>

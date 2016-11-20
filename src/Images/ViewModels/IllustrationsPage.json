@@ -1,17 +1,17 @@
 {
-    "Html": "",
-    "Uri": "",
-    "$Illustrations": { "Bind": "_Illustrations" },
+    "Html": "/Images/viewmodels/IllustrationsPage.html",
     "Illustrations": [
         {
-            "$": { "Reuse": "Images.IllustrationPage" }
+            "PreviewURL": "",
+            "Content": {
+                "$": { "Reuse": "Images.ContentPage" }
+            },
+            "Select$": 0
         }
     ],
-    "Add$": 0,
-    "RedirectUrl$": "",
-    "Confirm": {
-        "Message": "",
-        "Ok$": "",
-        "Reject$": ""
+    "Selected": {
+        "Content": {
+            "$": { "Reuse": "Images.ContentPage" }
+        }
     }
 }

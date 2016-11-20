@@ -2,13 +2,12 @@
 <link rel="import" href="juicy-filedrop.html" />
 
 <dom-module id="so-juicy-filedrop">
-    <link rel="import" type="css" href="/sys/bootswatch/paper/bootstrap.css" />
     <template>
         <style>
             :host {
-                display:block;
-                height:100%;
-                position:relative;
+                display: block;
+                height: 100%;
+                position: relative;
             }
 
             .container {
@@ -39,14 +38,14 @@
                 max-width: 100%;
                 text-align: center;
                 box-sizing: border-box;
-                display:table;
-                overflow:hidden;
+                display: table;
+                overflow: hidden;
             }
 
-            .drop-file-here .td {
-                display:table-cell;
-                vertical-align:middle;
-            }
+                .drop-file-here .td {
+                    display: table-cell;
+                    vertical-align: middle;
+                }
 
             .img-thumbnail {
                 min-height: 50px;
@@ -81,6 +80,23 @@
                 width: 50%;
             }
 
+            .video-preview {
+                min-width: 100px;
+                min-height: 100px;
+                height: 100%;
+                width: 100%;
+                text-align: center;
+                position:relative;
+            }
+
+                .video-preview .cover {
+                    position:absolute;
+                    height:100%;
+                    width:100%;
+                    background-color:white;
+                    z-index:10;
+                }
+
             .actions {
                 position: absolute;
                 right: 4px;
@@ -98,27 +114,32 @@
             .container:hover .actions {
                 display: block;
             }
-            .glyphicon-spin {    
+
+            .glyphicon-spin {
                 margin: 10px;
                 font-size: 24pt;
                 -webkit-animation: spin 1000ms infinite linear;
                 animation: spin 1000ms infinite linear;
             }
+
             @-webkit-keyframes spin {
                 0% {
                     -webkit-transform: rotate(0deg);
                     transform: rotate(0deg);
                 }
+
                 100% {
                     -webkit-transform: rotate(359deg);
                     transform: rotate(359deg);
                 }
             }
+
             @keyframes spin {
                 0% {
                     -webkit-transform: rotate(0deg);
                     transform: rotate(0deg);
                 }
+
                 100% {
                     -webkit-transform: rotate(359deg);
                     transform: rotate(359deg);
@@ -126,10 +147,10 @@
             }
         </style>
         <div class="container">
-            <juicy-filedrop url="{{uploadUrl}}" sessionId="{{sessionId}}" value="{{value}}" maxfilesize="{{maxFileSize}}" allowedmimetypes="{{allowedMimeTypes}}" progress="{{progress}}" ismobile="{{ismobile}}" id="jfFileDrop">
-                <template is="dom-if" if="{{!value}}">
-                    <template is="dom-if" if="{{!progress}}">
+            <juicy-filedrop url="{{uploadUrl}}" sessionId="{{sessionId}}" value="{{value}}" filetype="{{filetype}}" maxfilesize="{{maxFileSize}}" allowedmimetypes="{{allowedMimeTypes}}" progress="{{progress}}" ismobile="{{ismobile}}" id="jfFileDrop">
                         <template is="dom-if" if="{{!ismobile}}">
+                          <template is="dom-if" if="{{!value}}">
+                    <template is="dom-if" if="{{!progress}}">
                             <div class="drop-file-here">
                                 <div class="td">
                                     <span>Drop image here</span>
@@ -147,23 +168,56 @@
                         </template>
 
                     </template>
-                    <template is="dom-if" if="{{progress}}">
-                        <div class="drop-file-here">
-                            <div class="tr">
-                                <span class="glyphicon glyphicon-refresh glyphicon-spin"></span>
+                <template is="dom-if" if="{{progress}}">
+                    <div class="drop-file-here">
+                        <div class="tr">
+                            <span class="glyphicon glyphicon-refresh glyphicon-spin"></span>
+                        </div>
+                        <div class="tr" style="margin-bottom: 10px">
+                            <span>Progress</span>
+                            <span>{{progress}}</span>
+                            <span>%</span>
+                        </div>
+                    </div>
+                </template>
+
+                <template is="dom-if" if="{{!progress}}">
+                    <template is="dom-if" if="{{value}}">
+                        <template is="dom-if" if="{{isVideo}}" restamp="true">
+                            <div class="img-border">
+                        <img src="{{value}}"/>
+                                <div class="video-preview">
+                                    <div class="cover"></div>
+                                    <video controls>
+                                        <source src="{{value}}" type="{{filetype}}">
+                                        Your browser does not support the video tag for file type
+                                        <span>{{filetype}}</span>.
+                                    </video>
+                                </div>
                             </div>
-                            <div class="tr" style="margin-bottom: 10px">
-                                <span>Progress</span>
-                                <span>{{progress}}</span>
-                                <span>%</span>
+                        </template>
+                        <template is="dom-if" if="{{!isVideo}}" restamp="true">
+                            <template is="dom-if" if="{{isImage}}">
+                                <div class="img-border">
+                                    <div class="img-thumbnail" style$="{{getImageStyle(value)}}"></div>
+                                </div>
+                            </template>
+                            <template is="dom-if" if="{{!isImage}}">
+                                <div class="img-border">
+                                    <div class="img-thumbnail" style$="{{getFileStyle()}}"></div>
+                                </div>
+                            </template>
+                        </template>
+                    </template>
+                    <template is="dom-if" if="{{!value}}">
+                        <div class="drop-file-here">
+                            <div class="td">
+                                <span>Drop image here</span>
+                                <br />
+                                <a href="javascript:" on-click="openFile">Or select file</a>
                             </div>
                         </div>
                     </template>
-                </template>
-                <template is="dom-if" if="{{value}}">
-                    <div class="img-border">
-                        <img src="{{value}}"/>
-                    </div>
                 </template>
             </juicy-filedrop>
             <paper-dialog modal="true" backdrop="true" layered="true" role="dialog" id="pacAlertDialog">
@@ -193,6 +247,9 @@
             properties: {
                 uploadUrl: { type: String },
                 value: { type: String, notify: true },
+                filetype: { type: String, notify: true, observer: "fileTypeChanged" },
+                isVideo: { type: Boolean, notify: true },
+                isImage: { type: Boolean, notify: true },
                 progress: { type: Number, notify: true, value: 0 },
                 sessionId: { type: String },
                 maxFileSize: { type: Number },
@@ -201,10 +258,10 @@
                 alertMessage: { type: String },
                 ismobile: { type: Boolean, notify: true }
             },
+            observers: ["onValueChanged(value)"],
             isDomReady: false,
             ready: function () {
                 var that = this;
-
                 this.isDomReady = true;
 
                 this.$.jfFileDrop.addEventListener("fileUploading", function (e) {
@@ -220,6 +277,12 @@
                 this.$.jfFileDrop.addEventListener("fileSelectError", function (e) {
                     that.openAlert(e.detail.message);
                 });
+
+                this.$.jfFileDrop.addEventListener("statechange", function (e) {
+                    if (that.$.jfFileDrop.progress == 100 && e.detail.progress == 100) {
+                        that.fire('fileUploaded', e.detail);
+                    }
+                });
             },
             openFile: function () {
                 this.$.jfFileDrop.openFile();
@@ -234,13 +297,42 @@
             },
             openClickChanged: function (newVal) {
                 if (newVal > 0) {
-                  //in IE and Edge, openClickChanged gets incorrectly called on page load, changing openClick value from "undefined" to 0
-                  //this caused https://github.com/StarcounterSamples/Images/issues/23
-                  this.openFile();
+                    //in IE and Edge, openClickChanged gets incorrectly called on page load, changing openClick value from "undefined" to 0
+                    //this caused https://github.com/StarcounterSamples/Images/issues/23
+                    this.openFile();
                 }
             },
-            getStyle: function (url) {
-                return "background-image:url(" + url + ")";
+            getImageStyle: function (url) {
+                return "background-image:url('" + url + "')";
+            },
+            getFileStyle: function () {
+                return "background-image:url('/images/css/file_preview.png')";
+            },
+            onValueChanged: function (v) {
+                setTimeout(function () {
+                    var divVideo = this.$.jfFileDrop.querySelector(".video-preview");
+                    if (!divVideo)
+                        return;
+
+                    var video = divVideo.querySelector("video");
+                    if (!video)
+                        return;
+
+                    var size = divVideo.getBoundingClientRect();
+                    var height = size.height;
+                    var width = size.width;
+
+                    video.style.maxHeight = height + "px";
+                    video.style.maxWidth = width + "px";
+
+                    var cover = divVideo.querySelector(".cover");
+                    if (cover)
+                        cover.style.display = "none";
+                }.bind(this), 100);
+            },
+            fileTypeChanged: function (newVal) {
+                this.isVideo = /video\//gi.test(newVal);
+                this.isImage = /image\//gi.test(newVal);
             }
         });
     </script>

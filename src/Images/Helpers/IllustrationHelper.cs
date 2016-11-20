@@ -3,6 +3,7 @@ using System.Linq;
 using Starcounter;
 using Simplified.Ring1;
 using Simplified.Ring6;
+using System;
 
 namespace Images
 {
@@ -19,6 +20,14 @@ namespace Images
 
             var rootPath = Path.GetPathRoot(Application.Current.FilePath);
             _rootPath = Path.Combine(rootPath, "UploadedFiles");
+        }
+
+        public bool IsVideo(string mimeType) {
+            return mimeType != null && mimeType.StartsWith("video/", StringComparison.OrdinalIgnoreCase);
+        }
+
+        public bool IsImage(string mimeType) {
+            return mimeType != null && mimeType.StartsWith("image/", StringComparison.OrdinalIgnoreCase);
         }
 
         public string GetUploadDirectory()
@@ -69,6 +78,16 @@ namespace Images
             }
 
             var fi = new FileInfo(GetUploadRoot() + illustration.Content.URL);
+
+            if (fi.Exists)
+            {
+                fi.Delete();
+            }
+        }
+
+        public void DeleteFile(Content content)
+        {
+            var fi = new FileInfo(GetUploadRoot() + content.URL);
 
             if (fi.Exists)
             {

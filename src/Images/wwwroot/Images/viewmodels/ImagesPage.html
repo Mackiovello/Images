@@ -14,24 +14,26 @@
             <thead>
                 <tr>
                     <th>Name</th>
+                    <th>Mime type</th>
                     <th>ImageURL</th>
-                    <th>Picture</th>
+                    <th>Preview</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                <template is="dom-repeat" items="{{model.Illustrations}}">
+                <template is="dom-repeat" items="{{model.Images}}">
                     <tr>
-                        <td>{{item.Name$}}</td>
-                        <td>{{item.ImageURL$}}</td>
+                        <td>{{item.Name}}</td>
+                        <td>{{item.MimeType}}</td>
+                        <td>{{item.URL}}</td>
                         <td>
-                            <a href="{{item.Url}}">
-                                <img class="img-illustration img-thumbnail" src="{{item.ImageURL$}}" />
+                            <a href="{{item.ContentURL}}">
+                                <img class="img-illustration img-thumbnail" src="{{item.PreviewURL}}" />
                             </a>
                         </td>
                         <td>
                             <button class="btn btn-sm btn-default" onclick="++this.value;" value="{{item.Delete$::click}}">Delete</button>
-                            <a href="{{item.Url}}" class="btn btn-sm btn-default">Edit</a>
+                            <a href="{{item.ContentEditURL}}" class="btn btn-sm btn-default">Edit</a>
                         </td>
                     </tr>
                 </template>
