@@ -12,6 +12,7 @@
         <button slot="Content/button-select" type="button" class="btn btn-sm btn-default" onclick="++this.value;" value="{{model.Open$::click}}">Select file</button>
         <button slot="Content/button-save" type="button" class="btn btn-primary" onclick="++this.value;" value="{{model.Save$::click}}">Save</button>
         <button slot="Content/button-clear" type="button" class="btn btn-default" onclick="++this.value;" value="{{model.Clear$::click}}">Clear</button>
+        <link is="puppet-redirect" history url$="{{model.RedirectUrl$}}" />
     </template>
     <script>
         (function () {

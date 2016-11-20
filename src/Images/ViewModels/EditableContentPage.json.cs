@@ -13,16 +13,15 @@ namespace Images
         {
             base.OnData();
 
-            this.MaxFileSize = helper.GetMaximumFileSizeBytes();
+            MaxFileSize = helper.GetMaximumFileSizeBytes();
 
-            foreach (string s in UploadHandlers.AllowedMimeTypes)
+            foreach (var s in UploadHandlers.AllowedMimeTypes)
             {
-                this.AllowedMimeTypes.Add().StringValue = s;
+                AllowedMimeTypes.Add().StringValue = s;
             }
 
-            this.ContentPage.Data = Data;
-
-            this.SessionId = Session.Current.SessionId;
+            ContentPage.Data = Data;
+            SessionId = Session.Current.SessionId;
         }
 
         void Handle(Input.Clear value)
@@ -49,11 +48,12 @@ namespace Images
 
         public void SaveChanges()
         {
-            for (int i = 0; i < oldUrls.Count; i++)
+            foreach (var url in oldUrls)
             {
-                helper.DeleteFile(oldUrls[i]);
+                helper.DeleteFile(url);
             }
-            this.Transaction.Commit();
+            Transaction.Commit();
+            RedirectUrl = "/images";
         }
     }
 }
