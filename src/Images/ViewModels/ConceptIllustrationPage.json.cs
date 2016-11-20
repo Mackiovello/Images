@@ -67,15 +67,16 @@ namespace Images
         {
             //Trick to commit just current content
             var contentKey = string.Empty;
-            Db.Transact(content =>
+            var content = new {Data.URL, Data.Name };
+            Db.Transact(() =>
             {
                 var result = new Content
                 {
-                    URL = content.Url,
+                    URL = content.URL,
                     Name = content.Name
                 };
                 contentKey = result.GetObjectID();
-            }, new { Url = Data.URL, Name = Data.Name});
+            });
             Data =  Db.SQL<Content>("SELECT c FROM Simplified.Ring1.Content c WHERE c.Key = ?", contentKey).First;
             _currentIllustration.Content = Data;
         }
