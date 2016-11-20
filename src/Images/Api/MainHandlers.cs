@@ -1,6 +1,4 @@
-﻿using Images.Helpers;
-using System.Web.UI.WebControls;
-using Starcounter;
+﻿using Starcounter;
 using Simplified.Ring1;
 using Simplified.Ring3;
 using Simplified.Ring6;
@@ -71,10 +69,7 @@ namespace Images
 
             Handle.GET("/images/contents/{?}", (string objectId) =>
             {
-                return Db.Scope<Json>(() =>
-                {
-                    return Self.GET<ContentPage>("/images/partials/contents/" + objectId);
-                });
+                return Db.Scope<Json>(() => Self.GET<ContentPage>("/images/partials/contents/" + objectId));
             });
 
             Handle.GET("/images/contents-edit/{?}", (string objectId) =>
@@ -178,11 +173,11 @@ namespace Images
             {
                 return Db.Scope<Json>(() =>
                 {
-                    Simplified.Ring1.Content content = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Simplified.Ring1.Content;
-                    ContentPage page = new ContentPage();
-
-                    page.Data = content;
-
+                    var content = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Content;
+                    var page = new ContentPage
+                    {
+                        Data = content
+                    };
                     return page;
                 });
             });
