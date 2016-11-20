@@ -13,15 +13,13 @@ namespace Images
         {
             Handle.GET("/images/standalone", () =>
             {
-                Session session = Session.Current;
-
-                if (session != null && session.Data != null)
+                var session = Session.Current;
+                if (session?.Data != null)
                 {
                     return session.Data;
                 }
 
-                StandalonePage standalone = new StandalonePage();
-
+                var standalone = new StandalonePage();
                 if (session == null)
                 {
                     session = new Session(SessionOptions.PatchVersioning);
@@ -47,10 +45,9 @@ namespace Images
 
             Handle.GET("/images/image", () =>
             {
-                return Db.Scope<StandalonePage>(() =>
+                return Db.Scope<Json>(() =>
                 {
-                    StandalonePage master = this.GetMaster();
-
+                    var master = GetMaster();
                     master.CurrentPage = Self.GET<EditableContentPage>("/Images/partials/contents-edit");
                     return master;
                 });
@@ -58,10 +55,9 @@ namespace Images
 
             Handle.GET("/images/image/{?}", (string objectId) =>
             {
-                return Db.Scope<StandalonePage>(() =>
+                return Db.Scope<Json>(() =>
                 {
-                    StandalonePage master = this.GetMaster();
-
+                    var master = GetMaster();
                     master.CurrentPage = Self.GET<EditableContentPage>("/Images/partials/contents-edit/" + objectId);
                     return master;
                 });
@@ -69,7 +65,12 @@ namespace Images
 
             Handle.GET("/images/contents/{?}", (string objectId) =>
             {
-                return Db.Scope<Json>(() => Self.GET<ContentPage>("/images/partials/contents/" + objectId));
+                return Db.Scope<Json>(() =>
+                {
+                    var master = GetMaster();
+                    master.CurrentPage = Self.GET<ContentPage>("/images/partials/contents/" + objectId);
+                    return master;
+                });
             });
 
             Handle.GET("/images/contents-edit/{?}", (string objectId) =>
