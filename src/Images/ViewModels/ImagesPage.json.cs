@@ -6,8 +6,8 @@ namespace Images
 {
     partial class ImagesPage : Json
     {
-        protected IllustrationHelper helper = new IllustrationHelper();
-        public Action ConfirmAction = null;
+        protected IllustrationHelper Helper = new IllustrationHelper();
+        public Action ConfirmAction;
 
         public QueryResultRows<Content> GetImages => Db.SQL<Content>("SELECT o FROM Simplified.Ring1.Content o");
 
@@ -18,7 +18,7 @@ namespace Images
 
         void Handle(Input.Add action)
         {
-            this.RedirectUrl = "images/image";
+            RedirectUrl = "images/image";
         }
 
         [ImagesPage_json.Confirm]
@@ -26,36 +26,26 @@ namespace Images
         {
             void Cancel()
             {
-                this.ParentPage.Confirm.Message = null;
-                this.ParentPage.ConfirmAction = null;
+                ParentPage.Confirm.Message = null;
+                ParentPage.ConfirmAction = null;
             }
 
-            void Handle(Input.Reject Action)
+            void Handle(Input.Reject action)
             {
                 Cancel();
             }
 
-            void Handle(Input.Ok Action)
+            void Handle(Input.Ok action)
             {
-                if (this.ParentPage.ConfirmAction != null)
-                {
-                    this.ParentPage.ConfirmAction();
-                }
-
+                ParentPage.ConfirmAction?.Invoke();
                 Cancel();
             }
 
-            public ImagesPage ParentPage
-            {
-                get
-                {
-                    return this.Parent as ImagesPage;
-                }
-            }
+            public ImagesPage ParentPage => this.Parent as ImagesPage;
         }
 
         [ImagesPage_json.Images]
-        partial class ImageItemPage : Json, IBound<Simplified.Ring1.Content>
+        partial class ImageItemPage : Json, IBound<Content>
         {
             ImagesPage ParentPage => Parent.Parent as ImagesPage;
 
@@ -63,21 +53,20 @@ namespace Images
             {
                 get
                 {
-                    string empty = "/images/css/empty_preview.png";
+                    var empty = "/images/css/empty_preview.png";
                     if (Data == null)
                     {
                         return empty;
                     }
-
-                    if (ParentPage.helper.IsVideo(Data.MimeType))
+                    if (ParentPage.Helper.IsVideo(Data.MimeType))
                     {
                         return "/images/css/video_preview.png";
                     }
-                    else if (ParentPage.helper.IsImage(Data.MimeType))
+                    if (ParentPage.Helper.IsImage(Data.MimeType))
                     {
                         return Data.URL;
                     }
-                    else if (!string.IsNullOrEmpty(Data.URL))
+                    if (!string.IsNullOrEmpty(Data.URL))
                     {
                         return "/images/css/file_preview.png";
                     }
@@ -85,41 +74,26 @@ namespace Images
                 }
             }
 
-            public string ContentURL
+            public string ContentURL => $"/images/contents/{Data.Key}";
+            public string ContentEditURL => $"/images/image/{Data.Key}";
+
+            void Handle(Input.Delete action)
             {
-                get
-                {
-
-                    return string.Format("/images/contents/{0}", this.Data.Key);
-                }
-            }
-
-            public string ContentEditURL
-            {
-                get
-                {
-
-                    return string.Format("/images/contents-edit/{0}", this.Data.Key);
-                }
-            }
-
-            void Handle(Input.Delete Action)
-            {
-                this.ParentPage.ConfirmAction = () =>
+                ParentPage.ConfirmAction = () =>
                 {
                     Db.Transact(() =>
                     {
-                        this.ParentPage.helper.DeleteFile(this.Data);
+                        ParentPage.Helper.DeleteFile(this.Data);
                         var illustrations = Db.SQL<Illustration>("SELECT o FROM Simplified.Ring1.Illustration o WHERE o.Content = ?", this.Data);
                         foreach (Illustration item in illustrations)
                         {
                             item.Delete();
                         }
-                        this.Data.Delete();
+                        Data.Delete();
                     });
                 };
 
-                this.ParentPage.Confirm.Message = "Are you sure want to delete image [" + this.Data.Name + "]?";
+                ParentPage.Confirm.Message = $"Are you sure want to delete image [{Data.Name}]?";
             }
         }
     }

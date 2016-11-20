@@ -67,7 +67,7 @@ namespace Images
 
             Selected.Data.Name = Selected.Content.Name;
             Selected.Data.Concept = this.Data;
-            Selected.Content.SaveChanges();
+            Transaction.Commit();
         }
 
         void Handle(Input.Add action)

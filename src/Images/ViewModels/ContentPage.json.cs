@@ -5,8 +5,8 @@ namespace Images
 {
     partial class ContentPage : Json, IBound<Content>
     {
-        protected IllustrationHelper helper = new IllustrationHelper();
-        public bool IsVideo => helper.IsVideo(MimeType);
-        public bool IsImage => helper.IsImage(MimeType);
+        protected IllustrationHelper Helper = new IllustrationHelper();
+        public bool IsVideo => Helper.IsVideo(MimeType);
+        public bool IsImage => Helper.IsImage(MimeType);
     }
 }

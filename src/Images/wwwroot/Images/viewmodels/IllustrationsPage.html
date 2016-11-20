@@ -7,7 +7,6 @@
             <template is="dom-repeat" items="{{model.Illustrations}}" restamp="true">
                 <img slot="thumbnail" src="{{item.PreviewURL}}" onclick="++this.value;" value="{{item.Select$::click}}" />
             </template>
-
             <div slot="big">
                 <starcounter-include partial="{{model.Selected.Content}}"></starcounter-include>
             </div>

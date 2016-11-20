@@ -8,9 +8,7 @@
     "SessionId": "",
     "Open$": 0,
     "Clear$": 0,
-    "Save$": 0,
     "ContentPage": {
       "$": { "Reuse": "Images.ContentPage" }
-    },
-    "RedirectUrl$": ""
+    }
 }

@@ -70,6 +70,9 @@
     <Compile Include="Helpers\IllustrationHelper.cs" />
     <Compile Include="Helpers\ImageValidator.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="ViewModels\ImagePage.json.cs">
+      <DependentUpon>ImagePage.json</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\MobileEditPage.json.cs">
       <DependentUpon>MobileEditPage.json</DependentUpon>
     </Compile>
@@ -137,6 +140,9 @@
       <Generator>MsBuild:Compile</Generator>
     </TypedJSON>
     <TypedJSON Include="ViewModels\ErrorPage.json">
+      <Generator>MsBuild:Compile</Generator>
+    </TypedJSON>
+    <TypedJSON Include="ViewModels\ImagePage.json">
       <Generator>MsBuild:Compile</Generator>
     </TypedJSON>
     <None Include="wwwroot\Images\viewmodels\ContentPage.html" />

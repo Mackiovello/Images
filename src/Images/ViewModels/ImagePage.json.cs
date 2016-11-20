@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Images
 {
-    partial class EditableContentPage : Json, IBound<Content>
+    partial class ImagePage : Json, IBound<Content>
     {
         protected IllustrationHelper Helper = new IllustrationHelper();
         protected List<string> OldUrls = new List<string>();
@@ -19,18 +19,8 @@ namespace Images
             {
                 AllowedMimeTypes.Add().StringValue = s;
             }
-
-            ContentPage.Data = Data;
+            
             SessionId = Session.Current.SessionId;
-        }
-
-        void Handle(Input.Clear value)
-        {
-            if (!string.IsNullOrEmpty(this.URL))
-            {
-                OldUrls.Add(URL);
-            }
-            URL = string.Empty;
         }
 
         void Handle(Input.URL value)
@@ -39,6 +29,26 @@ namespace Images
             {
                 OldUrls.Add(value.OldValue);
             }
+        }
+
+        void Handle(Input.Save value)
+        {
+            SaveChanges();
+        }
+
+        void Handle(Input.Cancel action)
+        {
+            RedirectUrl = "/images";
+        }
+
+        public void SaveChanges()
+        {
+            foreach (var url in OldUrls)
+            {
+                Helper.DeleteFile(url);
+            }
+            Transaction.Commit();
+            RedirectUrl = "/images";
         }
     }
 }
