@@ -295,10 +295,6 @@ namespace Images
                 });
             });
 
-            Handle.GET("/images/partials/image-preview/{?}", (string illustrationId) => {
-                return Self.GET("/images/partials/preview/" + illustrationId);
-            });
-
             Handle.GET("/images/partials/imagedraftannouncement/{?}", (string objectPath) => new Page());
 
             Handle.GET("/images/partials/imagewarning/{?}", (string illustrationId) =>
@@ -373,9 +369,9 @@ namespace Images
             {
                 var illustration = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Illustration;
 
-            UriMapping.OntologyMap("/images/partials/image-edit/@w", typeof(EditAnnouncement).FullName);
-            UriMapping.OntologyMap("/images/partials/image-mobile-edit/@w", typeof(MobileEditAnnouncement).FullName);
-            UriMapping.OntologyMap("/images/partials/image-preview/@w", typeof(PreviewAnnouncement).FullName);
+            UriMapping.OntologyMap("/images/partials/contents-edit/@w", typeof(EditAnnouncement).FullName);
+            UriMapping.OntologyMap("/images/partials/contents-edit/@w", typeof(MobileEditAnnouncement).FullName);
+            UriMapping.OntologyMap("/images/partials/contents/@w", typeof(PreviewAnnouncement).FullName);
                 if (illustration == null)
                 {
                     return null;

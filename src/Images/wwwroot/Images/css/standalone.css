@@ -76,3 +76,9 @@ button.btn-carousel-add {
     margin: 0 !important;
     padding: 0;
 }
+
+.images-content-close-button {
+    position: absolute;
+    right: 40px;
+    top: 15px;
+}
