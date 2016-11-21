@@ -8,5 +8,10 @@ namespace Images
         protected IllustrationHelper Helper = new IllustrationHelper();
         public bool IsVideo => Helper.IsVideo(MimeType);
         public bool IsImage => Helper.IsImage(MimeType);
+
+        public void Handle(Input.ShowLightBox action)
+        {
+            IsLightBoxVisible = true;
+        }
     }
 }

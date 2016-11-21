@@ -33,9 +33,12 @@
             </template>
             <template is="dom-if" if="{{!model.IsVideo}}" restamp="true">
                 <template is="dom-if" if="{{model.IsImage}}">
-                    <div class="img-border content-image">
+                    <div class="img-border content-image" on-mousedown="imageClickEvent">
                         <div class="img-thumbnail" style$="{{getImageStyle(model.URL)}}"></div>
                     </div>
+                    <paper-dialog opened="[[model.IsLightBoxVisible$]]" with-backdrop="true" class="images-preview-image-dialog" on-mousedown="closeEvent" on-iron-overlay-closed="closeEvent">
+                        <img src="{{model.URL}}" class="images-preview-image-dialog-image" />
+                    </paper-dialog>
                 </template>
                 <template is="dom-if" if="{{!model.IsImage}}">
                     <div class="img-border content-image">
@@ -56,6 +59,31 @@
             template.getFileStyle = function () {
                 return "background-image:url('/images/css/file_preview.png')";
             };
+            template.closeEvent = function () {
+                template.set("model.IsLightBoxVisible$", false);
+            }
+
+            template.imageClickEvent = function (e) {
+                if (template.model.URL && e.target.nodeName == "DIV") {
+                    calculateImage();
+                    template.set("model.IsLightBoxVisible$", true);
+                }
+            }
+
+            function calculateImage() {
+                var img = template.parentElement.querySelector('.images-preview-image-dialog-image');
+                var calculatedImageRatio = img.naturalWidth / img.naturalHeight;
+                var calculatedWindowRatio = (window.innerWidth - 30) / (window.innerHeight - 55);
+
+                if (calculatedWindowRatio > calculatedImageRatio) {
+                    img.style.height = (window.innerHeight - 60) + 'px';
+                    img.parentElement.classList.add('images-preview-image-dialog-fix-size');
+                } else {
+                    img.style.height = 'auto';
+                    img.parentElement.classList.remove('images-preview-image-dialog-fix-size');
+                }
+            }
+            window.addEventListener("resize", calculateImage);
         })();
     </script>
     <template is="starcounter-composition">

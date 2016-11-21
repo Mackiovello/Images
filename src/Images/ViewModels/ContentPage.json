@@ -5,5 +5,7 @@
     "URL": "",
     "Name": "",
     "IsVideo": false,
-    "IsImage": false
+    "IsImage": false,
+    "IsLightBoxVisible$": false,
+    "ShowLightBox$": 0
 }
