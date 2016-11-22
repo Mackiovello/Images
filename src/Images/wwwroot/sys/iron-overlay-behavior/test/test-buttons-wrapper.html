@@ -9,38 +9,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../polymer/polymer.html">
-<link rel="import" href="../iron-overlay-behavior.html">
+<link rel="import" href="test-buttons.html">
 
-<dom-module id="simple-overlay">
+<dom-module id="test-buttons-wrapper">
+
+  <style>
+    :host {
+      display: block;
+      border: 1px solid gray;
+      padding: 10px;
+    }
+  </style>
+
   <template>
-    <style>
-      :host {
-        background: white;
-        color: black;
-        padding: 24px;
-        box-shadow: rgba(0, 0, 0, 0.24) -2px 5px 12px 0px, rgba(0, 0, 0, 0.12) 0px 0px 12px 0px;
-      }
-    </style>
-
-    <content></content>
+    <select id="select">
+      <option>1</option>
+    </select>
+    <test-buttons id="wrapped">
+      <content></content>
+    </test-buttons>
+    <div tabindex="0" id="focusableDiv">Focusable div</div>
   </template>
 
+  <script>
+    Polymer({
+      is: 'test-buttons-wrapper'
+    });
+  </script>
 </dom-module>
-
-<script>
-
-(function() {
-
-  Polymer({
-
-    is: 'simple-overlay',
-
-    behaviors: [
-      Polymer.IronOverlayBehavior
-    ]
-
-  });
-
-})();
-
-</script>
