@@ -5,7 +5,7 @@ namespace Images
 {
     partial class SettingsPage : Page, IBound<ImagesSettings>
     {
-        private IllustrationHelper IllustrationHelper = new IllustrationHelper();
+        private readonly IllustrationHelper _illustrationHelper = new IllustrationHelper();
         public void LoadDefaultData()
         {
             var settings = Db.SQL<ImagesSettings>("SELECT s FROM Simplified.Ring6.ImagesSettings s").First;
@@ -13,8 +13,8 @@ namespace Images
             {
                 settings = new ImagesSettings
                 {
-                    MaximumFileSize = IllustrationHelper.GetMaximumFileSize(),
-                    UploadFolderPath = IllustrationHelper.GetUploadDirectory()
+                    MaximumFileSize = _illustrationHelper.GetMaximumFileSizeBytes(),
+                    UploadFolderPath = _illustrationHelper.GetUploadDirectory()
                 };
             }
             Data = settings;
@@ -22,8 +22,8 @@ namespace Images
 
         public decimal MaximumFileSizeMiB
         {
-            get { return IllustrationHelper.BytesToMiB(Data.MaximumFileSize); }
-            set { Data.MaximumFileSize = IllustrationHelper.MiBToBytes(value); }
+            get { return _illustrationHelper.BytesToMiB(Data.MaximumFileSize); }
+            set { Data.MaximumFileSize = _illustrationHelper.MiBToBytes(value); }
         }
 
 
@@ -35,7 +35,7 @@ namespace Images
 
         void Handle(Input.CleanUpFiles action)
         {
-            IllustrationHelper.DeleteOldFiles();
+            _illustrationHelper.DeleteOldFiles();
             Transaction.Commit();
         }
     }

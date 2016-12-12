@@ -184,24 +184,21 @@ namespace Images
             {
                 return Db.Scope<Json>(() =>
                 {
-                    Simplified.Ring1.Content content = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Simplified.Ring1.Content;
+                    var content = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Content;
 
                     if (content == null)
                     {
                         string name = "Standalone image";
                         Illustration illustration = new Illustration()
                         {
-                            Concept = new Something() { Name = name },
-                            Content = new Simplified.Ring1.Content() { Name = name },
+                            Concept = new Something { Name = name },
+                            Content = new Content { Name = name },
                             Name = name
                         };
                         content = illustration.Content;
                     }
 
-                    EditableContentPage page = new EditableContentPage();
-                    page.Data = content;
-
-                    return page;
+                    return new EditableContentPage { Data = content };
                 });
             });
 
@@ -282,19 +279,6 @@ namespace Images
                 }
             });
 
-            Handle.GET("/images/partials/image-mobile-edit/{?}", (string illustrationId) => {
-                return Db.Scope<Json>(() =>
-                {
-                    var illustration = DbHelper.FromID(DbHelper.Base64DecodeObjectID(illustrationId)) as Illustration;
-                    var page = new MobileEditPage
-                    {
-                        Html = "/Images/viewmodels/MobileEditPage.html"
-                    };
-                    page.AddNew(illustration);
-                    return page;
-                });
-            });
-
             Handle.GET("/images/partials/imagedraftannouncement/{?}", (string objectPath) => new Page());
 
             Handle.GET("/images/partials/imagewarning/{?}", (string illustrationId) =>
@@ -368,18 +352,20 @@ namespace Images
             UriMapping.OntologyMap("/images/partials/concept-chatattachment/{?}", typeof(ChatAttachment).FullName, (string objectId) => objectId, (string objectId) =>
             {
                 var illustration = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Illustration;
-
-            UriMapping.OntologyMap("/images/partials/contents-edit/@w", typeof(EditAnnouncement).FullName);
-            UriMapping.OntologyMap("/images/partials/contents-edit/@w", typeof(MobileEditAnnouncement).FullName);
-            UriMapping.OntologyMap("/images/partials/contents/@w", typeof(PreviewAnnouncement).FullName);
                 if (illustration == null)
                 {
                     return null;
                 }
                 return objectId;
             });
+
+            #region For Chatter
+            UriMapping.OntologyMap("/images/partials/contents-edit/@w", typeof(EditAnnouncement).FullName);
+            UriMapping.OntologyMap("/images/partials/contents/@w", typeof(PreviewAnnouncement).FullName);
             UriMapping.OntologyMap("/images/partials/imagedraftannouncement/{?}", typeof(ChatDraftAnnouncement).FullName);
             UriMapping.OntologyMap("/images/partials/imagewarning/{?}", typeof(ChatWarning).FullName);
+            #endregion
+
             #endregion
         }
     }
