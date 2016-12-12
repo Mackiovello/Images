@@ -13,7 +13,7 @@ namespace Images
             {
                 settings = new ImagesSettings
                 {
-                    MaximumFileSize = IllustrationHelper.DefaultMaximumFileSize,
+                    MaximumFileSize = IllustrationHelper.GetMaximumFileSize(),
                     UploadFolderPath = IllustrationHelper.GetUploadDirectory()
                 };
             }
