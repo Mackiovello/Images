@@ -1,27 +1,22 @@
 ﻿<link rel="import" href="/Images/elements/so-juicy-filedrop/so-juicy-filedrop.html" />
-<link rel="import" href="/Images/elements/juicy-carousel/juicy-carousel.html" />
 
 <template>
     <template is="dom-bind">
-        <juicy-carousel slot="Images/carousel">
-            <template is="dom-repeat" items="{{model.Illustrations}}" restamp="true">
-                <img slot="thumbnail" src="{{item.PreviewURL}}" onclick="++this.value;" value="{{item.Select$::click}}" />
-            </template>
-
-            <so-juicy-filedrop id="jfFileDrop" slot="big" session-id="{{model.SessionId}}" upload-url="/images/images" value="{{model.Selected.Content.URL$}}" filetype="{{model.Selected.Content.MimeType$}}" max-file-size="{{model.MaxFileSize}}" allowed-mime-types="{{model.AllowedMimeTypes}}">
-                <div>
-                    <button class="btn btn-default btn-xs" onclick="++this.value;" value="{{model.Delete$::click}}">Delete</button>
-                    <template is="dom-if" if="{{model.Selected.Content.URL$}}">
-                        <button class="btn btn-primary btn-xs" onclick="++this.value;" value="{{model.Save$::click}}">Save</button>
-                    </template>
-                </div>
-            </so-juicy-filedrop>
-
-            <button slot="add" onclick="++this.value;" value="{{model.Add$::click}}" class="btn-carousel-add"
-                    style="background-color: #6A6A6A; background-image:url('/images/css/add.png'); background-position:center; background-repeat:no-repeat;">
-                &nbsp;
-            </button>
-        </juicy-carousel>
+        <template is="dom-repeat" items="{{model.Illustrations}}" restamp="true">
+            <img slot="Images/thumbnail" src="{{item.PreviewURL}}" onclick="++this.value;" value="{{item.Select$::click}}" />
+        </template>
+        <button slot="Images/add" onclick="++this.value;" value="{{model.Add$::click}}" class="btn-carousel-add"
+                style="background-color: #6A6A6A; background-image:url('/images/css/add.png'); background-position:center; background-repeat:no-repeat;">
+            &nbsp;
+        </button>
+        <so-juicy-filedrop slot="Images/big" id="jfFileDrop" session-id="{{model.SessionId}}" upload-url="/images/images" value="{{model.Selected.Content.URL$}}" filetype="{{model.Selected.Content.MimeType$}}" max-file-size="{{model.MaxFileSize}}" allowed-mime-types="{{model.AllowedMimeTypes}}">
+            <div>
+                <button class="btn btn-default btn-xs" onclick="++this.value;" value="{{model.Delete$::click}}">Delete</button>
+                <template is="dom-if" if="{{model.Selected.Content.URL$}}">
+                    <button class="btn btn-primary btn-xs" onclick="++this.value;" value="{{model.Save$::click}}">Save</button>
+                </template>
+            </div>
+        </so-juicy-filedrop>
     </template>
     <script>
         (function () {
@@ -37,6 +32,51 @@
         })();
     </script>
     <template is="starcounter-composition">
-        <content select="[slot='Images/carousel']"></content>
+        <style>
+        #images-carousel {
+            display: block;
+            overflow: hidden;
+            display: flex;
+            height: 300px;
+        }
+
+        #images-thumbs {
+            margin: 5px;
+            width: 100px;
+            overflow: auto;
+        }
+
+            #images-thumbs ::content > img {
+                width: 100%;
+                border: 1px solid #dddddd;
+                border-radius: 3px;
+                padding: 4px;
+                margin-bottom: 4px;
+                cursor: pointer;
+            }
+
+            #images-add ::content > * {
+                width: 100%;
+                border: 1px solid #dddddd;
+                border-radius: 3px;
+                padding: 4px;
+            }
+
+        #images-big {
+            margin: 5px;
+            width: 100%;
+        }
+        </style>
+        <div id="images-carousel">
+            <div id="images-thumbs">
+                <content select="[slot='Images/thumbnail']"></content>
+                <div id="images-add">
+                    <content select="[slot='Images/add']"></content>
+                </div>
+            </div>
+            <div id="images-big">
+                <content select="[slot='Images/big']"></content>
+            </div>
+        </div>
     </template>
 </template>
