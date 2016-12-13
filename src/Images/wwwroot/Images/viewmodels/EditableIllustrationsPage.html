@@ -3,7 +3,7 @@
 <template>
     <template is="dom-bind">
         <template is="dom-repeat" items="{{model.Illustrations}}" restamp="true">
-            <img slot="Images/thumbnail" src="{{item.PreviewURL}}" onclick="++this.value;" value="{{item.Select$::click}}" />
+            <img slot="Images/thumbnail" src="{{item.PreviewURL}}" onclick="++this.value;" value="{{item.Select$::click}}"/>
         </template>
         <button slot="Images/add" onclick="++this.value;" value="{{model.Add$::click}}" class="btn-carousel-add"
                 style="background-color: #6A6A6A; background-image:url('/images/css/add.png'); background-position:center; background-repeat:no-repeat;">
@@ -48,6 +48,7 @@
 
             #images-thumbs ::content > img {
                 width: 100%;
+
                 border: 1px solid #dddddd;
                 border-radius: 3px;
                 padding: 4px;
@@ -64,7 +65,7 @@
 
         #images-big {
             margin: 5px;
-            width: 100%;
+            width: calc(100% - 100px);
         }
         </style>
         <div id="images-carousel">
