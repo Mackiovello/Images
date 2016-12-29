@@ -1,7 +1,7 @@
 {
   "Html": "/Images/viewmodels/SettingsPage.html",
   "UploadFolderPath$": "",
-  "MaximumFileSize$": 0,
+  "MaximumFileSizeMiB$": 0.0,
   "Save$": 0,
   "CleanUpFiles$":  0
 }

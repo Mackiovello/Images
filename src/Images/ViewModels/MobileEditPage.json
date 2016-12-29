@@ -1,0 +1,12 @@
+{
+  "Html": "",
+  "ImageURL$": "",
+  "$ImageURL$": { "Bind": "URL" },
+  "Open$": 0,
+  "Delete$": 0,
+  "MaxFileSize": 0,
+  "AllowedMimeTypes": [ "" ],
+  "SessionId": "",
+  "IsLightBoxVisible$": false,
+  "ShowLightBox$": 0
+}

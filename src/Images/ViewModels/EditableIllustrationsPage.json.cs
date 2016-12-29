@@ -18,7 +18,7 @@ namespace Images
         protected override void OnData()
         {
             base.OnData();
-            this.MaxFileSize = helper.GetMaximumFileSize();
+            this.MaxFileSize = helper.GetMaximumFileSizeBytes();
 
             foreach (string s in UploadHandlers.AllowedMimeTypes)
             {
@@ -67,7 +67,7 @@ namespace Images
 
             Selected.Data.Name = Selected.Content.Name;
             Selected.Data.Concept = this.Data;
-            Selected.Content.SaveChanges();
+            Transaction.Commit();
         }
 
         void Handle(Input.Add action)

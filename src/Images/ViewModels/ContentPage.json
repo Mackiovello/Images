@@ -1,9 +1,11 @@
 {
-    "Html": "/Images/ViewModels/ContentPage.html",
+    "Html": "/Images/viewmodels/ContentPage.html",
     "MimeType": "",
     "Key": "",
     "URL": "",
     "Name": "",
     "IsVideo": false,
-    "IsImage": false
+    "IsImage": false,
+    "IsLightBoxVisible$": false,
+    "ShowLightBox$": 0
 }

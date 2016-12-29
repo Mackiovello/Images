@@ -5,21 +5,13 @@ namespace Images
 {
     partial class ContentPage : Json, IBound<Content>
     {
-        protected IllustrationHelper helper = new IllustrationHelper();
-        public bool IsVideo
-        {
-            get
-            {
-                return helper.IsVideo(this.MimeType);
-            }
-        }
+        protected IllustrationHelper Helper = new IllustrationHelper();
+        public bool IsVideo => Helper.IsVideo(MimeType);
+        public bool IsImage => Helper.IsImage(MimeType);
 
-        public bool IsImage
+        public void Handle(Input.ShowLightBox action)
         {
-            get
-            {
-                return helper.IsImage(this.MimeType);
-            }
+            IsLightBoxVisible = true;
         }
     }
 }

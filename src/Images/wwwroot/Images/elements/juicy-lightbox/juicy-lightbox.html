@@ -1,0 +1,72 @@
+﻿<dom-module id="juicy-carousel">
+    <template>
+        <style>
+            :host .images-preview-image-dialog {
+                margin: 55px 15px 55px 15px;
+            }
+
+            :host .images-preview-image-dialog-fix-size {
+                max-height: 100% !important;
+                top: 0 !important;
+            }
+
+            :host .images-preview-image-dialog-image {
+                max-width: 100%;
+                margin: 0 !important;
+                padding: 0;
+            }
+        </style>
+        <content on-click="imageClickEvent"></content>
+        <paper-dialog opened="[[model.IsLightBoxVisible$]]" with-backdrop="true" class="images-preview-image-dialog" on-mousedown="closeEvent" on-iron-overlay-closed="closeEvent">
+            <img src="{{model.URL}}" class="images-preview-image-dialog-image" />
+        </paper-dialog>
+    </template>
+    <script>
+        'use strict';
+        Polymer({
+            is: "juicy-lightbox",
+            properties: {
+                allowedmimetypes: {
+                    notify: true
+                },
+                customheader: {
+                    type: String,
+                    value: 'x-file',
+                    notify: true
+                },
+                maxfilesize: {
+                    notify: true
+                },
+                url: {
+                    type: String,
+                    value: '',
+                    notify: true
+                },
+                value: {
+                    notify: true
+                },
+                filetype: {
+                    notify: true
+                },
+                filepath: {
+                    type: String
+                },
+                chunkLength: {
+                    type: Number,
+                    value: 8192
+                },
+                sessionid: {
+                    notify: true
+                },
+                progress: {
+                    type: Number,
+                    notify: true
+                },
+                ismobile: {
+                    notify: true,
+                    value: false
+                }
+            },
+        });
+    </script>
+</dom-module>

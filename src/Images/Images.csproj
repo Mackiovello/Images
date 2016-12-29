@@ -70,6 +70,12 @@
     <Compile Include="Helpers\IllustrationHelper.cs" />
     <Compile Include="Helpers\ImageValidator.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="ViewModels\ImagePage.json.cs">
+      <DependentUpon>ImagePage.json</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\MobileEditPage.json.cs">
+      <DependentUpon>MobileEditPage.json</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\ConceptIllustrationWarningPage.json.cs">
       <DependentUpon>ConceptIllustrationWarningPage.json</DependentUpon>
     </Compile>
@@ -112,6 +118,7 @@
     <Content Include="wwwroot\Images\css\file_preview.png" />
     <Content Include="wwwroot\Images\css\standalone.css" />
     <Content Include="wwwroot\Images\css\video_preview.png" />
+    <Content Include="wwwroot\Images\elements\IsMobile.js" />
     <Content Include="wwwroot\Images\elements\juicy-carousel\juicy-carousel.html" />
     <Content Include="wwwroot\Images\elements\so-juicy-filedrop\juicy-filedrop.html" />
     <Content Include="wwwroot\Images\elements\so-juicy-filedrop\so-juicy-filedrop.html" />
@@ -119,6 +126,7 @@
     <Content Include="wwwroot\Images\viewmodels\AppIcon.html" />
     <Content Include="wwwroot\Images\viewmodels\AppMenu.html" />
     <Content Include="wwwroot\Images\viewmodels\ConceptIllustrationWarningPage.html" />
+    <Content Include="wwwroot\Images\viewmodels\EditPage.html" />
     <TypedJSON Include="ViewModels\ContentPage.json">
       <Generator>MsBuild:Compile</Generator>
     </TypedJSON>
@@ -132,6 +140,9 @@
       <Generator>MsBuild:Compile</Generator>
     </TypedJSON>
     <TypedJSON Include="ViewModels\ErrorPage.json">
+      <Generator>MsBuild:Compile</Generator>
+    </TypedJSON>
+    <TypedJSON Include="ViewModels\ImagePage.json">
       <Generator>MsBuild:Compile</Generator>
     </TypedJSON>
     <None Include="wwwroot\Images\viewmodels\ContentPage.html" />
@@ -171,6 +182,11 @@
   </ItemGroup>
   <ItemGroup>
     <TypedJSON Include="ViewModels\DraftPage.json">
+      <Generator>MsBuild:Compile</Generator>
+    </TypedJSON>
+  </ItemGroup>
+  <ItemGroup>
+    <TypedJSON Include="ViewModels\MobileEditPage.json">
       <Generator>MsBuild:Compile</Generator>
     </TypedJSON>
   </ItemGroup>

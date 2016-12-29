@@ -11,10 +11,12 @@ namespace Images
     {
         private readonly string _rootPath;
         private readonly ImagesSettings _imagesSettings;
+        public static readonly int BytesInMiB = 1024 * 1024;
+        public static readonly int DefaultMaximumFileSize = 10 * BytesInMiB;
 
         public IllustrationHelper()
         {
-            _imagesSettings = Db.SQL<ImagesSettings>("SELECT s FROM Simplified.Ring6.ImagesSettings s").First;
+            _imagesSettings = Db.SQL("SELECT s FROM Simplified.Ring6.ImagesSettings s").First as ImagesSettings;
 
             var rootPath = Path.GetPathRoot(Application.Current.FilePath);
             _rootPath = Path.Combine(rootPath, "UploadedFiles");
@@ -53,9 +55,19 @@ namespace Images
             return GetUploadRoot() + GetUploadDirectory();
         }
 
-        public int GetMaximumFileSize()
+        public decimal BytesToMiB(int size)
         {
-            return _imagesSettings?.MaximumFileSize ?? 1048576;
+            return (decimal)size / BytesInMiB;
+        }
+
+        public int MiBToBytes(decimal size)
+        {
+            return (int)(size * BytesInMiB);
+        }
+
+        public int GetMaximumFileSizeBytes()
+        {
+            return _imagesSettings?.MaximumFileSize ?? DefaultMaximumFileSize;
         }
 
         public void DeleteFile(Illustration illustration)
@@ -110,7 +122,7 @@ namespace Images
 
             foreach (
                 var fi in from fi in di.GetFiles()
-                let img = Db.SQL<Content>("SELECT c FROM Simplified.Ring1.Content c WHERE c.URL LIKE ?", "%" + fi.Name).First
+                let img = Db.SQL("SELECT c FROM Simplified.Ring1.Content c WHERE c.URL LIKE ?", "%" + fi.Name).First as Content
                 where img == null
                 select fi)
             {
