@@ -69,6 +69,7 @@
     <Compile Include="Api\MainHandlers.cs" />
     <Compile Include="Helpers\IllustrationHelper.cs" />
     <Compile Include="Helpers\ImageValidator.cs" />
+    <Compile Include="Helpers\UpgradeData.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ViewModels\ImagePage.json.cs">
       <DependentUpon>ImagePage.json</DependentUpon>
