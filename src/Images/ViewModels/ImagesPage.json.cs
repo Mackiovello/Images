@@ -22,7 +22,7 @@ namespace Images
         }
 
         [ImagesPage_json.Confirm]
-        partial class ImagesConfirmPage : Page
+        partial class ImagesConfirmPage : Json
         {
             void Cancel()
             {

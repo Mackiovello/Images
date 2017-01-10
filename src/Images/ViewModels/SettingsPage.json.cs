@@ -3,7 +3,7 @@ using Simplified.Ring6;
 
 namespace Images
 {
-    partial class SettingsPage : Page, IBound<ImagesSettings>
+    partial class SettingsPage : Json, IBound<ImagesSettings>
     {
         private readonly IllustrationHelper _illustrationHelper = new IllustrationHelper();
         public void LoadDefaultData()

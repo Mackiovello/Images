@@ -3,7 +3,6 @@ using Simplified.Ring1;
 using Simplified.Ring3;
 using Simplified.Ring6;
 using Simplified.Ring6.Images;
-using Page = Starcounter.Page;
 
 namespace Images
 {
@@ -11,6 +10,9 @@ namespace Images
     {
         public void Register()
         {
+            Application.Current.Use(new HtmlFromJsonProvider());
+            Application.Current.Use(new PartialToStandaloneHtmlProvider());
+
             Handle.GET("/images/standalone", () =>
             {
                 var session = Session.Current;
@@ -19,23 +21,22 @@ namespace Images
                     return session.Data;
                 }
 
-                var standalone = new StandalonePage();
+                MasterPage masterPage = new MasterPage();
                 if (session == null)
                 {
                     session = new Session(SessionOptions.PatchVersioning);
-                    standalone.Html = "/Images/viewmodels/StandalonePage.html";
                 }
 
-                standalone.Session = session;
-                return standalone;
+                masterPage.Session = session;
+                return masterPage;
             });
 
             // Workspace root (Launchpad)
             Handle.GET("/images", (Request request) =>
             {
-                return Db.Scope<StandalonePage>(() =>
+                return Db.Scope<MasterPage>(() =>
                 {
-                    StandalonePage master = this.GetMaster();
+                    MasterPage master = this.GetMaster();
 
                     master.CurrentPage = Self.GET("/images/partials/images");
 
@@ -105,9 +106,9 @@ namespace Images
             RegisterMapperHandlers();
         }
 
-        protected StandalonePage GetMaster()
+        protected MasterPage GetMaster()
         {
-            return Self.GET<StandalonePage>("/images/standalone");
+            return Self.GET<MasterPage>("/images/standalone");
         }
 
         protected void RegisterLauncherHooks()

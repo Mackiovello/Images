@@ -4,7 +4,7 @@ using Simplified.Ring1;
 
 namespace Images
 {
-    partial class MobileEditPage : Page, IBound<Content>
+    partial class MobileEditPage : Json, IBound<Content>
     {
         protected string OldImageUrl;
         protected Transaction ObjectTransaction;
