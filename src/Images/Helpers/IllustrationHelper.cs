@@ -4,6 +4,8 @@ using Starcounter;
 using Simplified.Ring1;
 using Simplified.Ring6;
 using System;
+using System.Web;
+using System.Collections.Generic;
 
 namespace Images
 {
@@ -127,6 +129,14 @@ namespace Images
                 select fi)
             {
                 fi.Delete();
+            }
+        }
+
+        public void GuessMimeTypeForContents(IEnumerable<Content> contents)
+        {
+            foreach (var content in contents)
+            {
+                content.MimeType = MimeMapping.GetMimeMapping(content.URL);
             }
         }
     }
