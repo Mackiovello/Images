@@ -21,7 +21,7 @@ namespace Images
                     return session.Data;
                 }
 
-                MasterPage masterPage = new MasterPage();
+                var masterPage = new MasterPage();
                 if (session == null)
                 {
                     session = new Session(SessionOptions.PatchVersioning);
@@ -34,7 +34,7 @@ namespace Images
             // Workspace root (Launchpad)
             Handle.GET("/images", (Request request) =>
             {
-                return Db.Scope<MasterPage>(() =>
+                return Db.Scope(() =>
                 {
                     MasterPage master = this.GetMaster();
 
