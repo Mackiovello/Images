@@ -1,15 +1,26 @@
 <link rel="import" href="/sys/puppet-redirect/puppet-redirect.html" />
-<link rel="import" href="/Images/elements/so-juicy-filedrop/so-juicy-filedrop.html" />
 
 <template>
     <template is="dom-bind">
-        <so-juicy-filedrop slot="Images/upload-control" session-id="{{model.SessionId}}" upload-url="/images/images" value="{{model.ImageURL$}}" filetype="{{model.MimeType$}}" max-file-size="{{model.MaxFileSize}}" allowed-mime-types="{{model.AllowedMimeTypes}}" open-click="{{model.Open$}}"></so-juicy-filedrop>
-        <input slot="Images/image-url" type="text" readonly="readonly" value="{{model.ImageURL$}}" class="form-control" />
-        <button slot="Images/button-select" type="button" class="btn btn-sm btn-default" onclick="++this.value;" value="{{model.Open$::click}}">Select file</button>
+        <div slot="Images/image-editable-content">
+            <starcounter-include partial="{{model.EditableContent}}"></starcounter-include>
+        </div>
+        <input slot="Images/image-url" type="text" readonly="readonly" value="{{model.URL$}}" class="form-control"/>
+        <button slot="Images/button-select" type="button" class="btn btn-sm btn-default" on-click="openFileDialog">Select file</button>
         <button slot="Images/button-save" type="button" class="btn btn-primary" onclick="++this.value;" value="{{model.Save$::click}}">Save</button>
         <button slot="Images/button-cancel" type="button" class="btn btn-default" onclick="++this.value;" value="{{model.Cancel$::click}}">Cancel</button>
-        <link is="puppet-redirect" history url$="{{model.RedirectUrl$}}" />
+        <link is="puppet-redirect" history url$="{{model.RedirectUrl$}}"/>
     </template>
+    <script>
+        (function () {
+            var script = document._currentScript || document.currentScript;
+            var template = script.previousElementSibling;
+            template.openFileDialog = function () {
+                var dropArea = template.parentElement.querySelector('#jfFileDrop');
+                dropArea.openFile();
+            };
+        })();
+    </script>
     <template is="starcounter-composition">
         <!--
             Please note, that this style is encapsulated in Shadow DOM,
@@ -46,10 +57,8 @@
             }
         </style>
         <div class="images-form">
-            <div class="images-form__preview">
-                <content select="[slot='Images/upload-control']"></content>
-            </div>
-            <div>
+            <div class="images-toolbar__item--full-width">
+                <content select="[slot='Images/image-editable-content']"></content>
                 <div class="images-toolbar">
                     <div class="images-toolbar__item">
                         <content select="[slot='Images/button-select']"></content>

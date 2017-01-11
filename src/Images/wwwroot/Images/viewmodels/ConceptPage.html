@@ -1,0 +1,14 @@
+<link rel="import" href="/Images/elements/so-juicy-filedrop/so-juicy-filedrop.html" />
+
+<template>
+    <template is="dom-bind">
+        <so-juicy-filedrop session-id="{{model.SessionId}}" upload-url="/images/images" value="{{model.ImageURL$}}" max-file-size="{{model.MaxFileSize}}" allowed-mime-types="{{model.AllowedMimeTypes}}">
+            <template is="dom-if" if="{{model.ImageURL$}}">
+                <div>
+                    <button class="btn btn-default btn-xs" onclick="++this.value;" value="{{model.Delete$::click}}">Clear</button>
+                    <button class="btn btn-primary btn-xs" onclick="++this.value;" value="{{model.Save$::click}}">Save</button>
+                </div>
+            </template>
+        </so-juicy-filedrop>
+    </template>
+</template>

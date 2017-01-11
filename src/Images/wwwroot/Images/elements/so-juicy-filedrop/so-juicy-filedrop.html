@@ -42,10 +42,10 @@
                 overflow: hidden;
             }
 
-                .drop-file-here .td {
-                    display: table-cell;
-                    vertical-align: middle;
-                }
+            .drop-file-here .td {
+                display: table-cell;
+                vertical-align: middle;
+            }
 
             .img-thumbnail {
                 min-height: 50px;
@@ -57,6 +57,14 @@
                 background-repeat: no-repeat;
             }
 
+            .mobile-link {
+                font-size: 22px;
+            }
+
+            .mobile-drop-file {
+                padding: 20px;
+            }
+
             .img-border {
                 box-sizing: border-box;
                 width: 100%;
@@ -65,6 +73,11 @@
                 background-color: #ffffff;
                 border: 1px solid #dddddd;
                 border-radius: 3px;
+                text-align: center;
+            }
+
+            .img-border img {
+                width: 50%;
             }
 
             .video-preview {
@@ -76,19 +89,26 @@
                 position:relative;
             }
 
-                .video-preview .cover {
-                    position:absolute;
-                    height:100%;
-                    width:100%;
-                    background-color:white;
-                    z-index:10;
-                }
+            .video-preview .cover {
+                position:absolute;
+                height:100%;
+                width:100%;
+                background-color:white;
+                z-index:10;
+            }
 
             .actions {
                 position: absolute;
                 right: 4px;
                 top: 4px;
                 display: none;
+            }
+
+            .actions-mobile {
+                position: absolute;
+                right: 4px;
+                top: 4px;
+                display: block;
             }
 
             .container:hover .actions {
@@ -127,7 +147,7 @@
             }
         </style>
         <div class="container">
-            <juicy-filedrop url="{{uploadUrl}}" sessionId="{{sessionId}}" value="{{value}}" filetype="{{filetype}}" maxfilesize="{{maxFileSize}}" allowedmimetypes="{{allowedMimeTypes}}" progress="{{progress}}" id="jfFileDrop">
+            <juicy-filedrop url="{{uploadUrl}}" sessionId="{{sessionId}}" value="{{value}}" filetype="{{filetype}}" maxfilesize="{{maxFileSize}}" allowedmimetypes="{{allowedMimeTypes}}" progress="{{progress}}" ismobile="{{ismobile}}" id="jfFileDrop">
                 <template is="dom-if" if="{{progress}}">
                     <div class="drop-file-here">
                         <div class="tr">
@@ -140,11 +160,11 @@
                         </div>
                     </div>
                 </template>
-
                 <template is="dom-if" if="{{!progress}}">
                     <template is="dom-if" if="{{value}}">
                         <template is="dom-if" if="{{isVideo}}" restamp="true">
                             <div class="img-border">
+                                <img src="{{value}}"/>
                                 <div class="video-preview">
                                     <div class="cover"></div>
                                     <video controls>
@@ -169,13 +189,22 @@
                         </template>
                     </template>
                     <template is="dom-if" if="{{!value}}">
-                        <div class="drop-file-here">
-                            <div class="td">
-                                <span>Drop image here</span>
-                                <br />
-                                <a href="javascript:" on-click="openFile">Or select file</a>
+                        <template is="dom-if" if="{{ismobile}}">
+                            <div class="drop-file-here mobile-drop-file">
+                                <div class="td">
+                                    <a href="javascript:" class="mobile-link" on-click="openFile">Select file</a>
+                                </div>
                             </div>
-                        </div>
+                        </template>
+                        <template is="dom-if" if="{{!ismobile}}">
+                            <div class="drop-file-here">
+                                <div class="td">
+                                    <span>Drop image here</span>
+                                    <br />
+                                    <a href="javascript:" on-click="openFile">Or select file</a>
+                                </div>
+                            </div>
+                        </template>
                     </template>
                 </template>
             </juicy-filedrop>
@@ -188,9 +217,16 @@
                     <button class="btn btn-sm btn-default" affirmative role="button" tabindex="1" on-click="closeAlert">Close</button>
                 </div>
             </paper-dialog>
-            <div class="actions">
-                <content id="content"></content>
-            </div>
+            <template is="dom-if" if="{{ismobile}}">
+                <div class="actions-mobile">
+                    <content id="content"></content>
+                </div>
+            </template>
+            <template is="dom-if" if="{{!ismobile}}">
+                <div class="actions">
+                    <content id="content"></content>
+                </div>
+            </template>
         </div>
     </template>
     <script>
@@ -207,7 +243,8 @@
                 maxFileSize: { type: Number },
                 allowedMimeTypes: { type: Array, value: [] },
                 openClick: { type: Number, value: 0, observer: "openClickChanged" },
-                alertMessage: { type: String }
+                alertMessage: { type: String },
+                ismobile: { type: Boolean, notify: true }
             },
             observers: ["onValueChanged(value)"],
             isDomReady: false,

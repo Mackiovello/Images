@@ -67,6 +67,10 @@ Add web socket support
                 progress: {
                     type: Number,
                     notify: true
+                },
+                ismobile: {
+                    notify: true,
+                    value: false
                 }
             },
             ready: function () {
@@ -102,12 +106,22 @@ Add web socket support
                     return false;
                 }
                 if (file.size > this.maxfilesize) {
+                    var maxfilesizeKiB = this.maxfilesize / 1024,
+                        maxfilesizeMiB = maxfilesizeKiB / 1024,
+                        maxfilesizeString = '';
+
+                    if (maxfilesizeKiB > 1024) {
+                        maxfilesizeString = '' + maxfilesizeMiB.toFixed(2) + 'MiB';
+                    } else {
+                        maxfilesizeString = '' + maxfilesizeKiB.toFixed(2) + 'KiB';
+                    }
+
                     m = [
                         'File ',
                         file.name,
                         ' is too big. Maximum file size is: ',
-                        this.maxfilesize / 1024,
-                        'kb.'
+                        maxfilesizeString,
+                        '.'
                     ].join('');
                     this.fire('fileSelectError', {
                         file: file,
@@ -119,6 +133,7 @@ Add web socket support
             },
             openFile: function () {
                 var element = this.$.txtUploadFile;
+                element.value = "";
                 element.click();
             },
             fileToJson: function (file) {

@@ -1,10 +1,11 @@
 using Starcounter;
 using Simplified.Ring6;
 
-namespace Images {
-    partial class SettingsPage : Page, IBound<ImagesSettings> {
-        public static IllustrationHelper IllustrationHelper = new IllustrationHelper();
-
+namespace Images
+{
+    partial class SettingsPage : Page, IBound<ImagesSettings>
+    {
+        private readonly IllustrationHelper _illustrationHelper = new IllustrationHelper();
         public void LoadDefaultData()
         {
             var settings = Db.SQL<ImagesSettings>("SELECT s FROM Simplified.Ring6.ImagesSettings s").First;
@@ -12,21 +13,29 @@ namespace Images {
             {
                 settings = new ImagesSettings
                 {
-                    MaximumFileSize = IllustrationHelper.GetMaximumFileSize(),
-                    UploadFolderPath = IllustrationHelper.GetUploadDirectory()
+                    MaximumFileSize = _illustrationHelper.GetMaximumFileSizeBytes(),
+                    UploadFolderPath = _illustrationHelper.GetUploadDirectory()
                 };
             }
             Data = settings;
         }
 
-        void Handle(Input.Save action) {
+        public decimal MaximumFileSizeMiB
+        {
+            get { return _illustrationHelper.BytesToMiB(Data.MaximumFileSize); }
+            set { Data.MaximumFileSize = _illustrationHelper.MiBToBytes(value); }
+        }
+
+
+        void Handle(Input.Save action)
+        {
             Transaction.Commit();
             UploadHandlers.ReloadHelperPath();
         }
 
         void Handle(Input.CleanUpFiles action)
         {
-            IllustrationHelper.DeleteOldFiles();
+            _illustrationHelper.DeleteOldFiles();
             Transaction.Commit();
         }
     }

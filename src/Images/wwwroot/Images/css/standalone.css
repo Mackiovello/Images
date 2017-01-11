@@ -64,3 +64,24 @@ button.btn-carousel-add {
     background-position:center; 
     background-repeat:no-repeat;
 }
+
+.images-preview-image-dialog {
+    margin: 55px 15px 55px 15px;
+}
+
+.images-preview-image-dialog-fix-size {
+    max-height: 100% !important;
+    top: 0 !important;
+}
+
+.images-preview-image-dialog-image {
+    max-width:100%;
+    margin: 0 !important;
+    padding: 0;
+}
+
+.images-content-close-button {
+    position: absolute;
+    right: 40px;
+    top: 15px;
+}
