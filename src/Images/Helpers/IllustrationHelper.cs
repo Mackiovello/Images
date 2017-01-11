@@ -132,17 +132,11 @@ namespace Images
             }
         }
 
-        public string GuessMimeTypeForFileName(string fileName)
-        {
-            string mimeType = MimeMapping.GetMimeMapping(fileName);
-            return mimeType;
-        }
-
         public void GuessMimeTypeForContents(IEnumerable<Content> contents)
         {
-            foreach (Content content in contents)
+            foreach (var content in contents)
             {
-                var mimeType = GuessMimeTypeForFileName(content.URL);
+                var mimeType = MimeMapping.GetMimeMapping(content.URL);
                 if (mimeType != null)
                 {
                     content.MimeType = mimeType;
