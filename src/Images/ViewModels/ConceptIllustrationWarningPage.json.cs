@@ -5,7 +5,7 @@ using Simplified.Ring6;
 
 namespace Images
 {
-    partial class ConceptIllustrationWarningPage : Page
+    partial class ConceptIllustrationWarningPage : Json
     {
         public void RefreshData(Illustration illustration)
         {

@@ -1,6 +1,6 @@
 using Starcounter;
 
 namespace Images {
-    partial class StandalonePage : Page {
+    partial class MasterPage : Json {
     }
 }

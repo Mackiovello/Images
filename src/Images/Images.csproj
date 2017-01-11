@@ -105,8 +105,8 @@
     <Compile Include="ViewModels\IllustrationsPage.json.cs">
       <DependentUpon>IllustrationsPage.json</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\StandalonePage.json.cs">
-      <DependentUpon>StandalonePage.json</DependentUpon>
+    <Compile Include="ViewModels\MasterPage.json.cs">
+      <DependentUpon>MasterPage.json</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -155,8 +155,7 @@
     <Content Include="wwwroot\Images\viewmodels\SettingsPage.html" />
     <Content Include="wwwroot\Images\viewmodels\ImagePage.html" />
     <Content Include="wwwroot\Images\viewmodels\ImagesPage.html" />
-    <Content Include="wwwroot\Images\viewmodels\LauncherWrapperPage.html" />
-    <Content Include="wwwroot\Images\viewmodels\StandalonePage.html" />
+    <Content Include="wwwroot\Images\viewmodels\MasterPage.html" />
   </ItemGroup>
   <ItemGroup>
     <TypedJSON Include="ViewModels\AppName.json">
@@ -169,7 +168,7 @@
     </TypedJSON>
   </ItemGroup>
   <ItemGroup>
-    <TypedJSON Include="ViewModels\StandalonePage.json">
+    <TypedJSON Include="ViewModels\MasterPage.json">
       <Generator>MsBuild:Compile</Generator>
     </TypedJSON>
   </ItemGroup>
