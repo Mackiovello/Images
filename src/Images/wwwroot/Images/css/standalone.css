@@ -60,4 +60,7 @@ table.table {
 
 button.btn-carousel-add {
     background-image:url('/images/css/add.png');
+    background-color: #6A6A6A; 
+    background-position:center; 
+    background-repeat:no-repeat;
 }
