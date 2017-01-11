@@ -136,13 +136,8 @@ namespace Images
         {
             foreach (var content in contents)
             {
-                var mimeType = MimeMapping.GetMimeMapping(content.URL);
-                if (mimeType != null)
-                {
-                    content.MimeType = mimeType;
-                }
+                content.MimeType = MimeMapping.GetMimeMapping(content.URL);
             }
-
         }
     }
 }
