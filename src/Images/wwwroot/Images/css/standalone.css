@@ -78,7 +78,7 @@ button.btn-carousel-add {
 }
 
 .images-content-close-button {
-    position: absolute;
-    right: 40px;
-    top: 15px;
+    right: 5px;
+    top: 5px;
+    position: absolute
 }

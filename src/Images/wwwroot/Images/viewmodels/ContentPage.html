@@ -1,4 +1,7 @@
-﻿<style>
+﻿<link rel="import" href="/sys/paper-dialog/paper-dialog.html"/>
+<link rel="stylesheet" type="text/css" href="/Images/css/standalone.css"/>
+
+<style>
     .content-image, .content-video, .content-preview {
         min-height: 50px;
         min-width: 50px;
@@ -36,8 +39,8 @@
                     <div class="img-border content-image" on-mousedown="imageClickEvent">
                         <div class="img-thumbnail" style$="{{getImageStyle(model.URL)}}"></div>
                     </div>
-                    <paper-dialog opened="[[model.IsLightBoxVisible$]]" with-backdrop="true" class="images-preview-image-dialog" on-mousedown="closeEvent" on-iron-overlay-closed="closeEvent">
-                        <img src="{{model.URL}}" class="images-preview-image-dialog-image" />
+                    <paper-dialog modal="true" opened="[[model.IsLightBoxVisible$]]" with-backdrop="true" class="images-preview-image-dialog" on-mousedown="closeEvent">
+                        <img src="{{model.URL}}" class="images-preview-image-dialog-image"/>
                     </paper-dialog>
                 </template>
                 <template is="dom-if" if="{{!model.IsImage}}">
@@ -72,15 +75,17 @@
 
             function calculateImage() {
                 var img = template.parentElement.querySelector('.images-preview-image-dialog-image');
-                var calculatedImageRatio = img.naturalWidth / img.naturalHeight;
-                var calculatedWindowRatio = (window.innerWidth - 30) / (window.innerHeight - 55);
+                if (img.naturalWidth && img.naturalHeight) {
+                    var calculatedImageRatio = img.naturalWidth / img.naturalHeight;
+                    var calculatedWindowRatio = (window.innerWidth - 30) / (window.innerHeight - 55);
 
-                if (calculatedWindowRatio > calculatedImageRatio) {
-                    img.style.height = (window.innerHeight - 60) + 'px';
-                    img.parentElement.classList.add('images-preview-image-dialog-fix-size');
-                } else {
-                    img.style.height = 'auto';
-                    img.parentElement.classList.remove('images-preview-image-dialog-fix-size');
+                    if (calculatedWindowRatio > calculatedImageRatio) {
+                        img.style.height = (window.innerHeight - 60) + 'px';
+                        img.parentElement.classList.add('images-preview-image-dialog-fix-size');
+                    } else {
+                        img.style.height = 'auto';
+                        img.parentElement.classList.remove('images-preview-image-dialog-fix-size');
+                    }
                 }
             }
             window.addEventListener("resize", calculateImage);

@@ -100,7 +100,6 @@ namespace Images
                 });
             });
 
-
             RegisterPartials();
             RegisterLauncherHooks();
             RegisterMapperHandlers();
@@ -173,6 +172,7 @@ namespace Images
                 return Db.Scope<Json>(() =>
                 {
                     var content = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Content;
+
                     var page = new ContentPage
                     {
                         Data = content
@@ -189,11 +189,11 @@ namespace Images
 
                     if (content == null)
                     {
-                        string name = "Standalone image";
-                        Illustration illustration = new Illustration()
+                        var name = "Standalone image";
+                        var illustration = new Illustration
                         {
-                            Concept = new Something { Name = name },
-                            Content = new Content { Name = name },
+                            Concept = new Something {Name = name},
+                            Content = new Content {Name = name},
                             Name = name
                         };
                         content = illustration.Content;
@@ -266,18 +266,22 @@ namespace Images
             Handle.GET("/images/partials/illustrations-edit/{?}", (string illustrationId) =>
             {
                 var illustration = DbHelper.FromID(DbHelper.Base64DecodeObjectID(illustrationId)) as Illustration;
-                if (illustration.Content == null)
+                if (illustration == null)
                 {
-                    var errorPage = new ErrorPage()
+                    var errorPage = new ErrorPage
                     {
-                        ErrorText = "Images cannot present an illustration without content"
+                        ErrorText = "Images cannot present an empty illustration"
                     };
                     return errorPage;
                 }
-                else
+
+                if (illustration.Content == null)
                 {
-                    return Self.GET("/images/partials/contents-edit/" + illustration.Content.Key);
+                    illustration.Content = new Content {Name = "Standalone image" };
+
                 }
+
+                return Self.GET("/images/partials/contents-edit/" + illustration.Content.Key);
             });
 
             Handle.GET("/images/partials/imagedraftannouncement/{?}", (string objectPath) => new Page());
@@ -313,7 +317,6 @@ namespace Images
 
         protected void RegisterMapperHandlers()
         {
-
             UriMapping.Map("/images/menu", UriMapping.MappingUriPrefix + "/menu");
             UriMapping.Map("/images/app-name", UriMapping.MappingUriPrefix + "/app-name");
             UriMapping.Map("/images/settings", UriMapping.MappingUriPrefix + "/settings");
@@ -361,8 +364,8 @@ namespace Images
             });
 
             #region For Chatter
-            UriMapping.OntologyMap("/images/partials/contents-edit/@w", typeof(EditAnnouncement).FullName);
-            UriMapping.OntologyMap("/images/partials/contents/@w", typeof(PreviewAnnouncement).FullName);
+            UriMapping.OntologyMap("/images/partials/illustrations-edit/@w", typeof(EditAnnouncement).FullName);
+            UriMapping.OntologyMap("/images/partials/illustrations/@w", typeof(PreviewAnnouncement).FullName);
             UriMapping.OntologyMap("/images/partials/imagedraftannouncement/{?}", typeof(ChatDraftAnnouncement).FullName);
             UriMapping.OntologyMap("/images/partials/imagewarning/{?}", typeof(ChatWarning).FullName);
             #endregion
