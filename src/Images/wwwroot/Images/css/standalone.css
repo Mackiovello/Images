@@ -58,13 +58,6 @@ table.table {
     margin-bottom: 23px;
 }
 
-button.btn-carousel-add {
-    background-image:url('/images/css/add.png');
-    background-color: #6A6A6A; 
-    background-position:center; 
-    background-repeat:no-repeat;
-}
-
 .images-preview-image-dialog {
     margin: 55px 15px 55px 15px;
 }

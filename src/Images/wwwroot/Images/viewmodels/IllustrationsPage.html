@@ -1,18 +1,60 @@
 ﻿<link rel="import" href="/Images/elements/so-juicy-filedrop/so-juicy-filedrop.html" />
-<link rel="import" href="/Images/elements/juicy-carousel/juicy-carousel.html" />
 
 <template>
     <template is="dom-bind">
-        <juicy-carousel slot="Images/carousel">
-            <template is="dom-repeat" items="{{model.Illustrations}}" restamp="true">
-                <img slot="thumbnail" src="{{item.PreviewURL}}" onclick="++this.value;" value="{{item.Select$::click}}" />
-            </template>
-            <div slot="big">
-                <starcounter-include partial="{{model.Selected.Content}}"></starcounter-include>
-            </div>
-        </juicy-carousel>
+        <template is="dom-repeat" items="{{model.Illustrations}}" restamp="true">
+            <img slot="thumbnail" src="{{item.PreviewURL}}" onclick="++this.value;" value="{{item.Select$::click}}" />
+        </template>
+        <div slot="big">
+            <starcounter-include partial="{{model.Selected.Content}}"></starcounter-include>
+        </div>
     </template>
     <template is="starcounter-composition">
-        <content select="[slot='Images/carousel']"></content>
+        <style>
+            :host {
+                display: block;
+                overflow: hidden;
+                display: flex;
+                height: 300px;
+            }
+
+            #thumbs {
+                margin: 5px;
+                width: 100px;
+                overflow: auto;
+            }
+
+                #thumbs ::content img {
+                    width: 100%;
+                    border: 1px solid #dddddd;
+                    border-radius: 3px;
+                    padding: 4px;
+                    margin-bottom: 4px;
+                    cursor: pointer;
+                }
+
+            #add ::content > * {
+                width: 100%;
+                border: 1px solid #dddddd;
+                border-radius: 3px;
+                padding: 4px;
+            }
+
+            #big {
+                margin: 5px;
+                width: 100%;
+            }
+        </style>
+
+        <div id="thumbs">
+            <content select="[slot='thumbnail']"></content>
+
+            <div id="add">
+                <content select="[slot='add']"></content>
+            </div>
+        </div>
+        <div id="big">
+            <content select="[slot='big']"></content>
+        </div>
     </template>
 </template>
