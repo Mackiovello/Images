@@ -3,9 +3,9 @@
 <template>
     <template is="dom-bind">
         <template is="dom-repeat" items="{{model.Illustrations}}" restamp="true">
-            <img slot="thumbnail" src="{{item.PreviewURL}}" onclick="++this.value;" value="{{item.Select$::click}}" />
+            <img slot="Images/thumbnail" src="{{item.PreviewURL}}" onclick="++this.value;" value="{{item.Select$::click}}" />
         </template>
-        <div slot="big">
+        <div slot="Images/big">
             <starcounter-include partial="{{model.Selected.Content}}"></starcounter-include>
         </div>
     </template>
@@ -18,13 +18,13 @@
                 height: 300px;
             }
 
-            #thumbs {
+            #images-thumbs {
                 margin: 5px;
                 width: 100px;
                 overflow: auto;
             }
 
-                #thumbs ::content img {
+                #images-thumbs ::content img {
                     width: 100%;
                     border: 1px solid #dddddd;
                     border-radius: 3px;
@@ -33,28 +33,29 @@
                     cursor: pointer;
                 }
 
-            #add ::content > * {
+            #images-add ::content > * {
                 width: 100%;
                 border: 1px solid #dddddd;
                 border-radius: 3px;
                 padding: 4px;
             }
 
-            #big {
+            #images-big {
                 margin: 5px;
                 width: 100%;
             }
         </style>
 
-        <div id="thumbs">
-            <content select="[slot='thumbnail']"></content>
-
-            <div id="add">
-                <content select="[slot='add']"></content>
+        <div id="images-carousel">
+            <div id="images-thumbs">
+                <content select="[slot='Images/thumbnail']"></content>
+                <div id="images-add">
+                    <content select="[slot='Images/add']"></content>
+                </div>
             </div>
-        </div>
-        <div id="big">
-            <content select="[slot='big']"></content>
+            <div id="images-big">
+                <content select="[slot='Images/big']"></content>
+            </div>
         </div>
     </template>
 </template>
