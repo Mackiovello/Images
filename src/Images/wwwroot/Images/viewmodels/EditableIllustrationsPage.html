@@ -3,7 +3,7 @@
 <template>
     <template is="dom-bind">
         <template is="dom-repeat" items="{{model.Illustrations}}" restamp="true">
-            <img slot="Images/thumbnail" src="{{item.PreviewURL}}" onclick="++this.value;" value="{{item.Select$::click}}"/>
+            <img slot="Images/thumbnail" src="{{item.PreviewURL}}" onclick="++this.value;" value="{{item.Select$::click}}" />
         </template>
         <button slot="Images/add" onclick="++this.value;" value="{{model.Add$::click}}" class="btn-carousel-add">
             &nbsp;
@@ -32,35 +32,34 @@
     </script>
     <template is="starcounter-composition">
         <style>
-        #images-carousel {
-            display: block;
-            overflow: hidden;
-            display: flex;
-            height: 300px;
-        }
+            #images-carousel {
+                display: block;
+                overflow: hidden;
+                display: flex;
+                height: 300px;
+            }
 
-        #images-thumbs {
-            margin: 5px;
-            width: 100px;
-            overflow: auto;
-        }
+            #images-thumbs {
+                margin: 5px;
+                width: 100px;
+                overflow: auto;
+            }
 
-        #images-thumbs ::content > img {
-            width: 100%;
+                #images-thumbs ::content > img {
+                    width: 100%;
+                    border: 1px solid #dddddd;
+                    border-radius: 3px;
+                    padding: 4px;
+                    margin-bottom: 4px;
+                    cursor: pointer;
+                }
 
-            border: 1px solid #dddddd;
-            border-radius: 3px;
-            padding: 4px;
-            margin-bottom: 4px;
-            cursor: pointer;
-        }
-
-        #images-add ::content > * {
-            width: 100%;
-            border: 1px solid #dddddd;
-            border-radius: 3px;
-            padding: 4px;
-        }
+            #images-add ::content > * {
+                width: 100%;
+                border: 1px solid #dddddd;
+                border-radius: 3px;
+                padding: 4px;
+            }
 
             #images-add ::content > button.btn-carousel-add {
                 background-image: url('/images/css/add.png');
@@ -69,10 +68,10 @@
                 background-repeat: no-repeat;
             }
 
-        #images-big {
-            margin: 5px;
-            width: calc(100% - 100px);
-        }
+            #images-big {
+                margin: 5px;
+                width: calc(100% - 100px);
+            }
         </style>
         <div id="images-carousel">
             <div id="images-thumbs">
