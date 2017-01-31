@@ -21,7 +21,7 @@ namespace Images
             }
 
             ContentPage.Data = Data;
-            SessionId = Session.Current.SessionId;
+            SessionId = Session.Current?.SessionId;
         }
 
         void Handle(Input.Clear value)
