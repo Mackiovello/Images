@@ -134,7 +134,7 @@ namespace Images
 
         public void GuessMimeTypeForContents(IEnumerable<Content> contents)
         {
-            foreach (var content in contents)
+            foreach (var content in contents.Where(e => !string.IsNullOrEmpty(e.URL)))
             {
                 content.MimeType = MimeMapping.GetMimeMapping(content.URL);
             }
