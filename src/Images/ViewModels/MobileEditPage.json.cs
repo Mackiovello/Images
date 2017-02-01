@@ -21,7 +21,7 @@ namespace Images
                 AllowedMimeTypes.Add().StringValue = s;
             }
 
-            this.SessionId = Session.Current.SessionId;
+            this.SessionId = Session.Current?.SessionId;
         }
 
         public void Handle(Input.ShowLightBox action)

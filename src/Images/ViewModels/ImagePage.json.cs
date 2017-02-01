@@ -20,7 +20,7 @@ namespace Images
                 AllowedMimeTypes.Add().StringValue = s;
             }
             
-            SessionId = Session.Current.SessionId;
+            SessionId = Session.Current?.SessionId;
         }
 
         void Handle(Input.URL value)

@@ -28,7 +28,7 @@ namespace Images
             this.Illustrations = Illustration.GetIllustrations(this.Data);
             this.Selected.Data = this.Illustrations.FirstOrDefault()?.Data;
 
-            this.SessionId = Session.Current.SessionId;
+            this.SessionId = Session.Current?.SessionId;
         }
 
         void Handle(Input.Delete action)
