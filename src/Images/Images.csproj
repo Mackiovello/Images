@@ -117,6 +117,7 @@
   <ItemGroup>
     <Content Include="wwwroot\Images\css\add.png" />
     <Content Include="wwwroot\Images\css\file_preview.png" />
+    <Content Include="wwwroot\Images\css\illustrations.css" />
     <Content Include="wwwroot\Images\css\standalone.css" />
     <Content Include="wwwroot\Images\css\video_preview.png" />
     <Content Include="wwwroot\Images\elements\IsMobile.js" />

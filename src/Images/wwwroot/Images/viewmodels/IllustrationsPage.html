@@ -11,39 +11,7 @@
     </template>
     <template is="starcounter-composition">
         <style>
-            :host {
-                display: block;
-                overflow: hidden;
-                display: flex;
-                height: 300px;
-            }
-
-            #images-thumbs {
-                margin: 5px;
-                width: 100px;
-                overflow: auto;
-            }
-
-                #images-thumbs ::content img {
-                    width: 100%;
-                    border: 1px solid #dddddd;
-                    border-radius: 3px;
-                    padding: 4px;
-                    margin-bottom: 4px;
-                    cursor: pointer;
-                }
-
-            #images-add ::content > * {
-                width: 100%;
-                border: 1px solid #dddddd;
-                border-radius: 3px;
-                padding: 4px;
-            }
-
-            #images-big {
-                margin: 5px;
-                width: 100%;
-            }
+            @import url("/images/css/illustrations.css");
         </style>
 
         <div id="images-carousel">
