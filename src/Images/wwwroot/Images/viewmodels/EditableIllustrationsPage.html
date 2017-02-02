@@ -33,6 +33,20 @@
     <template is="starcounter-composition">
         <style>
             @import url("/images/css/illustrations.css");
+            
+            #images-add ::content > * {
+                width: 100%;
+                border: 1px solid #dddddd;
+                border-radius: 3px;
+                padding: 4px;
+            }
+
+            #images-add ::content > button.btn-carousel-add {
+                background-image: url('/images/css/add.png');
+                background-color: #6A6A6A;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
         </style>
         <div id="images-carousel">
             <div id="images-thumbs">
