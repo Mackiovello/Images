@@ -84,6 +84,11 @@ namespace Images
                 });
             });
 
+            Handle.GET("/images/something/illustration/{?}", (string objectId) =>
+            {
+                return Self.GET<IllustrationSimplePage>("/images/partials/something/illustration/" + objectId);
+            });
+
             Handle.GET("/images/somethings/{?}", (string objectId) =>
             {
                 return Db.Scope<Json>(() =>
@@ -120,6 +125,24 @@ namespace Images
 
         protected void RegisterPartials()
         {
+            // Handle for only displaying image without link or dropzone
+            Handle.GET("/images/partials/something/illustration/{?}", (string objectId) =>
+            {
+                var something = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Something;
+                string key = something?.Illustration?.Key;
+
+                if (key != null)
+                {
+                    var page = new IllustrationSimplePage
+                    {
+                        Data = DbHelper.FromID(DbHelper.Base64DecodeObjectID(key)) as Illustration
+                    };
+                    return page;
+                }
+
+                return new Json();
+            });
+
             Handle.GET("/images/partials/images", (Request request) =>
             {
                 var page = new ImagesPage
