@@ -2,7 +2,7 @@
 
 <template>
     <style>
-        .images-illustration-simple__image--thumbnail {
+        .images-illustration-simple-thumbnail {
             background-size: contain;
             background-position: left top;
             background-repeat: no-repeat;
@@ -11,7 +11,7 @@
     </style>
 
     <template is="dom-bind">
-        <div class="images-illustration-simple__image--thumbnail" slot="Images/Illustration" style$="{{getStyle(model.Content.URL)}}"></div>
+        <div class="images-illustration-simple-thumbnail" slot="Images/Illustration" style$="{{getStyle(model.Content.URL)}}"></div>
     </template>
 
     <script>
@@ -24,7 +24,7 @@
 
     <template is="starcounter-composition">
         <style>
-            .images-illustration-simple__image {
+            .images-illustration-simple-image {
                 display: flex;
                 align-items: stretch;
                 width: 50px;
@@ -32,7 +32,7 @@
             }
         </style>
 
-        <div class="images-illustration-simple__image">
+        <div class="images-illustration-simple-image">
             <content select="[slot='Images/Illustration']"></content>
         </div>
     </template>
