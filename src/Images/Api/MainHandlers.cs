@@ -84,11 +84,6 @@ namespace Images
                 });
             });
 
-            Handle.GET("/images/something/illustration/{?}", (string objectId) =>
-            {
-                return Self.GET<IllustrationSimplePage>("/images/partials/something/illustration/" + objectId);
-            });
-
             Handle.GET("/images/somethings/{?}", (string objectId) =>
             {
                 return Db.Scope<Json>(() =>
@@ -125,24 +120,6 @@ namespace Images
 
         protected void RegisterPartials()
         {
-            // Handle for only displaying image without link or dropzone
-            Handle.GET("/images/partials/something/illustration/{?}", (string objectId) =>
-            {
-                var something = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Something;
-                string key = something?.Illustration?.Key;
-
-                if (key != null)
-                {
-                    var page = new IllustrationSimplePage
-                    {
-                        Data = DbHelper.FromID(DbHelper.Base64DecodeObjectID(key)) as Illustration
-                    };
-                    return page;
-                }
-
-                return new Json();
-            });
-
             Handle.GET("/images/partials/images", (Request request) =>
             {
                 var page = new ImagesPage
@@ -284,6 +261,23 @@ namespace Images
                 var message = (Something)DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId));
                 var illustration = Db.SQL<Illustration>(@"Select m from Simplified.Ring1.Illustration m Where m.ToWhat = ?", message).First;
                 return illustration == null ? new Page() : Self.GET("/images/partials/illustrations/" + illustration.GetObjectID());
+            });
+
+            Handle.GET("/images/partials/somethings-single-static/{?}", (string objectId) =>
+            {
+                var something = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Something;
+                string key = something?.Illustration?.Key;
+
+                if (key != null)
+                {
+                    var page = new IllustrationSimplePage
+                    {
+                        Data = DbHelper.FromID(DbHelper.Base64DecodeObjectID(key)) as Illustration
+                    };
+                    return page;
+                }
+
+                return new Json();
             });
 
             Handle.GET("/images/partials/illustrations-edit/{?}", (string illustrationId) =>
