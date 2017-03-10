@@ -18,7 +18,7 @@ Screenshot:
 
 ### GET /images/partials/contents-edit/`{Content ObjectID}`
 
-Shows a simple page for `Content` preview and allows to update it with new file. 
+Shows a simple page for `Content` preview and allows to update it with new file.
 
 Screenshot:
 
@@ -28,7 +28,7 @@ In case of unexisting content, creates new content and shows drag'n'drop upload 
 
 Screenshot:
 
-![image](docs/screenshot-content-edit-emtpy.png)
+![image](docs/screenshot-content-edit-empty.png)
 
 ### GET /images/partials/illustrations/`{Illustration ObjectID}`
 
@@ -54,7 +54,7 @@ Screenshot:
 
 ### GET /images/partials/somethings/`{Something ObjectID}`
 
-Shows a carousel for images that become `Illustration` of `Something` in read only mode. 
+Shows a carousel for images that become `Illustration` of `Something` in read only mode.
 
 Screenshot:
 
@@ -88,7 +88,7 @@ In case of something does not have an illustration, shows an empty page.
 
 ### GET /images/partials/somethings-edit/`{Something ObjectID}`
 
-Shows a carousel for images that become `Illustration` of `Something` with drag'n'drop upload area and button to add new illustrations. 
+Shows a carousel for images that become `Illustration` of `Something` with drag'n'drop upload area and button to add new illustrations.
 
 Screenshot:
 
