@@ -263,6 +263,22 @@ namespace Images
                 return illustration == null ? new Page() : Self.GET("/images/partials/illustrations/" + illustration.GetObjectID());
             });
 
+            Handle.GET("/images/partials/somethings-single-static/{?}", (string objectId) =>
+            {
+                var something = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Something;
+                string key = something?.Illustration?.Key;
+
+                if (key != null)
+                {
+                    return new IllustrationSimplePage
+                    {
+                        Data = DbHelper.FromID(DbHelper.Base64DecodeObjectID(key)) as Illustration
+                    };
+                }
+
+                return new Json();
+            });
+
             Handle.GET("/images/partials/illustrations-edit/{?}", (string illustrationId) =>
             {
                 var illustration = DbHelper.FromID(DbHelper.Base64DecodeObjectID(illustrationId)) as Illustration;

@@ -76,6 +76,16 @@ Screenshot:
 
 In case of something does not have an illustration, shows an empty page.
 
+### GET /images/partials/somethings-single-static/`{Something ObjectID}`
+
+Shows a static representation of the first found `Illustration` of `Something` in read only mode.
+
+Screenshot:
+
+![image](docs/screenshot-somethings-single-static.png)
+
+In case of something does not have an illustration, shows an empty page.
+
 ### GET /images/partials/somethings-edit/`{Something ObjectID}`
 
 Shows a carousel for images that become `Illustration` of `Something` with drag'n'drop upload area and button to add new illustrations. 

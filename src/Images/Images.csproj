@@ -71,6 +71,9 @@
     <Compile Include="Helpers\ImageValidator.cs" />
     <Compile Include="Helpers\UpgradeData.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="ViewModels\IllustrationSimplePage.json.cs">
+      <DependentUpon>IllustrationSimplePage.json</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\ImagePage.json.cs">
       <DependentUpon>ImagePage.json</DependentUpon>
     </Compile>
@@ -146,12 +149,16 @@
     <TypedJSON Include="ViewModels\ImagePage.json">
       <Generator>MsBuild:Compile</Generator>
     </TypedJSON>
+    <TypedJSON Include="ViewModels\IllustrationSimplePage.json">
+      <Generator>MsBuild:Compile</Generator>
+    </TypedJSON>
     <None Include="wwwroot\Images\viewmodels\ContentPage.html" />
     <Content Include="wwwroot\Images\viewmodels\DraftPage.html" />
     <None Include="wwwroot\Images\viewmodels\EditableContentPage.html" />
     <None Include="wwwroot\Images\viewmodels\IllustrationsPage.html" />
     <None Include="wwwroot\Images\viewmodels\EditableIllustrationsPage.html" />
     <Content Include="wwwroot\Images\viewmodels\ErrorPage.html" />
+    <None Include="wwwroot\Images\viewmodels\IllustrationSimplePage.html" />
     <Content Include="wwwroot\Images\viewmodels\SettingsPage.html" />
     <Content Include="wwwroot\Images\viewmodels\ImagePage.html" />
     <Content Include="wwwroot\Images\viewmodels\ImagesPage.html" />

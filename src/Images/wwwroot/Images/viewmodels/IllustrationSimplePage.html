@@ -1,0 +1,31 @@
+﻿<link rel="import" href="/sys/polymer/polymer.html">
+<link rel="stylesheet" href="/Images/css/standalone.css"/>
+
+<template>
+    <template is="dom-bind">
+        <div class="images-illustration-simple-thumbnail" slot="Images/Illustration" style$="{{getStyle(model.Content.URL)}}"></div>
+    </template>
+
+    <script>
+        (function (template) {
+            template.getStyle = function (url) {
+                return "background-image:url(" + url + ")";
+            };
+        })(document.currentScript.previousElementSibling);
+    </script>
+
+    <template is="starcounter-composition">
+        <style>
+            .images-illustration-simple-image {
+                display: flex;
+                align-items: stretch;
+                width: 50px;
+                height: 50px;
+            }
+        </style>
+
+        <div class="images-illustration-simple-image">
+            <content select="[slot='Images/Illustration']"></content>
+        </div>
+    </template>
+</template>
