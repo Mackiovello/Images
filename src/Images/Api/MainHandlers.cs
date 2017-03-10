@@ -270,11 +270,10 @@ namespace Images
 
                 if (key != null)
                 {
-                    var page = new IllustrationSimplePage
+                    return new IllustrationSimplePage
                     {
                         Data = DbHelper.FromID(DbHelper.Base64DecodeObjectID(key)) as Illustration
                     };
-                    return page;
                 }
 
                 return new Json();

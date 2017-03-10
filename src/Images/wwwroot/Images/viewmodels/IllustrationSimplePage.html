@@ -1,15 +1,7 @@
 ﻿<link rel="import" href="/sys/polymer/polymer.html">
+<link rel="stylesheet" href="/Images/css/standalone.css"/>
 
 <template>
-    <style>
-        .images-illustration-simple-thumbnail {
-            background-size: contain;
-            background-position: left top;
-            background-repeat: no-repeat;
-            flex: 1 1 auto;
-        }
-    </style>
-
     <template is="dom-bind">
         <div class="images-illustration-simple-thumbnail" slot="Images/Illustration" style$="{{getStyle(model.Content.URL)}}"></div>
     </template>

@@ -78,3 +78,10 @@ table.table {
     top: 5px;
     position: absolute
 }
+
+.images-illustration-simple-thumbnail {
+    background-size: contain;
+    background-position: left top;
+    background-repeat: no-repeat;
+    flex: 1 1 auto;
+}
