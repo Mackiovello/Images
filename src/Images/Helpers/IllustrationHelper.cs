@@ -20,6 +20,20 @@ namespace Images
         {
             _imagesSettings = Db.SQL("SELECT s FROM Simplified.Ring6.ImagesSettings s").First as ImagesSettings;
 
+            if (_imagesSettings == null)
+            {
+                Db.Transact(() =>
+                {
+                    new ImagesSettings
+                    {
+                        MaximumFileSize = GetMaximumFileSizeBytes(),
+                        UploadFolderPath = GetUploadDirectory()
+                    };
+                });
+
+                _imagesSettings = Db.SQL("SELECT s FROM Simplified.Ring6.ImagesSettings s").First as ImagesSettings;
+            }
+
             var rootPath = Path.GetPathRoot(Application.Current.FilePath);
             _rootPath = Path.Combine(rootPath, "UploadedFiles");
         }

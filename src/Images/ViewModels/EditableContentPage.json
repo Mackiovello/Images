@@ -2,6 +2,7 @@
     "Html": "/Images/ViewModels/EditableContentPage.html",
     "Name$": "",
     "URL$": "",
+    "Path$":  "",
     "MimeType$": "",
     "MaxFileSize": 0,
     "AllowedMimeTypes": [ "" ],

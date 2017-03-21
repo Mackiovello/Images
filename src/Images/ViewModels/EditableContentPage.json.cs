@@ -31,6 +31,7 @@ namespace Images
                 OldUrls.Add(URL);
             }
             URL = string.Empty;
+            Path = string.Empty;
         }
 
         void Handle(Input.URL value)
@@ -38,6 +39,11 @@ namespace Images
             if (!string.IsNullOrEmpty(value.OldValue))
             {
                 OldUrls.Add(value.OldValue);
+            }
+
+            if (string.IsNullOrEmpty(value.Value))
+            {
+                Path = Helper.GetUploadDirectoryWithRoot();
             }
         }
     }
