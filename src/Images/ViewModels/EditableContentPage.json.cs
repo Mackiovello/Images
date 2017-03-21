@@ -43,7 +43,7 @@ namespace Images
 
             if (string.IsNullOrEmpty(value.Value))
             {
-                Path = Helper.GetUploadDirectoryWithRoot();
+                Path = Helper.GetUploadDirectoryWithRoot().Replace("/","\\");
             }
         }
     }
