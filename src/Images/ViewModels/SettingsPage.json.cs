@@ -8,16 +8,7 @@ namespace Images
         private readonly IllustrationHelper _illustrationHelper = new IllustrationHelper();
         public void LoadDefaultData()
         {
-            var settings = Db.SQL<ImagesSettings>("SELECT s FROM Simplified.Ring6.ImagesSettings s").First;
-            if (settings == null)
-            {
-                settings = new ImagesSettings
-                {
-                    MaximumFileSize = _illustrationHelper.GetMaximumFileSizeBytes(),
-                    UploadFolderPath = _illustrationHelper.GetUploadDirectory()
-                };
-            }
-            Data = settings;
+            Data = Db.SQL<ImagesSettings>("SELECT s FROM Simplified.Ring6.ImagesSettings s").First;
         }
 
         public decimal MaximumFileSizeMiB
