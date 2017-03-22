@@ -1,16 +1,16 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Starcounter.Internal;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Images")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Sample micro app that can put an image on anything. Supports drag'n'drop. Try it with **people** or **products**.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Polyjuice")]
+[assembly: AssemblyCompany("StarcounterApps")]
 [assembly: AssemblyProduct("Images")]
-[assembly: AssemblyCopyright("")]
+[assembly: AssemblyCopyright("Copyright 2017 Starcounter")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,16 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("3.1.0.0")]
+[assembly: AssemblyFileVersion("3.1.0")]
+
+// Starcounter Package information
+//
+// Unique warehouse id e.g. <myorganization.myapp>
+[assembly: AssemblyMetadata("ID", "StarcounterSamples.Images")]
+
+
+// Assures the current assembly has a reference to the Starcounter
+// assembly. A reference to Starcounter is currently required for
+// Starcounter to detect that an assembly should be hosted.
+[assembly: StarcounterAssembly]
