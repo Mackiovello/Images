@@ -1,17 +1,17 @@
-﻿#images-carousel {
+﻿.images-carousel {
     display: block;
     overflow: hidden;
     display: flex;
     height: 300px;
 }
 
-#images-thumbs {
+.images-carousel__thumbs {
     margin: 5px;
     width: 100px;
     overflow: auto;
 }
 
-    #images-thumbs ::content > img {
+    .images-carousel__thumbs ::content > img {
         width: 100%;
         border: 1px solid #dddddd;
         border-radius: 3px;
@@ -20,7 +20,7 @@
         cursor: pointer;
     }
 
-#images-big {
+.images-carousel__big {
     margin: 5px;
     width: calc(100% - 100px);
 }

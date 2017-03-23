@@ -1,31 +1,12 @@
-﻿<link rel="import" href="/sys/paper-dialog/paper-dialog.html"/>
-<link rel="stylesheet" type="text/css" href="/Images/css/standalone.css"/>
+﻿<link rel="import" href="/sys/paper-dialog/paper-dialog.html" />
+<link rel="stylesheet" type="text/css" href="/Images/css/images.css" />
 
-<style>
-    .content-image, .content-video, .content-preview {
-        min-height: 50px;
-        min-width: 50px;
-        height: 100%;
-        width: 100%;
-    }
-
-        .content-image .img-thumbnail {
-            min-height: 50px;
-            min-width: 50px;
-            height: 100%;
-            width: 100%;
-            background-size: contain;
-            background-position: center center;
-            background-repeat: no-repeat;
-        }
-</style>
 <template>
     <template is="dom-bind">
-        <div slot="Content/preview" class="content-preview">
+        <div slot="Content/preview" class="images-content-preview">
             <template is="dom-if" if="{{model.IsVideo}}" restamp="true">
-                <div class="img-border content-video">
-                    <div class="video-preview">
-                        <div class="cover"></div>
+                <div class="images-content-preview__video">
+                    <div class="images-content-preview__video__preview">
                         <video controls>
                             <source src="{{model.URL}}" type="{{model.MimeType}}">
                             Your browser does not support the video tag for file type
@@ -36,16 +17,16 @@
             </template>
             <template is="dom-if" if="{{!model.IsVideo}}" restamp="true">
                 <template is="dom-if" if="{{model.IsImage}}">
-                    <div class="img-border content-image" on-mousedown="imageClickEvent">
-                        <div class="img-thumbnail" style$="{{getImageStyle(model.URL)}}"></div>
+                    <div class="images-content-preview__image" on-mousedown="imageClickEvent">
+                        <div class="images-content-preview__image__thumbnail" style$="{{getImageStyle(model.URL)}}"></div>
                     </div>
                     <paper-dialog modal="true" opened="[[model.IsLightBoxVisible$]]" with-backdrop="true" class="images-preview-image-dialog" on-mousedown="closeEvent">
-                        <img src="{{model.URL}}" class="images-preview-image-dialog-image"/>
+                        <img src="{{model.URL}}" class="images-preview-image-dialog-image" />
                     </paper-dialog>
                 </template>
                 <template is="dom-if" if="{{!model.IsImage}}">
-                    <div class="img-border content-image">
-                        <div class="img-thumbnail" style$="{{getFileStyle()}}"></div>
+                    <div class="images-content-preview__image">
+                        <div class="images-content-preview__image__thumbnail" style$="{{getFileStyle()}}"></div>
                     </div>
                 </template>
             </template>
@@ -93,11 +74,11 @@
     </script>
     <template is="starcounter-composition">
         <style>
-            .content-preview {
+            .images-content-preview {
                 height: 100%;
             }
         </style>
-        <div class="content-preview">
+        <div class=".images-content-preview">
             <content select="[slot='Content/preview']"></content>
         </div>
     </template>
