@@ -333,9 +333,9 @@ namespace Images
 
         protected void RegisterMapperHandlers()
         {
-            Blender.MapUri("/images/menu", UriMapping.MappingUriPrefix + "/menu");
-            Blender.MapUri("/images/app-name", UriMapping.MappingUriPrefix + "/app-name");
-            Blender.MapUri("/images/settings", UriMapping.MappingUriPrefix + "/settings");
+            Blender.MapUri("/images/menu", "/menu");
+            Blender.MapUri("/images/app-name", "/app-name");
+            Blender.MapUri("/images/settings", "/settings");
 
             #region Wrapper URI handlers for usage in OntologyMap
             Handle.GET("/images/partials/concept-somebody/{?}", (string objectId) =>
@@ -357,7 +357,9 @@ namespace Images
             # endregion
 
             #region OntologyMap
+            // TODO: This mapping can be removed since there is no app which uses mapping on Somebody class
             Blender.MapUri<Somebody>("/images/partials/concept-somebody/{?}");
+
             Blender.MapUri<Product>("/images/partials/concept-vendible/{?}");
             Blender.MapUri<ChatMessage>("/images/partials/concept-chatmessage/{?}",
                 paramsFrom => paramsFrom,

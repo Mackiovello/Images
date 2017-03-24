@@ -108,7 +108,7 @@ StarcounterEnvironment.RunWithinApplication("Images", () => {
         return Self.GET("/images/partials/somethings-edit/" + objectId);
     });
 
-    UriMapping.OntologyMap<YOURAPP.YOURCLASS>("/images/partials/concept-YOURCLASS/{?}");
+    Blender.MapUri<YOURAPP.YOURCLASS>("/images/partials/concept-YOURCLASS/{?}");
 });
 ```
 
