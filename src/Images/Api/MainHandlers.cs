@@ -150,7 +150,7 @@ namespace Images
                     Data = data
                 };
 
-                return master;
+                return master.CurrentPage;
             });
 
             Handle.GET("/images/partials/illustrations/{?}", (string illustrationId) =>
