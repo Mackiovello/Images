@@ -59,16 +59,12 @@
     width: 100%;
     border: 1px solid #dddddd;
     border-radius: 3px;
+    text-align:center;
 }
 
 .images-content-preview__image__thumbnail {
-    min-height: 50px;
-    min-width: 50px;
-    height: 100%;
-    width: 100%;
-    background-size: contain;
-    background-position: center center;
-    background-repeat: no-repeat;
+    max-height: 500px;
+    max-width: 100%;
 }
 
 .images-content-preview__video__preview {
