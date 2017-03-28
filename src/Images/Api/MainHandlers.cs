@@ -333,9 +333,9 @@ namespace Images
 
         protected void RegisterMapperHandlers()
         {
-            Blender.MapUri("/images/menu", "/menu");
-            Blender.MapUri("/images/app-name", "/app-name");
-            Blender.MapUri("/images/settings", "/settings");
+            Blender.MapUri("/images/menu", "menu");
+            Blender.MapUri("/images/app-name", "app-name");
+            Blender.MapUri("/images/settings", "settings");
 
             #region Wrapper URI handlers for usage in OntologyMap
             Handle.GET("/images/partials/concept-somebody/{?}", (string objectId) =>
