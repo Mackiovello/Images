@@ -36,11 +36,7 @@ namespace Images
             {
                 return Db.Scope(() =>
                 {
-                    MasterPage master = this.GetMaster();
-
-                    master.CurrentPage = Self.GET("/images/partials/images");
-
-                    return master;
+                    return ReturnWithinMaster(Self.GET("/images/partials/images"));
                 });
             });
 
@@ -48,9 +44,7 @@ namespace Images
             {
                 return Db.Scope<Json>(() =>
                 {
-                    var master = GetMaster();
-                    master.CurrentPage = Self.GET<ImagePage>("/Images/partials/image/");
-                    return master;
+                    return ReturnWithinMaster(Self.GET<ImagePage>("/Images/partials/image/"));
                 });
             });
 
@@ -58,9 +52,7 @@ namespace Images
             {
                 return Db.Scope<Json>(() =>
                 {
-                    var master = GetMaster();
-                    master.CurrentPage = Self.GET<ImagePage>("/Images/partials/image/" + objectId);
-                    return master;
+                    return ReturnWithinMaster(Self.GET<ImagePage>("/Images/partials/image/" + objectId));
                 });
             });
 
@@ -68,9 +60,7 @@ namespace Images
             {
                 return Db.Scope<Json>(() =>
                 {
-                    var master = GetMaster();
-                    master.CurrentPage = Self.GET<ContentPage>("/images/partials/contents/" + objectId);
-                    return master;
+                    return ReturnWithinMaster(Self.GET<ContentPage>("/images/partials/contents/" + objectId));
                 });
             });
 
@@ -78,9 +68,7 @@ namespace Images
             {
                 return Db.Scope<Json>(() =>
                 {
-                    var master = GetMaster();
-                    master.CurrentPage = Self.GET<EditableContentPage>("/images/partials/contents-edit/" + objectId);
-                    return master;
+                    return ReturnWithinMaster(Self.GET<EditableContentPage>("/images/partials/contents-edit/" + objectId));
                 });
             });
 
@@ -88,7 +76,7 @@ namespace Images
             {
                 return Db.Scope<Json>(() =>
                 {
-                    return Self.GET<IllustrationsPage>("/images/partials/somethings/" + objectId);
+                    return ReturnWithinMaster(Self.GET<IllustrationsPage>("/images/partials/somethings/" + objectId));
                 });
             });
 
@@ -96,7 +84,7 @@ namespace Images
             {
                 return Db.Scope<Json>(() =>
                 {
-                    return Self.GET<EditableIllustrationsPage>("/images/partials/somethings-edit/" + objectId);
+                    return ReturnWithinMaster(Self.GET<EditableIllustrationsPage>("/images/partials/somethings-edit/" + objectId));
                 });
             });
 
@@ -105,11 +93,13 @@ namespace Images
             RegisterMapperHandlers();
         }
 
-        protected MasterPage GetMaster()
+        private MasterPage ReturnWithinMaster(Json currentPage)
         {
-            return Self.GET<MasterPage>("/images/standalone");
+            var master = Self.GET<MasterPage>("/images/standalone");
+            master.CurrentPage = currentPage;
+            return master;
         }
-
+        
         protected void RegisterLauncherHooks()
         {
             Handle.GET("/images/app-name", () => new AppName());
@@ -144,13 +134,12 @@ namespace Images
             Handle.GET("/images/partials/somethings-edit/{?}", (string objectId) =>
             {
                 var data = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Something;
-                var master = GetMaster();
-                master.CurrentPage = new EditableIllustrationsPage
+                var page = new EditableIllustrationsPage
                 {
                     Data = data
                 };
 
-                return master;
+                return page;
             });
 
             Handle.GET("/images/partials/illustrations/{?}", (string illustrationId) =>
