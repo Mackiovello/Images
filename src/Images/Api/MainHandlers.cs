@@ -88,7 +88,9 @@ namespace Images
             {
                 return Db.Scope<Json>(() =>
                 {
-                    return Self.GET<IllustrationsPage>("/images/partials/somethings/" + objectId);
+                    var master = GetMaster();
+                    master.CurrentPage = Self.GET<IllustrationsPage>("/images/partials/somethings/" + objectId);
+                    return master;
                 });
             });
 
@@ -96,7 +98,9 @@ namespace Images
             {
                 return Db.Scope<Json>(() =>
                 {
-                    return Self.GET<EditableIllustrationsPage>("/images/partials/somethings-edit/" + objectId);
+                    var master = GetMaster();
+                    master.CurrentPage = Self.GET<EditableIllustrationsPage>("/images/partials/somethings-edit/" + objectId);
+                    return master;
                 });
             });
 
@@ -144,13 +148,12 @@ namespace Images
             Handle.GET("/images/partials/somethings-edit/{?}", (string objectId) =>
             {
                 var data = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Something;
-                var master = GetMaster();
-                master.CurrentPage = new EditableIllustrationsPage
+                var page = new EditableIllustrationsPage
                 {
                     Data = data
                 };
 
-                return master.CurrentPage;
+                return page;
             });
 
             Handle.GET("/images/partials/illustrations/{?}", (string illustrationId) =>
