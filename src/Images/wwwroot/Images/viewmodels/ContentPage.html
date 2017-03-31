@@ -91,14 +91,14 @@
             window.addEventListener("resize", calculateImage);
         })();
     </script>
-    <template is="starcounter-composition">
+    <template is="declarative-shadow-dom">
         <style>
             .content-preview {
                 height: 100%;
             }
         </style>
         <div class="content-preview">
-            <content select="[slot='Content/preview']"></content>
+            <slot name="Content/preview"></slot>
         </div>
     </template>
 </template>

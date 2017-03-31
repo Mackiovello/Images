@@ -11,7 +11,8 @@
     overflow: auto;
 }
 
-    #images-thumbs ::content > img {
+    #images-thumbs ::content > img,
+    #images-thumbs ::slotted(img) {
         width: 100%;
         border: 1px solid #dddddd;
         border-radius: 3px;

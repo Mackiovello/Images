@@ -30,7 +30,7 @@
             template.model.IsMobile$ = isMobile.any;
         })();
     </script>
-    <template is="starcounter-composition">
+    <template is="declarative-shadow-dom">
         <style>
             .content-form__preview {
                 position: relative;
@@ -38,10 +38,10 @@
         </style>
         <div class="content-edit">
             <div class="content-form__preview">
-                <content select="[slot='EditableContent/Preview']"></content>
+                <slot name="EditableContent/Preview"></slot>
             </div>
             <div class="content-edit__upload">
-                <content select="[slot='EditableContent/upload-control']"></content>
+                <slot name="EditableContent/upload-control"></slot>
             </div>
         </div>
     </template>

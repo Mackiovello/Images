@@ -12,11 +12,11 @@
         <button slot="Images/button-settings-save" class="btn btn-small btn-success" style="margin-top: 20px;" onclick="++this.value;" value="{{model.Save$::click}}">Save</button>
         <button slot="Images/button-settings-cleanup" class="btn btn-small btn-danger" style="margin-top: 20px;" onclick="++this.value;" value="{{model.CleanUpFiles$::click}}">Clean up files</button>
     </template>
-    <template is="starcounter-composition">       
-        <content select="[slot='Images/settings-header']"></content>
-        <content select="[slot='Images/upload-folder-path']"></content>
-        <content select="[slot='Images/max-file-size']"></content>
-        <content select="[slot='Images/button-settings-save']"></content>
-        <content select="[slot='Images/button-settings-cleanup']"></content>
+    <template is="declarative-shadow-dom">
+        <slot name="Images/settings-header"></slot>
+        <slot name="Images/upload-folder-path"></slot>
+        <slot name="Images/max-file-size"></slot>
+        <slot name="Images/button-settings-save"></slot>
+        <slot name="Images/button-settings-cleanup"></slot>
     </template>
 </template>

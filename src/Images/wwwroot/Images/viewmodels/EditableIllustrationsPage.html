@@ -30,18 +30,18 @@
             });
         })();
     </script>
-    <template is="starcounter-composition">
+    <template is="declarative-shadow-dom">
         <style>
             @import url("/images/css/illustrations.css");
-            
-            #images-add ::content > * {
+
+            #images-add ::slotted(*){
                 width: 100%;
                 border: 1px solid #dddddd;
                 border-radius: 3px;
                 padding: 4px;
             }
 
-            #images-add ::content > button.btn-carousel-add {
+            #images-add ::slotted(button.btn-carousel-add) {
                 background-image: url('/images/css/add.png');
                 background-color: #6A6A6A;
                 background-position: center;
@@ -50,13 +50,13 @@
         </style>
         <div id="images-carousel">
             <div id="images-thumbs">
-                <content select="[slot='Images/thumbnail']"></content>
+                <slot name="Images/thumbnail"></slot>
                 <div id="images-add">
-                    <content select="[slot='Images/add']"></content>
+                    <slot name="Images/add"></slot>
                 </div>
             </div>
             <div id="images-big">
-                <content select="[slot='Images/big']"></content>
+                <slot name="Images/big"></slot>
             </div>
         </div>
     </template>

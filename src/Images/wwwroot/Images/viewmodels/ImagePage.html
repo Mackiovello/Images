@@ -21,7 +21,7 @@
             };
         })();
     </script>
-    <template is="starcounter-composition">
+    <template is="declarative-shadow-dom">
         <!--
             Please note, that this style is encapsulated in Shadow DOM,
             so it won't affect element outside this composition.
@@ -58,21 +58,21 @@
         </style>
         <div class="images-form">
             <div class="images-toolbar__item--full-width">
-                <content select="[slot='Images/image-editable-content']"></content>
+                <slot name="Images/image-editable-content"></slot>
                 <div class="images-toolbar">
                     <div class="images-toolbar__item">
-                        <content select="[slot='Images/button-select']"></content>
+                        <slot name="Images/button-select"></slot>
                     </div>
                     <div class="images-toolbar__item--full-width">
-                        <content select="[slot='Images/image-url']"></content>
+                        <slot name="Images/image-url"></slot>
                     </div>
                 </div>
                 <div class="images-toolbar">
                     <div class="images-toolbar__item">
-                        <content select="[slot='Images/button-save']"></content>
+                        <slot name="Images/button-save"></slot>
                     </div>
                     <div class="images-toolbar__item">
-                        <content select="[slot='Images/button-cancel']"></content>
+                        <slot name="Images/button-cancel"></slot>
                     </div>
                 </div>
             </div>
