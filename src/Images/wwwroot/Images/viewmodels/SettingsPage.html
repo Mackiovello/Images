@@ -1,12 +1,12 @@
 <style>
-    .images-settings__label {
+    .images-settings-label {
         font-size: 12pt;
         margin: 0;
     }
-    .images-settings__control {
+    .images-settings-control {
         width: 50%
     }
-    .images-settings__button {
+    .images-settings-button {
         margin-top: 20px;
     }
 </style>
@@ -14,15 +14,15 @@
     <template is="dom-bind">
         <h3 slot="Images/settings-header">Images</h3>
         <div slot="Images/upload-folder-path">
-            <label class="control-label images-settings__label">Upload folder path</label>
-            <input type="text" value="{{model.UploadFolderPath$::input}}" class="form-control images-settings__control"/>
+            <label class="control-label images-settings-label">Upload folder path</label>
+            <input type="text" value="{{model.UploadFolderPath$::input}}" class="form-control images-settings-control"/>
         </div>
         <div slot="Images/max-file-size">
-            <label class="control-label images-settings__label">Maximum file size (MB)</label>
-            <input type="number" value="{{model.MaximumFileSizeMiB$::input}}" class="form-control images-settings__control"/>
+            <label class="control-label images-settings-label">Maximum file size (MB)</label>
+            <input type="number" value="{{model.MaximumFileSizeMiB$::input}}" class="form-control images-settings-control"/>
         </div>
-        <button slot="Images/button-settings-save" class="btn btn-small btn-success images-settings__button" onclick="++this.value;" value="{{model.Save$::click}}">Save</button>
-        <button slot="Images/button-settings-cleanup" class="btn btn-small btn-danger images-settings__button" onclick="++this.value;" value="{{model.CleanUpFiles$::click}}">Clean up files</button>
+        <button slot="Images/button-settings-save" class="btn btn-small btn-success images-settings-button" onclick="++this.value;" value="{{model.Save$::click}}">Save</button>
+        <button slot="Images/button-settings-cleanup" class="btn btn-small btn-danger images-settings-button" onclick="++this.value;" value="{{model.CleanUpFiles$::click}}">Clean up files</button>
     </template>
     <template is="starcounter-composition">
         <content select="[slot='Images/settings-header']"></content>

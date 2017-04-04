@@ -6,7 +6,7 @@
         <div slot="Content/preview" class="images-content-preview">
             <template is="dom-if" if="{{model.IsVideo}}" restamp="true">
                 <div class="images-content-preview__video">
-                    <div class="images-content-preview__video__preview">
+                    <div class="images-content-preview__video-content">
                         <video controls>
                             <source src="{{model.URL}}" type="{{model.MimeType}}">
                             Your browser does not support the video tag for file type
@@ -18,8 +18,7 @@
             <template is="dom-if" if="{{!model.IsVideo}}" restamp="true">
                 <template is="dom-if" if="{{model.IsImage}}">
                     <div class="images-content-preview__image" on-mousedown="imageClickEvent">
-                        <!--<div class="images-content-preview__image__thumbnail" style$="{{getImageStyle(model.URL)}}"></div>-->
-                        <img src$="{{getImageStyle(model.URL)}}" alt="{{model.Name}}" class="images-content-preview__image__thumbnail" />
+                        <img src$="{{getImageStyle(model.URL)}}" alt="{{model.Name}}" class="images-content-preview__image-content" />
                     </div>
                     <paper-dialog modal="true" opened="[[model.IsLightBoxVisible$]]" with-backdrop="true" class="images-preview-image-dialog" on-mousedown="closeEvent">
                         <img src="{{model.URL}}" class="images-preview-image-dialog-image" />
@@ -27,7 +26,7 @@
                 </template>
                 <template is="dom-if" if="{{!model.IsImage}}">
                     <div class="images-content-preview__image">
-                        <div class="images-content-preview__image__thumbnail" style$="{{getFileStyle()}}"></div>
+                        <div class="images-content-preview__image-content" style$="{{getFileStyle()}}"></div>
                     </div>
                 </template>
             </template>
@@ -42,7 +41,7 @@
                 return url;
             };
             template.getFileStyle = function () {
-                return "/images/css/file_preview.png";
+                return "background-image:url('/images/css/file_preview.png')";
             };
             template.closeEvent = function () {
                 template.set("model.IsLightBoxVisible$", false);
@@ -74,11 +73,6 @@
         })();
     </script>
     <template is="starcounter-composition">
-        <style>
-            .images-content-preview {
-                
-            }
-        </style>
         <div class="images-content-preview">
             <content select="[slot='Content/preview']"></content>
         </div>
