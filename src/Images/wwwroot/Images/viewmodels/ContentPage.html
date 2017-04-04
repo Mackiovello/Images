@@ -21,7 +21,7 @@
 </style>
 <template>
     <template is="dom-bind">
-        <div slot="Content/preview" class="content-preview">
+        <div slot="Images/preview" class="content-preview">
             <template is="dom-if" if="{{model.IsVideo}}" restamp="true">
                 <div class="img-border content-video">
                     <div class="video-preview">
@@ -98,7 +98,7 @@
             }
         </style>
         <div class="content-preview">
-            <slot name="Content/preview"></slot>
+            <slot name="Images/preview"></slot>
         </div>
     </template>
 </template>
