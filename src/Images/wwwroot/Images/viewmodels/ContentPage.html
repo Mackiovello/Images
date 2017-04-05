@@ -18,16 +18,14 @@
             <template is="dom-if" if="{{!model.IsVideo}}" restamp="true">
                 <template is="dom-if" if="{{model.IsImage}}">
                     <div class="images-content-preview__image" on-mousedown="imageClickEvent">
-                        <img src$="{{getImageStyle(model.URL)}}" alt="{{model.Name}}" class="images-content-preview__image-content" />
+                        <img src$="{{model.URL}}" alt="{{model.Name}}" class="images-content-preview__image-content" />
                     </div>
                     <paper-dialog modal="true" opened="[[model.IsLightBoxVisible$]]" with-backdrop="true" class="images-preview-image-dialog" on-mousedown="closeEvent">
                         <img src="{{model.URL}}" class="images-preview-image-dialog-image" />
                     </paper-dialog>
                 </template>
                 <template is="dom-if" if="{{!model.IsImage}}">
-                    <div class="images-content-preview__image">
-                        <div class="images-content-preview__image-content" style$="{{getFileStyle()}}"></div>
-                    </div>
+                        <div class="images-content-preview__image-content" style="background-image:url('/images/css/file_preview.png');"></div>
                 </template>
             </template>
         </div>
@@ -37,12 +35,6 @@
             var script = document._currentScript || document.currentScript;
             var template = script.previousElementSibling;
 
-            template.getImageStyle = function (url) {
-                return url;
-            };
-            template.getFileStyle = function () {
-                return "background-image:url('/images/css/file_preview.png')";
-            };
             template.closeEvent = function () {
                 template.set("model.IsLightBoxVisible$", false);
             }
