@@ -6,7 +6,7 @@
 
 1. Clone this repo to your local machine
 2. Build the solution by executing `build.bat` in Windows or `./build.bat` in Git Bash
-3. Run it by executing `run.bat` in Windows or `./run.bat"` in Git Bash
+3. Run it by executing `run.bat` in Windows or `./run.bat` in Git Bash
 4. Go to [http://localhost:8080/images](http://localhost:8080/images)
 
 ### Build and run using Visual Studio
