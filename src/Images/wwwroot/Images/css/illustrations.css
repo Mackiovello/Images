@@ -11,8 +11,20 @@
     overflow: auto;
 }
 
-    #images-thumbs ::content > img,
-    #images-thumbs ::slotted(img) {
+    /* For Shadow DOM V0 */
+    #images-thumbs > ::content > img,
+    /* For Shadow DOM V1*/
+    #images-thumbs > ::slotted(img) {
+        width: 100%;
+        border: 1px solid #dddddd;
+        border-radius: 3px;
+        padding: 4px;
+        margin-bottom: 4px;
+        cursor: pointer;
+    }
+
+    /* Duplicate ::content/::slotted rules for bug in Shadow DOM V0 Polifil */
+    #images-thumbs > img {
         width: 100%;
         border: 1px solid #dddddd;
         border-radius: 3px;

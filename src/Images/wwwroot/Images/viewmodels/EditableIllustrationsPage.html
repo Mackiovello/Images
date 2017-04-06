@@ -34,14 +34,27 @@
         <style>
             @import url("/images/css/illustrations.css");
 
-            #images-add ::slotted(*){
+            #images-add > ::slotted(*){
                 width: 100%;
                 border: 1px solid #dddddd;
                 border-radius: 3px;
                 padding: 4px;
             }
-
-            #images-add ::slotted(button.btn-carousel-add) {
+            #images-add > button.btn-carousel-add,
+            #images-add > ::slotted(button.btn-carousel-add) {
+                background-image: url('/images/css/add.png');
+                background-color: #6A6A6A;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+            /* Duplicate ::content/::slotted rules for bug in Shadow DOM V0 Polifil */
+            #images-add > :not(slot){
+                width: 100%;
+                border: 1px solid #dddddd;
+                border-radius: 3px;
+                padding: 4px;
+            }
+            #images-add > button.btn-carousel-add{
                 background-image: url('/images/css/add.png');
                 background-color: #6A6A6A;
                 background-position: center;
