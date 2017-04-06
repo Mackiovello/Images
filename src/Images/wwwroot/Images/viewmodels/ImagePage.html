@@ -2,13 +2,13 @@
 
 <template>
     <template is="dom-bind">
-        <div slot="Images/image-editable-content">
+        <div slot="images/image-editable-content">
             <starcounter-include partial="{{model.EditableContent}}"></starcounter-include>
         </div>
-        <input slot="Images/image-url" type="text" readonly="readonly" value="{{model.URL$}}" class="form-control"/>
-        <button slot="Images/button-select" type="button" class="btn btn-sm btn-default" on-click="openFileDialog">Select file</button>
-        <button slot="Images/button-save" type="button" class="btn btn-primary" onclick="++this.value;" value="{{model.Save$::click}}">Save</button>
-        <button slot="Images/button-cancel" type="button" class="btn btn-default" onclick="++this.value;" value="{{model.Cancel$::click}}">Cancel</button>
+        <input slot="images/image-url" type="text" readonly="readonly" value="{{model.URL$}}" class="form-control"/>
+        <button slot="images/button-select" type="button" class="btn btn-sm btn-default" on-click="openFileDialog">Select file</button>
+        <button slot="images/button-save" type="button" class="btn btn-primary" onclick="++this.value;" value="{{model.Save$::click}}">Save</button>
+        <button slot="images/button-cancel" type="button" class="btn btn-default" onclick="++this.value;" value="{{model.Cancel$::click}}">Cancel</button>
         <link is="puppet-redirect" history url$="{{model.RedirectUrl$}}"/>
     </template>
     <script>
@@ -58,21 +58,21 @@
         </style>
         <div class="images-form">
             <div class="images-toolbar__item--full-width">
-                <slot name="Images/image-editable-content"></slot>
+                <slot name="images/image-editable-content"></slot>
                 <div class="images-toolbar">
                     <div class="images-toolbar__item">
-                        <slot name="Images/button-select"></slot>
+                        <slot name="images/button-select"></slot>
                     </div>
                     <div class="images-toolbar__item--full-width">
-                        <slot name="Images/image-url"></slot>
+                        <slot name="images/image-url"></slot>
                     </div>
                 </div>
                 <div class="images-toolbar">
                     <div class="images-toolbar__item">
-                        <slot name="Images/button-save"></slot>
+                        <slot name="images/button-save"></slot>
                     </div>
                     <div class="images-toolbar__item">
-                        <slot name="Images/button-cancel"></slot>
+                        <slot name="images/button-cancel"></slot>
                     </div>
                 </div>
             </div>

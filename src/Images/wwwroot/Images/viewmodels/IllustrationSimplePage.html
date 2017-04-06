@@ -3,7 +3,7 @@
 
 <template>
     <template is="dom-bind">
-        <div class="images-illustration-simple-thumbnail" slot="Images/Illustration" style$="{{getStyle(model.Content.URL)}}"></div>
+        <div class="images-illustration-simple-thumbnail" slot="images/Illustration" style$="{{getStyle(model.Content.URL)}}"></div>
     </template>
 
     <script>
@@ -25,7 +25,7 @@
         </style>
 
         <div class="images-illustration-simple-image">
-            <slot name="Images/Illustration"></slot>
+            <slot name="images/Illustration"></slot>
         </div>
     </template>
 </template>

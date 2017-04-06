@@ -3,9 +3,9 @@
 <template>
     <template is="dom-bind">
         <template is="dom-repeat" items="{{model.Illustrations}}" restamp="true">
-            <img slot="Images/thumbnail" src="{{item.PreviewURL}}" onclick="++this.value;" value="{{item.Select$::click}}" />
+            <img slot="images/thumbnail" src="{{item.PreviewURL}}" onclick="++this.value;" value="{{item.Select$::click}}" />
         </template>
-        <div slot="Images/big">
+        <div slot="images/big">
             <starcounter-include partial="{{model.Selected.Content}}"></starcounter-include>
         </div>
     </template>
@@ -16,10 +16,10 @@
 
         <div id="images-carousel">
             <div id="images-thumbs">
-                <slot name="Images/thumbnail"></slot>
+                <slot name="images/thumbnail"></slot>
             </div>
             <div id="images-big">
-                <slot name="Images/big"></slot>
+                <slot name="images/big"></slot>
             </div>
         </div>
     </template>
