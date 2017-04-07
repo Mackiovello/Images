@@ -3,12 +3,12 @@
 <template>
     <template is="dom-bind">
         <template is="dom-repeat" items="{{model.Illustrations}}" restamp="true">
-            <img slot="Images/thumbnail" src="{{item.PreviewURL}}" onclick="++this.value;" value="{{item.Select$::click}}" />
+            <img slot="images/thumbnail" src="{{item.PreviewURL}}" onclick="++this.value;" value="{{item.Select$::click}}" />
         </template>
-        <button slot="Images/add" onclick="++this.value;" value="{{model.Add$::click}}" class="btn-carousel-add">
+        <button slot="images/add" onclick="++this.value;" value="{{model.Add$::click}}" class="btn-carousel-add">
             &nbsp;
         </button>
-        <so-juicy-filedrop slot="Images/big" id="jfFileDrop" session-id="{{model.SessionId}}" upload-url="/images/images" value="{{model.Selected.Content.URL$}}" filetype="{{model.Selected.Content.MimeType$}}" max-file-size="{{model.MaxFileSize}}" allowed-mime-types="{{model.AllowedMimeTypes}}">
+        <so-juicy-filedrop slot="images/big" id="jfFileDrop" session-id="{{model.SessionId}}" upload-url="/images/images" value="{{model.Selected.Content.URL$}}" filetype="{{model.Selected.Content.MimeType$}}" max-file-size="{{model.MaxFileSize}}" allowed-mime-types="{{model.AllowedMimeTypes}}">
             <div>
                 <button class="btn btn-default btn-xs" onclick="++this.value;" value="{{model.Delete$::click}}">Delete</button>
                 <template is="dom-if" if="{{model.Selected.Content.URL$}}">
@@ -30,18 +30,31 @@
             });
         })();
     </script>
-    <template is="starcounter-composition">
+    <template is="declarative-shadow-dom">
         <style>
             @import url("/images/css/illustrations.css");
-            
-            #images-add ::content > * {
+
+            #images-add > ::slotted(*){
                 width: 100%;
                 border: 1px solid #dddddd;
                 border-radius: 3px;
                 padding: 4px;
             }
-
-            #images-add ::content > button.btn-carousel-add {
+            #images-add > button.btn-carousel-add,
+            #images-add > ::slotted(button.btn-carousel-add) {
+                background-image: url('/images/css/add.png');
+                background-color: #6A6A6A;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+            /* Duplicate ::content/::slotted rules for bug in Shadow DOM V0 Polifil */
+            #images-add > :not(slot){
+                width: 100%;
+                border: 1px solid #dddddd;
+                border-radius: 3px;
+                padding: 4px;
+            }
+            #images-add > button.btn-carousel-add{
                 background-image: url('/images/css/add.png');
                 background-color: #6A6A6A;
                 background-position: center;
@@ -50,13 +63,13 @@
         </style>
         <div id="images-carousel">
             <div id="images-thumbs">
-                <content select="[slot='Images/thumbnail']"></content>
+                <slot name="images/thumbnail"></slot>
                 <div id="images-add">
-                    <content select="[slot='Images/add']"></content>
+                    <slot name="images/add"></slot>
                 </div>
             </div>
             <div id="images-big">
-                <content select="[slot='Images/big']"></content>
+                <slot name="images/big"></slot>
             </div>
         </div>
     </template>
