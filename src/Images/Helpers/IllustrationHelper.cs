@@ -13,12 +13,27 @@ namespace Images
     {
         private readonly string _rootPath;
         private readonly ImagesSettings _imagesSettings;
-        public static readonly int BytesInMiB = 1024 * 1024;
-        public static readonly int DefaultMaximumFileSize = 10 * BytesInMiB;
+        private static readonly int BytesInMiB = 1024 * 1024;
+        private static readonly int DefaultMaximumFileSize = 10 * BytesInMiB;
+        private static readonly string DefaultUploadFolderPath = "/";
 
         public IllustrationHelper()
         {
             _imagesSettings = Db.SQL("SELECT s FROM Simplified.Ring6.ImagesSettings s").First as ImagesSettings;
+
+            if (_imagesSettings == null)
+            {
+                Db.Transact(() =>
+                {
+                    new ImagesSettings
+                    {
+                        MaximumFileSize = DefaultMaximumFileSize,
+                        UploadFolderPath = DefaultUploadFolderPath
+                    };
+                });
+
+                _imagesSettings = Db.SQL("SELECT s FROM Simplified.Ring6.ImagesSettings s").First as ImagesSettings;
+            }
 
             var rootPath = Path.GetPathRoot(Application.Current.FilePath);
             _rootPath = Path.Combine(rootPath, "UploadedFiles");
@@ -34,17 +49,7 @@ namespace Images
 
         public string GetUploadDirectory()
         {
-            string path;
-            if (_imagesSettings == null)
-            {
-                path = "/";
-            }
-            else
-            {
-                path = _imagesSettings.UploadFolderPath;
-            }
-
-            return path;
+            return _imagesSettings.UploadFolderPath;
         }
 
         public string GetUploadRoot()
@@ -69,7 +74,7 @@ namespace Images
 
         public int GetMaximumFileSizeBytes()
         {
-            return _imagesSettings?.MaximumFileSize ?? DefaultMaximumFileSize;
+            return _imagesSettings.MaximumFileSize;
         }
 
         public void DeleteFile(Illustration illustration)

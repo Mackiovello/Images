@@ -1,25 +1,24 @@
-﻿<link rel="import" href="/Images/elements/so-juicy-filedrop/so-juicy-filedrop.html" />
+<link rel="import" href="/Images/elements/so-juicy-filedrop/so-juicy-filedrop.html" />
 
 <template>
     <template is="dom-bind">
         <template is="dom-repeat" items="{{model.Illustrations}}" restamp="true">
-            <img slot="Images/thumbnail" src="{{item.PreviewURL}}" onclick="++this.value;" value="{{item.Select$::click}}" />
+            <img slot="images/thumbnail" src="{{item.PreviewURL}}" onclick="++this.value;" value="{{item.Select$::click}}" />
         </template>
-        <div slot="Images/big">
+        <div slot="images/big">
             <starcounter-include partial="{{model.Selected.Content}}"></starcounter-include>
         </div>
     </template>
-    <template is="starcounter-composition">
+    <template is="declarative-shadow-dom">
         <style>
             @import url("/images/css/illustrations.css");
         </style>
-
-        <div class="images-carousel">
+        <div id="images-carousel">
             <div class="images-carousel__thumbs">
-                <content select="[slot='Images/thumbnail']"></content>
+                <slot name="images/thumbnail"></slot>
             </div>
-            <div id="images-carousel__big">
-                <content select="[slot='Images/big']"></content>
+            <div class="images-carousel__big">
+                <slot name="images/big"></slot>
             </div>
         </div>
     </template>

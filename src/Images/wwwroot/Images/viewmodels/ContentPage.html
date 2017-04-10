@@ -1,9 +1,9 @@
-﻿<link rel="import" href="/sys/paper-dialog/paper-dialog.html" />
+<link rel="import" href="/sys/paper-dialog/paper-dialog.html" />
 <link rel="stylesheet" type="text/css" href="/Images/css/images.css" />
 
 <template>
     <template is="dom-bind">
-        <div slot="Content/preview" class="images-content-preview">
+        <div slot="images/preview" class="images-content-preview">
             <template is="dom-if" if="{{model.IsVideo}}" restamp="true">
                 <div class="images-content-preview__video">
                     <div class="images-content-preview__video-content">
@@ -64,9 +64,14 @@
             window.addEventListener("resize", calculateImage);
         })();
     </script>
-    <template is="starcounter-composition">
+    <template is="declarative-shadow-dom">
+        <style>
+            .images-content-preview {
+                height: 100%;
+            }
+        </style>
         <div class="images-content-preview">
-            <content select="[slot='Content/preview']"></content>
+            <slot name="images/preview"></slot>
         </div>
     </template>
 </template>

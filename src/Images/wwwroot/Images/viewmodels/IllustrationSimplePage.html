@@ -3,7 +3,7 @@
 
 <template>
     <template is="dom-bind">
-        <div class="images-illustration-simple-thumbnail" slot="Images/Illustration" style$="{{getStyle(model.Content.URL)}}"></div>
+        <div class="images-illustration-simple-thumbnail" slot="images/Illustration" style$="{{getStyle(model.Content.URL)}}"></div>
     </template>
 
     <script>
@@ -14,7 +14,7 @@
         })(document.currentScript.previousElementSibling);
     </script>
 
-    <template is="starcounter-composition">
+    <template is="declarative-shadow-dom">
         <style>
             .images-illustration-simple-image {
                 display: flex;
@@ -25,7 +25,7 @@
         </style>
 
         <div class="images-illustration-simple-image">
-            <content select="[slot='Images/Illustration']"></content>
+            <slot name="images/Illustration"></slot>
         </div>
     </template>
 </template>
