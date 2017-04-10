@@ -32,7 +32,7 @@ namespace Images
             });
 
             // Workspace root (Launchpad)
-            Handle.GET("/images", (Request request) =>
+            AuthorizedHandle.GET("/images", (Request request) =>
             {
                 return Db.Scope(() =>
                 {
