@@ -65,11 +65,13 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\AuthorizedHandlers.cs" />
     <Compile Include="Api\UploadHandlers.cs" />
     <Compile Include="Api\MainHandlers.cs" />
     <Compile Include="Helpers\IllustrationHelper.cs" />
     <Compile Include="Helpers\ImageValidator.cs" />
     <Compile Include="Helpers\UpgradeData.cs" />
+    <Compile Include="Permissions\ListImages.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ViewModels\IllustrationSimplePage.json.cs">
       <DependentUpon>IllustrationSimplePage.json</DependentUpon>
@@ -131,6 +133,7 @@
     <Content Include="wwwroot\Images\viewmodels\AppMenu.html" />
     <Content Include="wwwroot\Images\viewmodels\ConceptIllustrationWarningPage.html" />
     <Content Include="wwwroot\Images\viewmodels\EditPage.html" />
+    <Content Include="wwwroot\Images\viewmodels\UnauthorizedPage.html" />
     <TypedJSON Include="ViewModels\ContentPage.json">
       <Generator>MsBuild:Compile</Generator>
     </TypedJSON>
@@ -150,6 +153,9 @@
       <Generator>MsBuild:Compile</Generator>
     </TypedJSON>
     <TypedJSON Include="ViewModels\IllustrationSimplePage.json">
+      <Generator>MsBuild:Compile</Generator>
+    </TypedJSON>
+    <TypedJSON Include="ViewModels\UnauthorizedPage.json">
       <Generator>MsBuild:Compile</Generator>
     </TypedJSON>
     <None Include="wwwroot\Images\viewmodels\ContentPage.html" />
@@ -196,6 +202,12 @@
     <TypedJSON Include="ViewModels\MobileEditPage.json">
       <Generator>MsBuild:Compile</Generator>
     </TypedJSON>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\authorization\Authorization\Authorization.csproj">
+      <Project>{48cf4a36-c006-4649-bad6-027e7962efae}</Project>
+      <Name>Authorization</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(StarcounterBin)\Starcounter.MsBuild.targets" />
