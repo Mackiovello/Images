@@ -110,17 +110,6 @@ namespace Images
 
         protected void RegisterPartials()
         {
-            Handle.GET("/images/partials/images", (Request request) =>
-            {
-                var page = new ImagesPage
-                {
-                    Html = "/Images/viewmodels/ImagesPage.html",
-                    Uri = request.Uri
-                };
-
-                return page;
-            });
-
             Handle.GET("/images/partials/somethings/{?}", (string objectId) =>
             {
                 var data = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Something;
