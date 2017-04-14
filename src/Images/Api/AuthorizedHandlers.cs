@@ -14,7 +14,8 @@ namespace Images
     {
         public void Register()
         {
-            var rules = new AuthorizationRules();
+            var rules = RegisterRules();
+
             var enforcement = new AuthorizationEnforcement(rules, new SystemUserAuthentication());
             var router = Router.CreateDefault();
 
@@ -27,18 +28,14 @@ namespace Images
                 },
                 PageSecurity.CreateThrowingDeniedHandler<Exception>()));
 
-            RegisterHandlers(router);
-            RegisterPermissions(rules);
+            router.RegisterAllFromCurrentAssembly();
         }
 
-        protected void RegisterHandlers(Router router)
+        protected AuthorizationRules RegisterRules()
         {
-            router.HandleGet<ImagesPage>("/images/partials/images");
-        }
-
-        protected void RegisterPermissions(AuthorizationRules rules)
-        {
+            var rules = new AuthorizationRules();
             rules.AddRule(new ClaimRule<ListImages, SystemUserClaim>((claim, permission) => true));
+            return rules;
         }
     }
 }
