@@ -77,6 +77,11 @@ namespace Images {
                                    "}";
 
                     ws.Send(progress);
+
+                    if(task.Progress == 100)
+                    {
+                        ws.Disconnect();
+                    }
                 }
             });
 
