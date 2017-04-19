@@ -44,7 +44,7 @@ namespace Images
             {
                 return Db.Scope<Json>(() =>
                 {
-                    return ReturnWithinMaster(Self.GET<ImagePage>("/Images/partials/image/"));
+                    return ReturnWithinMaster(Self.GET<ImagePage>("/images/partials/image/"));
                 });
             });
 
@@ -52,7 +52,7 @@ namespace Images
             {
                 return Db.Scope<Json>(() =>
                 {
-                    return ReturnWithinMaster(Self.GET<ImagePage>("/Images/partials/image/" + objectId));
+                    return ReturnWithinMaster(Self.GET<ImagePage>("/images/partials/image/" + objectId));
                 });
             });
 

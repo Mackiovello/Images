@@ -6,6 +6,44 @@ Put an image on anything. Supports drag'n'drop. Try it with **people** or **prod
 - Latest Polymer 0.5 commit: https://github.com/Polyjuice/Images/commit/324dee2e78bb5aaef8863270d597332215078be3
 - Latest Polymer 0.5 release: https://github.com/Polyjuice/Images/releases/tag/2.0.4
 
+## Installation instructions
+
+This app requires [SignIn](https://github.com/starcounterapps/signin) 4.0.0 or newer.
+
+The following resources are available only for a signed in user:
+* `/images`
+* `/images/partials/images`
+
+The following resources doesn't require additional permissions:
+* `/images/image`
+* `/images/partials/image/`
+* `/images/image/{?}`
+* `/Images/partials/image/{?}`
+* `/images/contents/{?}`
+* `/images/partials/contents/{?}`
+* `/images/contents-edit/{?}`
+* `/images/partials/contents-edit/{?}`
+* `/images/somethings/{?}`
+* `/images/partials/somethings/{?}`
+* `/images/somethings-edit/{?}`
+* `/images/partials/somethings-edit/{?}`
+* `/images/partials/illustrations/{?}`
+* `/images/partials/concept-somebody/{?}`
+* `/images/partials/concept-vendible/{?}`
+* `/images/partials/concept-chatmessage/{?}`
+* `/images/partials/concept-chatattachment/{?}`
+
+See the [instructions for the SignIn app](https://github.com/StarcounterApps/People#creating-the-first-user) to create a first user.
+
+### Creating the first user
+
+This app will set up priviledges for a default admin user group, but does not create that that group.
+
+The correct way to install this app is:
+
+1. Install and start SignIn app
+2. Run [`http://localhost:8080/signin/generateadminuser`](http://localhost:8080/signin/generateadminuser). Handler of this URL creates the `Admin (System Users)` group and the `admin` user in that group.
+
 ## Partials
 
 ### GET /images/partials/contents/`{Content ObjectID}`
