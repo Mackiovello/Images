@@ -10,8 +10,6 @@ For developer instructions, go to [CONTRIBUTING](CONTRIBUTING.md).
 
 ## Installation instructions
 
-This app requires [SignIn](https://github.com/starcounterapps/signin) 4.0.0 or newer.
-
 The following resources are available only for a signed in user:
 * `/images`
 * `/images/partials/images`
@@ -35,16 +33,7 @@ The following resources doesn't require additional permissions:
 * `/images/partials/concept-chatmessage/{?}`
 * `/images/partials/concept-chatattachment/{?}`
 
-See the [instructions for the SignIn app](https://github.com/StarcounterApps/People#creating-the-first-user) to create a first user.
-
-### Creating the first user
-
-This app will set up priviledges for a default admin user group, but does not create that that group.
-
-The correct way to install this app is:
-
-1. Install and start SignIn app
-2. Run [`http://localhost:8080/signin/generateadminuser`](http://localhost:8080/signin/generateadminuser). Handler of this URL creates the `Admin (System Users)` group and the `admin` user in that group.
+See the [instructions for the SignIn app](https://github.com/StarcounterApps/SignIn#default-admin-user) to create a first user.
 
 ## Partials
 
