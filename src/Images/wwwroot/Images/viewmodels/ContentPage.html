@@ -1,31 +1,12 @@
-﻿<link rel="import" href="/sys/paper-dialog/paper-dialog.html"/>
-<link rel="stylesheet" type="text/css" href="/Images/css/standalone.css"/>
+<link rel="import" href="/sys/paper-dialog/paper-dialog.html" />
+<link rel="stylesheet" type="text/css" href="/Images/css/images.css" />
 
-<style>
-    .content-image, .content-video, .content-preview {
-        min-height: 50px;
-        min-width: 50px;
-        height: 100%;
-        width: 100%;
-    }
-
-        .content-image .img-thumbnail {
-            min-height: 50px;
-            min-width: 50px;
-            height: 100%;
-            width: 100%;
-            background-size: contain;
-            background-position: center center;
-            background-repeat: no-repeat;
-        }
-</style>
 <template>
     <template is="dom-bind">
-        <div slot="images/preview" class="content-preview">
+        <div slot="images/preview" class="images-content-preview">
             <template is="dom-if" if="{{model.IsVideo}}" restamp="true">
-                <div class="img-border content-video">
-                    <div class="video-preview">
-                        <div class="cover"></div>
+                <div class="images-content-preview__video">
+                    <div class="images-content-preview__video-content">
                         <video controls>
                             <source src="{{model.URL}}" type="{{model.MimeType}}">
                             Your browser does not support the video tag for file type
@@ -36,17 +17,15 @@
             </template>
             <template is="dom-if" if="{{!model.IsVideo}}" restamp="true">
                 <template is="dom-if" if="{{model.IsImage}}">
-                    <div class="img-border content-image" on-mousedown="imageClickEvent">
-                        <div class="img-thumbnail" style$="{{getImageStyle(model.URL)}}"></div>
+                    <div class="images-content-preview__image" on-mousedown="imageClickEvent">
+                        <img src$="{{model.URL}}" alt="{{model.Name}}" class="images-content-preview__image-content" />
                     </div>
                     <paper-dialog modal="true" opened="[[model.IsLightBoxVisible$]]" with-backdrop="true" class="images-preview-image-dialog" on-mousedown="closeEvent">
-                        <img src="{{model.URL}}" class="images-preview-image-dialog-image"/>
+                        <img src="{{model.URL}}" class="images-preview-image-dialog-image" />
                     </paper-dialog>
                 </template>
                 <template is="dom-if" if="{{!model.IsImage}}">
-                    <div class="img-border content-image">
-                        <div class="img-thumbnail" style$="{{getFileStyle()}}"></div>
-                    </div>
+                        <div class="images-content-preview__image-content" style="background-image:url('/images/css/file_preview.png');"></div>
                 </template>
             </template>
         </div>
@@ -56,18 +35,12 @@
             var script = document._currentScript || document.currentScript;
             var template = script.previousElementSibling;
 
-            template.getImageStyle = function (url) {
-                return "background-image:url('" + url + "')";
-            };
-            template.getFileStyle = function () {
-                return "background-image:url('/images/css/file_preview.png')";
-            };
             template.closeEvent = function () {
                 template.set("model.IsLightBoxVisible$", false);
             }
 
             template.imageClickEvent = function (e) {
-                if (template.model.URL && e.target.nodeName == "DIV") {
+                if (template.model.URL && e.target.nodeName == "IMG") {
                     calculateImage();
                     template.set("model.IsLightBoxVisible$", true);
                 }
@@ -93,11 +66,11 @@
     </script>
     <template is="declarative-shadow-dom">
         <style>
-            .content-preview {
+            .images-content-preview {
                 height: 100%;
             }
         </style>
-        <div class="content-preview">
+        <div class="images-content-preview">
             <slot name="images/preview"></slot>
         </div>
     </template>

@@ -1,37 +1,30 @@
 <link rel="import" href="/sys/puppet-redirect/puppet-redirect.html" />
 <link rel="import" href="/sys/paper-dialog/paper-dialog.html" />
 
-<style>
-    .img-illustration {
-        max-width:100px;
-        max-height:100px;
-    }
-</style>
-
 <template>
     <template is="dom-bind">
-        <table class="table">
+        <table class="images-table">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Mime type</th>
-                    <th>ImageURL</th>
-                    <th>Preview</th>
-                    <th></th>
+                    <th class="images-table__th">Name</th>
+                    <th class="images-table__th">Mime type</th>
+                    <th class="images-table__th">ImageURL</th>
+                    <th class="images-table__th">Preview</th>
+                    <th class="images-table__th"></th>
                 </tr>
             </thead>
             <tbody>
                 <template is="dom-repeat" items="{{model.Images}}">
                     <tr>
-                        <td>{{item.Name}}</td>
-                        <td>{{item.MimeType}}</td>
-                        <td>{{item.URL}}</td>
-                        <td>
+                        <td class="images-table__td">{{item.Name}}</td>
+                        <td class="images-table__td">{{item.MimeType}}</td>
+                        <td class="images-table__td">{{item.URL}}</td>
+                        <td class="images-table__td">
                             <a href="{{item.ContentURL}}">
-                                <img class="img-illustration img-thumbnail" src="{{item.PreviewURL}}" />
+                                <img class="images-table__img-thumbnail" src="{{item.PreviewURL}}" />
                             </a>
                         </td>
-                        <td>
+                        <td class="images-table__td">
                             <button class="btn btn-sm btn-default" onclick="++this.value;" value="{{item.Delete$::click}}">Delete</button>
                             <a href="{{item.ContentEditURL}}" class="btn btn-sm btn-default">Edit</a>
                         </td>
@@ -39,10 +32,10 @@
                 </template>
             </tbody>
         </table>
-        <button class="btn btn-primary" onclick="++this.value;" value="{{model.Add$::click}}">Add new image</button>
+        <button class="btn btn-primary" onclick="++this.value;" value="{{model.Add$::click}}">Add image or video</button>
         <link is="puppet-redirect" history url$="{{model.RedirectUrl$}}" />
         <!-- A bug in Polymer: https://github.com/PolymerElements/iron-fit-behavior/issues/13 -->
-        <div id="divConfirmDialog" style="position:absolute; top:0; left:0;">
+        <div id="divConfirmDialog" class="images-confirm-dialog">
             <paper-dialog id="actions" opened="[[model.Confirm.Message]]" modal="true">
                 <div>
                     <h2>Confirmation</h2>
