@@ -6,6 +6,8 @@ Put an image on anything. Supports drag'n'drop. Try it with **people** or **prod
 - Latest Polymer 0.5 commit: https://github.com/Polyjuice/Images/commit/324dee2e78bb5aaef8863270d597332215078be3
 - Latest Polymer 0.5 release: https://github.com/Polyjuice/Images/releases/tag/2.0.4
 
+For developer instructions, go to [CONTRIBUTING](CONTRIBUTING.md).
+
 ## Partials
 
 ### GET /images/partials/contents/`{Content ObjectID}`
