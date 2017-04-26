@@ -225,7 +225,7 @@
                 allowedMimeTypes: { type: Array, value: [] },
                 openClick: { type: Number, value: 0, observer: "openClickChanged" },
                 alertMessage: { type: String },
-                ismobile: { type: Boolean, notify: true }
+                ismobile: { type: Boolean, notify: true, value: false }
             },
             observers: ["onValueChanged(value)"],
             ready: function () {
