@@ -9,19 +9,20 @@
                 <starcounter-include partial="{{model.ContentPage}}"></starcounter-include>
             </template>
         </div>
-        <images-filedrop id="jfFileDrop" style$="{{getUploaderStyle(model.URL$)}}" slot="images/upload-control" session-id="{{model.SessionId}}" upload-url="/images/images" value="{{model.URL$}}" filetype="{{model.MimeType$}}" max-file-size="{{model.MaxFileSize}}" allowed-mime-types="{{model.AllowedMimeTypes}}" open-click="{{model.Open$}}" ismobile="{{model.IsMobile$}}"></images-filedrop>
+        <images-filedrop on-statechange="onStateChange" style$="{{getUploaderStyle(model.URL$)}}" slot="images/upload-control" session-id="{{model.SessionId}}" upload-url="/images/images" value="{{model.URL$}}" filetype="{{model.MimeType$}}" max-file-size="{{model.MaxFileSize}}" allowed-mime-types="{{model.AllowedMimeTypes}}" open-click="{{model.Open$}}" ismobile="{{model.IsMobile$}}"></images-filedrop>
     </template>
     <script>
         (function () {
             var script = document._currentScript || document.currentScript;
             var template = script.previousElementSibling;
 
-            template.addEventListener('dom-change', function () {
-                var jf = document.getElementById("jfFileDrop");
-                jf.addEventListener("fileUploaded", function (e) {
-                    template.set("model.Name$", e.detail.file.name);
-                });
-            });
+            template.onStateChange = function (ev) {
+                if (ev.detail && ev.detail.file && ev.detail.file.name) {
+                    if (ev.detail.file.name !== template.get("model.Name$")) {
+                      template.set("model.Name$", ev.detail.file.name);
+                    }
+                }
+            };
 
             template.getUploaderStyle = function (url) {
                 return url ? "display:none;" : "";
