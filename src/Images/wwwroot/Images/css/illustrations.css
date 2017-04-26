@@ -1,20 +1,20 @@
-﻿#images-carousel {
+.images-carousel {
     display: block;
     overflow: hidden;
     display: flex;
     height: 300px;
 }
 
-#images-thumbs {
+.images-carousel__thumbs {
     margin: 5px;
     width: 100px;
     overflow: auto;
 }
 
     /* For Shadow DOM V0 */
-    #images-thumbs > ::content > img,
+    .images-carousel__thumbs > ::content > img,
     /* For Shadow DOM V1*/
-    #images-thumbs > ::slotted(img) {
+    .images-carousel__thumbs > ::slotted(img) {
         width: 100%;
         border: 1px solid #dddddd;
         border-radius: 3px;
@@ -24,7 +24,7 @@
     }
 
     /* Duplicate ::content/::slotted rules for bug in Shadow DOM V0 Polifil */
-    #images-thumbs > img {
+    .images-carousel__thumbs > img {
         width: 100%;
         border: 1px solid #dddddd;
         border-radius: 3px;
@@ -33,7 +33,7 @@
         cursor: pointer;
     }
 
-#images-big {
+.images-carousel__big {
     margin: 5px;
     width: calc(100% - 100px);
 }
