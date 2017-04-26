@@ -12,7 +12,6 @@
     "tests"
   ],
   "dependencies": {
-    "juicy-filedrop": "Juicy/juicy-filedrop#~1.0.2",
     "paper-dialog": "^1.0.4",
     "starcounter-upload": "Starcounter/starcounter-upload#^0.0.7"
   }

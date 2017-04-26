@@ -1,4 +1,4 @@
-﻿<link rel="import" href="/Images/elements/so-juicy-filedrop/so-juicy-filedrop.html"/>
+﻿<link rel="import" href="/Images/elements/images-filedrop/images-filedrop.html"/>
 <script src="/Images/elements/IsMobile.js"></script>
 
 <template>
@@ -9,7 +9,7 @@
                 <starcounter-include partial="{{model.ContentPage}}"></starcounter-include>
             </template>
         </div>
-        <so-juicy-filedrop id="jfFileDrop" style$="{{getUploaderStyle(model.URL$)}}" slot="images/upload-control" session-id="{{model.SessionId}}" upload-url="/images/images" value="{{model.URL$}}" filetype="{{model.MimeType$}}" max-file-size="{{model.MaxFileSize}}" allowed-mime-types="{{model.AllowedMimeTypes}}" open-click="{{model.Open$}}" ismobile="{{model.IsMobile$}}"></so-juicy-filedrop>
+        <images-filedrop id="jfFileDrop" style$="{{getUploaderStyle(model.URL$)}}" slot="images/upload-control" session-id="{{model.SessionId}}" upload-url="/images/images" value="{{model.URL$}}" filetype="{{model.MimeType$}}" max-file-size="{{model.MaxFileSize}}" allowed-mime-types="{{model.AllowedMimeTypes}}" open-click="{{model.Open$}}" ismobile="{{model.IsMobile$}}"></images-filedrop>
     </template>
     <script>
         (function () {

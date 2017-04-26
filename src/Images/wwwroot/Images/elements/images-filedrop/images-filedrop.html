@@ -1,7 +1,7 @@
 ﻿<link rel="import" href="/sys/paper-dialog/paper-dialog.html" />
 <link rel="import" href="/sys/starcounter-upload/starcounter-upload.html" />
 
-<dom-module id="so-juicy-filedrop">
+<dom-module id="images-filedrop">
     <template>
         <style>
             :host {
@@ -15,16 +15,6 @@
                 width: 100%;
                 padding: 0px;
                 margin: 0px;
-            }
-
-            juicy-filedrop {
-                display: block;
-                overflow: hidden;
-                color: rgb(170, 170, 170);
-                border: 0px solid black;
-                border: 0px solid #ccc;
-                border-radius: 3px;
-                height: 100%;
             }
 
             .drop-file-here {
@@ -237,7 +227,7 @@
     </template>
     <script>
         Polymer({
-            is: "so-juicy-filedrop",
+            is: "images-filedrop",
             properties: {
                 uploadUrl: { type: String },
                 value: { type: String, notify: true },
