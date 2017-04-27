@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Reflection;
 using Images.Permissions;
 using Starcounter;
 using Starcounter.Authorization.Authentication;
@@ -14,24 +16,36 @@ namespace Images
     {
         public void Register()
         {
+            Router outsideFacingRouter = CreateOutsideFacingRouter();
+            Router selfOnlyRouter = Router.CreateDefault();
+
+            var partialPages = Assembly.GetAssembly(typeof(AuthorizedHandlers))
+                .GetTypes()
+                .Select(type => Tuple.Create(type, type.GetCustomAttribute<PartialUrlAttribute>()))
+                .Where(tuple => tuple.Item2 != null);
+
+            foreach (var tuple in partialPages)
+            {
+                selfOnlyRouter.HandleGet(tuple.Item2.UriPartialVersion, tuple.Item1, new HandlerOptions() {SelfOnly = true});
+                outsideFacingRouter.HandleGet(tuple.Item2.UriPartialVersion.Replace("/partials", ""), tuple.Item1);
+            }
+        }
+
+        private Router CreateOutsideFacingRouter()
+        {
+            var router = Router.CreateDefault();
+            router.AddMiddleware(new MasterPageMiddleware());
             var rules = RegisterRules();
 
             var enforcement = new AuthorizationEnforcement(rules, new SystemUserAuthentication());
-            var router = Router.CreateDefault();
-
             router.AddMiddleware(new SecurityMiddleware(enforcement,
-                info =>
-                {
-                    var response = Response.FromStatusCode(403);
-                    response.Resource = new UnauthorizedPage();
-                    return response;
-                },
+                info => 403,
                 PageSecurity.CreateThrowingDeniedHandler<Exception>()));
 
-            router.RegisterAllFromCurrentAssembly();
+            return router;
         }
 
-        protected AuthorizationRules RegisterRules()
+        private AuthorizationRules RegisterRules()
         {
             var rules = new AuthorizationRules();
             rules.AddRule(new ClaimRule<ListImages, SystemUserClaim>((claim, permission) => true));

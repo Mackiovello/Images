@@ -52,8 +52,8 @@
     <Reference Include="Starcounter.Apps.JsonPatch, Version=2.0.0.0, Culture=neutral, PublicKeyToken=d2df1e81d0ca3abf, processorArchitecture=AMD64">
       <Private>False</Private>
     </Reference>
-    <Reference Include="Starcounter.Authorization, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Starcounter.Authorization.1.0.0\lib\net45\Starcounter.Authorization.dll</HintPath>
+    <Reference Include="Starcounter.Authorization, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Starcounter.Authorization.1.1.0\lib\net45\Starcounter.Authorization.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -74,6 +74,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\AuthorizedHandlers.cs" />
+    <Compile Include="Api\MasterPageMiddleware.cs" />
+    <Compile Include="Api\PartialUrlAttribute.cs" />
     <Compile Include="Api\UploadHandlers.cs" />
     <Compile Include="Api\MainHandlers.cs" />
     <Compile Include="Helpers\IllustrationHelper.cs" />

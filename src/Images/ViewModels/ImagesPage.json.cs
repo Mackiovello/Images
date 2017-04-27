@@ -7,7 +7,7 @@ using Starcounter.Authorization.Routing;
 
 namespace Images
 {
-    [Url("/images/partials/images")]
+    [PartialUrl("/images/partials/images")]
     [RequirePermission(typeof(ListImages))]
     partial class ImagesPage : Json
     {
