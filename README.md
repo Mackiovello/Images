@@ -105,13 +105,11 @@ Screenshot:
 Sample mapping:
 
 ```cs
-StarcounterEnvironment.RunWithinApplication("Images", () => {
-    Handle.GET("/images/partials/concept-YOURCLASS/{?}", (string objectId) => {
-        return Self.GET("/images/partials/somethings-edit/" + objectId);
-    });
-
-    Blender.MapUri<YOURAPP.YOURCLASS>("/images/partials/concept-YOURCLASS/{?}");
+Handle.GET("/images/partials/concept-YOURCLASS/{?}", (string objectId) => {
+    return Self.GET("/images/partials/somethings-edit/" + objectId);
 });
+
+Blender.MapUri<YOURAPP.YOURCLASS>("/images/partials/concept-YOURCLASS/{?}");
 ```
 
 ## License

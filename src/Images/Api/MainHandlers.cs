@@ -1,5 +1,6 @@
 ﻿using Starcounter;
 using Simplified.Ring1;
+using Simplified.Ring2;
 using Simplified.Ring3;
 using Simplified.Ring6;
 using Simplified.Ring6.Images;
@@ -326,31 +327,12 @@ namespace Images
             Blender.MapUri("/images/app-name", "app-name");
             Blender.MapUri("/images/settings", "settings");
 
-            #region Wrapper URI handlers for usage in OntologyMap
-            Handle.GET("/images/partials/concept-somebody/{?}", (string objectId) =>
-            {
-                return Self.GET("/images/partials/somethings-edit/" + objectId);
-            });
-            Handle.GET("/images/partials/concept-vendible/{?}", (string objectId) =>
-            {
-                return Self.GET("/images/partials/somethings-edit/" + objectId);
-            });
-            Handle.GET("/images/partials/concept-chatmessage/{?}", (string objectId) =>
-            {
-                return Self.GET("/images/partials/somethings-single/" + objectId);
-            });
-            Handle.GET("/images/partials/concept-chatattachment/{?}", (string objectId) =>
-            {
-                return Self.GET("/images/partials/illustrations-edit/" + objectId);
-            });
-            # endregion
-
             #region OntologyMap
-            // TODO: This mapping can be removed since there is no app which uses mapping on Somebody class
-            Blender.MapUri<Somebody>("/images/partials/concept-somebody/{?}");
+            Blender.MapUri<Person>("/images/partials/somethings-edit/{?}");
+            Blender.MapUri<Organization>("/images/partials/somethings-edit/{?}");
+            Blender.MapUri<Product>("/images/partials/somethings-edit/{?}");
 
-            Blender.MapUri<Product>("/images/partials/concept-vendible/{?}");
-            Blender.MapUri<ChatMessage>("/images/partials/concept-chatmessage/{?}",
+            Blender.MapUri<ChatMessage>("/images/partials/somethings-single/{?}",
                 paramsFrom => paramsFrom,
                 paramsTo =>
                 {
@@ -366,7 +348,7 @@ namespace Images
                     var chatMessage = (ChatMessage)DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId));
                     return chatMessage.IsDraft ? paramsTo : null;
                 });
-            Blender.MapUri<ChatAttachment>("/images/partials/concept-chatattachment/{?}",
+            Blender.MapUri<ChatAttachment>("/images/partials/illustrations-edit/{?}",
                 paramsFrom => paramsFrom,
                 paramsTo =>
                 {
