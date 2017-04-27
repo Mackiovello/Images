@@ -1,5 +1,3 @@
-﻿<link rel="import" href="/Images/elements/so-juicy-filedrop/so-juicy-filedrop.html" />
-
 <template>
     <template is="dom-bind">
         <template is="dom-repeat" items="{{model.Illustrations}}" restamp="true">
@@ -13,12 +11,11 @@
         <style>
             @import url("/images/css/illustrations.css");
         </style>
-
         <div id="images-carousel">
-            <div id="images-thumbs">
+            <div class="images-carousel__thumbs">
                 <slot name="images/thumbnail"></slot>
             </div>
-            <div id="images-big">
+            <div class="images-carousel__big">
                 <slot name="images/big"></slot>
             </div>
         </div>

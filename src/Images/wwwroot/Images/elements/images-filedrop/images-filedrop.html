@@ -1,0 +1,374 @@
+﻿<link rel="import" href="/sys/paper-dialog/paper-dialog.html" />
+<link rel="import" href="/sys/starcounter-upload/starcounter-upload.html" />
+
+<dom-module id="images-filedrop">
+    <template>
+        <style>
+            :host {
+                display: block;
+                height: 100%;
+                position: relative;
+            }
+
+            .container {
+                height: 100%;
+                width: 100%;
+                padding: 0px;
+                margin: 0px;
+            }
+
+            .drop-file-here {
+                border-style: dashed;
+                border-color: #A5A5A5;
+                background: #EDEDED;
+                border-width: 6px;
+                height: 100%;
+                width: 100%;
+                max-height: 100%;
+                max-width: 100%;
+                text-align: center;
+                box-sizing: border-box;
+                display: table;
+                overflow: hidden;
+            }
+
+            .drop-file-here .td {
+                display: table-cell;
+                vertical-align: middle;
+            }
+
+            .img-thumbnail {
+                min-height: 50px;
+                min-width: 50px;
+                height: 100%;
+                width: 100%;
+                background-size: contain;
+                background-position: center center;
+                background-repeat: no-repeat;
+            }
+
+            .mobile-link {
+                font-size: 22px;
+            }
+
+            .mobile-drop-file {
+                padding: 20px;
+            }
+
+            .img-border {
+                box-sizing: border-box;
+                width: 100%;
+                height: 100%;
+                padding: 4px;
+                background-color: #ffffff;
+                border: 1px solid #dddddd;
+                border-radius: 3px;
+                text-align: center;
+            }
+
+            .img-border img {
+                width: 50%;
+            }
+
+            .video-preview {
+                min-width: 100px;
+                min-height: 100px;
+                height: 100%;
+                width: 100%;
+                text-align: center;
+                position:relative;
+            }
+
+            .video-preview .cover {
+                position:absolute;
+                height:100%;
+                width:100%;
+                background-color:white;
+                z-index:10;
+            }
+
+            .actions {
+                position: absolute;
+                right: 4px;
+                top: 4px;
+                display: none;
+            }
+
+            .actions-mobile {
+                position: absolute;
+                right: 4px;
+                top: 4px;
+                display: block;
+            }
+
+            .container:hover .actions {
+                display: block;
+            }
+
+            .glyphicon-spin {
+                margin: 10px;
+                font-size: 24pt;
+                animation: spin 1000ms infinite linear;
+            }
+
+            @keyframes spin {
+                0% {
+                    transform: rotate(0deg);
+                }
+
+                100% {
+                    transform: rotate(359deg);
+                }
+            }
+            
+            input[type=file] {
+                display: none;
+            }
+
+            #jfFileDrop{
+                width: 100%;
+            }
+        </style>
+    <div class="container">
+        <starcounter-upload id="jfFileDrop" session-id="{{sessionId}}" upload-url="{{uploadUrl}}" tasks="{{tasks}}" auto-upload="true">
+            <template is="dom-if" if="{{progress}}">
+                <div class="drop-file-here">
+                    <div class="tr" style="margin-top: 10px;margin-bottom: 10px">
+                        <span>Progress</span>
+                        <span>{{progress}}</span>
+                        <span>%</span>
+                    </div>
+                </div>
+            </template>
+            <template is="dom-if" if="{{!progress}}">
+                <template is="dom-if" if="{{value}}">
+                    <template is="dom-if" if="{{isVideo}}" restamp="true">
+                        <div class="img-border">
+                            <img src="{{value}}"/>
+                            <div class="video-preview">
+                                <div class="cover"></div>
+                                <video controls>
+                                    <source src="{{value}}" type="{{filetype}}">
+                                    Your browser does not support the video tag for file type
+                                    <span>{{filetype}}</span>.
+                                </video>
+                            </div>
+                        </div>
+                    </template>
+                    <template is="dom-if" if="{{!isVideo}}" restamp="true">
+                        <template is="dom-if" if="{{isImage}}">
+                            <div class="img-border">
+                                <div class="img-thumbnail" style$="{{getImageStyle(value)}}"></div>
+                            </div>
+                        </template>
+                        <template is="dom-if" if="{{!isImage}}">
+                            <div class="img-border">
+                                <div class="img-thumbnail" style$="{{getFileStyle()}}"></div>
+                            </div>
+                        </template>
+                    </template>
+                </template>
+                <template is="dom-if" if="{{!value}}">
+                    <template is="dom-if" if="{{ismobile}}">
+                        <div class="drop-file-here mobile-drop-file">
+                            <div class="td">
+                                <a href="javascript:" class="mobile-link" on-click="openFile">Select file</a>
+                            </div>
+                        </div>
+                    </template>
+                    <template is="dom-if" if="{{!ismobile}}">
+                        <div class="drop-file-here">
+                            <div class="td">
+                                <span>Drop image here</span>
+                                <br/>
+                                <a href="javascript:" on-click="openFile">Or select file</a>
+                            </div>
+                        </div>
+                    </template>
+                </template>
+            </template>
+        </starcounter-upload>
+        <input type="file" id="txtUploadFile" value="{{filepath}}">
+        <paper-dialog modal="true" backdrop="true" layered="true" role="dialog" id="pacAlertDialog">
+            <div>
+                <h2>Error</h2>
+                <p>{{AlertMessage}}</p>
+            </div>
+            <div class="buttons">
+                <button class="btn btn-sm btn-default" affirmative role="button" tabindex="1" on-click="closeAlert">Close</button>
+            </div>
+        </paper-dialog>
+        <template is="dom-if" if="{{ismobile}}">
+            <div class="actions-mobile">
+                <content id="content"></content>
+            </div>
+        </template>
+        <template is="dom-if" if="{{!ismobile}}">
+            <div class="actions">
+                <content id="content"></content>
+            </div>
+        </template>
+    </div>
+    </template>
+    <script>
+        Polymer({
+            is: "images-filedrop",
+            properties: {
+                uploadUrl: { type: String },
+                value: { type: String, notify: true },
+                filetype: { type: String, notify: true, observer: "fileTypeChanged" },
+                isVideo: { type: Boolean, notify: true },
+                isImage: { type: Boolean, notify: true },
+                progress: { type: Number, notify: true, value: 0 },
+                sessionId: { type: String },
+                maxFileSize: { type: Number },
+                allowedMimeTypes: { type: Array, value: [] },
+                openClick: { type: Number, value: 0, observer: "openClickChanged" },
+                alertMessage: { type: String },
+                ismobile: { type: Boolean, notify: true, value: false }
+            },
+            observers: ["onValueChanged(value)"],
+            ready: function () {
+                var that = this;
+
+                this.$.jfFileDrop.addEventListener("fileUploadError", function (e) {
+                    that.openAlert(e.detail.statusText);
+                });
+
+                this.$.jfFileDrop.addEventListener("fileSelectError", function (e) {
+                    that.openAlert(e.detail.message);
+                });
+
+                this.$.jfFileDrop.addEventListener("statechange", function (e) {
+                    if (e.detail.progress) {
+                        var currentProgress = JSON.parse(e.detail.progress);
+                        that.progress = currentProgress.progress;
+                        if (currentProgress.progress == 100) {
+                            that.filetype = e.detail.file.type;
+                            that.value = currentProgress.fileUrl;
+                            that.progress = 0;
+                        }
+                    }
+                });
+                this.setupDrop();
+                this.setupSelect();
+                if (!this.maxfilesize) {
+                    this.maxfilesize = 524288; //512kb
+                }
+                //512kb
+                if (!this.allowedmimetypes) {
+                    this.allowedmimetypes = [
+                        'image/gif',
+                        'image/jpeg',
+                        'image/png',
+                        'image/svg+xml'
+                    ];
+                } else if (typeof this.allowedmimetypes == 'string') {
+                    this.allowedmimetypes = this.allowedmimetypes.split(',');
+                }
+            },
+            openFile: function (e) {
+                this.$.jfFileDrop.selectFile();
+            },
+            openAlert: function (message) {
+                this.AlertMessage = message;
+                this.$.pacAlertDialog.opened = true;
+            },
+            closeAlert: function () {
+                this.AlertMessage = "";
+                this.$.pacAlertDialog.opened = false;
+            },
+            openClickChanged: function (newVal) {
+                if (newVal > 0) {
+                    //in IE and Edge, openClickChanged gets incorrectly called on page load, changing openClick value from "undefined" to 0
+                    //this caused https://github.com/StarcounterSamples/Images/issues/23
+                    this.openFile();
+                }
+            },
+            getImageStyle: function (url) {
+                return "background-image:url('" + url + "')";
+            },
+            getFileStyle: function () {
+                return "background-image:url('/images/css/file_preview.png')";
+            },
+            onValueChanged: function (v) {
+                setTimeout(function () {
+                    var divVideo = this.$.jfFileDrop.querySelector(".video-preview");
+                    if (!divVideo)
+                        return;
+
+                    var video = divVideo.querySelector("video");
+                    if (!video)
+                        return;
+
+                    var size = divVideo.getBoundingClientRect();
+                    var height = size.height;
+                    var width = size.width;
+
+                    video.style.maxHeight = height + "px";
+                    video.style.maxWidth = width + "px";
+
+                    var cover = divVideo.querySelector(".cover");
+                    if (cover)
+                        cover.style.display = "none";
+                }.bind(this), 100);
+            },
+            fileTypeChanged: function (newVal) {
+                this.isVideo = /video\//gi.test(newVal);
+                this.isImage = /image\//gi.test(newVal);
+            },
+            setupSelect: function () {
+                var onFileSelected = function (e) {
+                    var files = e.target.files;
+                    for (var i = 0; i < files.length; i++) {
+                        var file = files[i];
+                        if (!this.checkFile(file)) {
+                            continue;
+                        }
+                        this.readData(files[i]);
+                    }
+                };
+                this.$.txtUploadFile.addEventListener('change', onFileSelected.bind(this), false);
+            },
+            setupDrop: function () {
+                if (typeof window.FileReader === 'undefined') { } // TODO: Browser does not support 'FileReader'
+                // TODO: Browser does not support 'FileReader'
+                this.onpaste = function (event) {
+                    for (var i = 0, item; item = event.clipboardData.items[i]; i++) {
+                        if (item.kind == 'file') {
+                            var blob = item.getAsFile();
+                            this.readData(blob);
+                        }
+                    }
+                };
+                this.ondragleave = function () {
+                    if (this.classList.contains('hover')) {
+                        this.classList.remove('hover');
+                    }
+                };
+                this.ondragover = function (e) {
+                    e.stopPropagation();
+                    if (!this.classList.contains('hover')) {
+                        this.classList.add('hover');
+                    }
+                    return false;
+                };
+                this.ondragend = function () {
+                    if (this.classList.contains('hover')) {
+                        this.classList.remove('hover');
+                    }
+                    return false;
+                };
+                this.ondrop = function (e) {
+                    if (this.classList.contains('hover')) {
+                        this.classList.remove('hover');
+                    }
+                    e.preventDefault();
+
+                    var file = e.dataTransfer.files[0];
+                    this.$.jfFileDrop.onPasted(file);
+                };
+            },
+        });
+    </script>
+</dom-module>
