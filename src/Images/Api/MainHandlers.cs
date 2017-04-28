@@ -48,22 +48,6 @@ namespace Images
                 });
             });
 
-            Handle.GET("/images/image/{?}", (string objectId) =>
-            {
-                return Db.Scope<Json>(() =>
-                {
-                    return ReturnWithinMaster(Self.GET<ImagePage>("/images/partials/image/" + objectId));
-                });
-            });
-
-            Handle.GET("/images/contents/{?}", (string objectId) =>
-            {
-                return Db.Scope<Json>(() =>
-                {
-                    return ReturnWithinMaster(Self.GET<ContentPage>("/images/partials/contents/" + objectId));
-                });
-            });
-
             Handle.GET("/images/contents-edit/{?}", (string objectId) =>
             {
                 return Db.Scope<Json>(() =>
@@ -145,20 +129,6 @@ namespace Images
                 return Self.GET("/images/partials/contents/" + illustration.Content.Key);
             });
 
-            Handle.GET("/images/partials/contents/{?}", (string objectId) =>
-            {
-                return Db.Scope<Json>(() =>
-                {
-                    var content = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Content;
-
-                    var page = new ContentPage
-                    {
-                        Data = content
-                    };
-                    return page;
-                });
-            });
-
             Handle.GET("/images/partials/contents-edit/{?}", (string objectId) =>
             {
                 return Db.Scope<Json>(() =>
@@ -195,25 +165,6 @@ namespace Images
                 {
                     Data = illustration.Content,
                     EditableContent = Self.GET($"/images/partials/contents-edit/{illustration.Content.Key}")
-                };
-                return imagePage;
-            });
-
-            Handle.GET("/images/partials/image/{?}", (string contentId) =>
-            {
-                var content = DbHelper.FromID(DbHelper.Base64DecodeObjectID(contentId)) as Content;
-                if (content == null)
-                {
-                    var errorPage = new ErrorPage
-                    {
-                        ErrorText = "Images cannot present an illustration without content"
-                    };
-                    return errorPage;
-                }
-                var imagePage = new ImagePage
-                {
-                    Data = content,
-                    EditableContent = Self.GET($"/images/partials/contents-edit/{contentId}")
                 };
                 return imagePage;
             });

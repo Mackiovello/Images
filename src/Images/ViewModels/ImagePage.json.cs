@@ -1,10 +1,12 @@
 using Starcounter;
 using Simplified.Ring1;
 using System.Collections.Generic;
+using Starcounter.Authorization.Routing;
 
 namespace Images
 {
-    partial class ImagePage : Json, IBound<Content>
+    [PartialUrl("/images/partials/image/{?}")]
+    partial class ImagePage : Json, IBound<Content>, IPageContext<Content>
     {
         protected IllustrationHelper Helper = new IllustrationHelper();
         protected List<string> OldUrls = new List<string>();
@@ -21,6 +23,12 @@ namespace Images
             }
             
             SessionId = Session.Current?.SessionId;
+        }
+
+        public void HandleContext(Content context)
+        {
+            Data = context;
+            EditableContent = Self.GET($"/images/partials/contents-edit/{context.Key}");
         }
 
         void Handle(Input.URL value)

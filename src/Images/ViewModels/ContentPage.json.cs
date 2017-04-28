@@ -3,6 +3,7 @@ using Simplified.Ring1;
 
 namespace Images
 {
+    [PartialUrl("/images/partials/contents/{?}")]
     partial class ContentPage : Json, IBound<Content>
     {
         protected IllustrationHelper Helper = new IllustrationHelper();

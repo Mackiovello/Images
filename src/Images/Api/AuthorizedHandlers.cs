@@ -17,7 +17,7 @@ namespace Images
         public void Register()
         {
             Router outsideFacingRouter = CreateOutsideFacingRouter();
-            Router selfOnlyRouter = Router.CreateDefault();
+            Router selfOnlyRouter = CreateSelfOnlyRouter();
 
             var partialPages = Assembly.GetAssembly(typeof(AuthorizedHandlers))
                 .GetTypes()
@@ -31,9 +31,17 @@ namespace Images
             }
         }
 
-        private Router CreateOutsideFacingRouter()
+        private static Router CreateSelfOnlyRouter()
         {
             var router = Router.CreateDefault();
+            router.AddMiddleware(new ContextMiddleware());
+            router.AddMiddleware(new DbScopeMiddleware(defaultValue: true));
+            return router;
+        }
+
+        private Router CreateOutsideFacingRouter()
+        {
+            var router = CreateSelfOnlyRouter();
             router.AddMiddleware(new MasterPageMiddleware());
             var rules = RegisterRules();
 
