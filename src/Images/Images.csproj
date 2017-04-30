@@ -81,7 +81,7 @@
     <Compile Include="Helpers\IllustrationHelper.cs" />
     <Compile Include="Helpers\ImageValidator.cs" />
     <Compile Include="Helpers\UpgradeData.cs" />
-    <Compile Include="Permissions\ListImages.cs" />
+    <Compile Include="Api\Permissions\ListImagesPermission.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ViewModels\IllustrationSimplePage.json.cs">
       <DependentUpon>IllustrationSimplePage.json</DependentUpon>

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using Images.Permissions;
 using Starcounter;
 using Starcounter.Authorization.Authentication;
 using Starcounter.Authorization.Core;
@@ -26,8 +25,8 @@ namespace Images
 
             foreach (var tuple in partialPages)
             {
-                selfOnlyRouter.HandleGet(tuple.Item2.UriPartialVersion, tuple.Item1, new HandlerOptions() {SelfOnly = true});
-                outsideFacingRouter.HandleGet(tuple.Item2.UriPartialVersion.Replace("/partials", ""), tuple.Item1);
+                selfOnlyRouter.HandleGet(tuple.Item2.UriPartialVersion, tuple.Item1, new HandlerOptions { SelfOnly = true });
+                outsideFacingRouter.HandleGet(tuple.Item2.UriApiVersion, tuple.Item1);
             }
         }
 
@@ -47,7 +46,12 @@ namespace Images
 
             var enforcement = new AuthorizationEnforcement(rules, new SystemUserAuthentication());
             router.AddMiddleware(new SecurityMiddleware(enforcement,
-                info => 403,
+                info =>
+                {
+                    var response = Response.FromStatusCode(403);
+                    response.Resource = new UnauthorizedPage();
+                    return response;
+                },
                 PageSecurity.CreateThrowingDeniedHandler<Exception>()));
 
             return router;
@@ -56,7 +60,7 @@ namespace Images
         private AuthorizationRules RegisterRules()
         {
             var rules = new AuthorizationRules();
-            rules.AddRule(new ClaimRule<ListImages, SystemUserClaim>((claim, permission) => true));
+            rules.AddRule(new ClaimRule<ListImagesPermission, SystemUserClaim>((claim, permission) => true));
             return rules;
         }
     }

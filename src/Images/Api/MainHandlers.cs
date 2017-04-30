@@ -31,15 +31,6 @@ namespace Images
                 return masterPage;
             });
 
-            // Workspace root (Launchpad)
-            Handle.GET("/images", (Request request) =>
-            {
-                return Db.Scope(() =>
-                {
-                    return ReturnWithinMaster(Self.GET("/images/partials/images"));
-                });
-            });
-
             Handle.GET("/images/image", () =>
             {
                 return Db.Scope<Json>(() =>
