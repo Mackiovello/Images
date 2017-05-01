@@ -40,7 +40,11 @@ namespace Images
 
         private Router CreateOutsideFacingRouter()
         {
-            var router = CreateSelfOnlyRouter();
+            var router = new Router(info =>
+            {
+                var partialUri = PartialUrlAttribute.GetPartialUri(info.Request.Uri, "images");
+                return Self.GET(partialUri);
+            });
             router.AddMiddleware(new MasterPageMiddleware());
             var rules = RegisterRules();
 

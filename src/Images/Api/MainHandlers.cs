@@ -13,23 +13,7 @@ namespace Images
             Application.Current.Use(new HtmlFromJsonProvider());
             Application.Current.Use(new PartialToStandaloneHtmlProvider());
 
-            Handle.GET("/images/standalone", () =>
-            {
-                var session = Session.Current;
-                if (session?.Data != null)
-                {
-                    return session.Data;
-                }
-
-                var masterPage = new MasterPage();
-                if (session == null)
-                {
-                    session = new Session(SessionOptions.PatchVersioning);
-                }
-
-                masterPage.Session = session;
-                return masterPage;
-            });
+            Handle.GET("/images", () => Self.GET("/images/images"));
 
             Handle.GET("/images/image", () =>
             {
@@ -70,7 +54,7 @@ namespace Images
 
         private MasterPage ReturnWithinMaster(Json currentPage)
         {
-            var master = Self.GET<MasterPage>("/images/standalone");
+            var master = SessionHelper.GetMaster();
             master.CurrentPage = currentPage;
             return master;
         }

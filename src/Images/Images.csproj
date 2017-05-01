@@ -80,6 +80,7 @@
     <Compile Include="Api\MainHandlers.cs" />
     <Compile Include="Helpers\IllustrationHelper.cs" />
     <Compile Include="Helpers\ImageValidator.cs" />
+    <Compile Include="Helpers\SessionHelper.cs" />
     <Compile Include="Helpers\UpgradeData.cs" />
     <Compile Include="Api\Permissions\ListImagesPermission.cs" />
     <Compile Include="Program.cs" />

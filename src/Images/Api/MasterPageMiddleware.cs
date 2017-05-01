@@ -8,10 +8,7 @@ namespace Images
     {
         public Response Run(RoutingInfo routingInfo, Func<Response> next)
         {
-            var session = Session.Current ?? new Session(SessionOptions.PatchVersioning);
-
-            var master = session?.Data as MasterPage ?? new MasterPage();
-            master.Session = session;
+            MasterPage master = SessionHelper.GetMaster();
             master.CurrentPage = next();
             return master;
         }

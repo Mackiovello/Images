@@ -2,10 +2,12 @@ using System;
 using Simplified.Ring1;
 using Starcounter;
 using Starcounter.Authorization.Attributes;
+using Starcounter.Authorization.Routing.Middleware;
 
 namespace Images
 {
-    [PartialUrl("/images/partials/images", "/images")]
+    [PartialUrl("/images/partials/images")]
+    [UseDbScope(false)]
     [RequirePermission(typeof(ListImagesPermission))]
     partial class ImagesPage : Json
     {
