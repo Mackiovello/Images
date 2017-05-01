@@ -8,7 +8,7 @@ namespace Images
 {
     [PartialUrl("/images/partials/images")]
     [UseDbScope(false)]
-    [RequirePermission(typeof(ListImagesPermission))]
+    [RequirePermission(typeof(ListImages))]
     partial class ImagesPage : Json
     {
         protected IllustrationHelper Helper = new IllustrationHelper();

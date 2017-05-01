@@ -2,7 +2,7 @@
 
 namespace Images
 {
-    public class ListImagesPermission : Permission
+    public class ListImages : Permission
     {
     }
 }

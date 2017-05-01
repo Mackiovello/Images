@@ -64,7 +64,7 @@ namespace Images
         private AuthorizationRules RegisterRules()
         {
             var rules = new AuthorizationRules();
-            rules.AddRule(new ClaimRule<ListImagesPermission, SystemUserClaim>((claim, permission) => true));
+            rules.AddRule(new ClaimRule<ListImages, SystemUserClaim>((claim, permission) => true));
             return rules;
         }
     }
