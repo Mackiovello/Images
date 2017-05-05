@@ -20,7 +20,7 @@ namespace Images
 
         public static string GetPartialUri(string apiUri, string appName)
         {
-            var partialUri = apiUri.Replace($"/{appName}/", $"/{appName}/partials/");
+            var partialUri = apiUri.Insert(appName.Length + 1, "/partials");
             return partialUri;
         }
     }

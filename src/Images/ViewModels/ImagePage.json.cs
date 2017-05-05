@@ -1,11 +1,13 @@
-using Starcounter;
-using Simplified.Ring1;
 using System.Collections.Generic;
+using Simplified.Ring1;
+using Starcounter;
+using Starcounter.Authorization.Attributes;
 using Starcounter.Authorization.Routing;
 
 namespace Images
 {
     [PartialUrl("/images/partials/image/{?}")]
+    [RequirePermission(typeof(OpenBasicPages))]
     partial class ImagePage : Json, IBound<Content>, IPageContext<Content>
     {
         protected IllustrationHelper Helper = new IllustrationHelper();
@@ -21,7 +23,7 @@ namespace Images
             {
                 AllowedMimeTypes.Add().StringValue = s;
             }
-            
+
             SessionId = Session.Current?.SessionId;
         }
 

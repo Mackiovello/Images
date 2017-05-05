@@ -2,7 +2,7 @@
 
 namespace Images
 {
-    public class ListImages : Permission
+    public class OpenBasicPages : Permission
     {
     }
 }
