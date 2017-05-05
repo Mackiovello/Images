@@ -5,7 +5,7 @@
         <so-juicy-filedrop session-id="{{model.SessionId}}" upload-url="/images/images" value="{{model.ImageURL$}}" max-file-size="{{model.MaxFileSize}}" allowed-mime-types="{{model.AllowedMimeTypes}}">
             <template is="dom-if" if="{{model.ImageURL$}}">
                 <div>
-                    <button class="btn btn-default btn-xs" onclick="++this.value;" value="{{model.Delete$::click}}">Clear</button>
+                    <button class="btn btn-default btn-xs" onmousedown="++this.value;" value="{{model.Delete$::click}}">Clear</button>
                 </div>
             </template>
         </so-juicy-filedrop>

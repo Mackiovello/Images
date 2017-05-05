@@ -3,16 +3,16 @@
 <template>
     <template is="dom-bind">
         <template is="dom-repeat" items="{{model.Illustrations}}" restamp="true">
-            <img slot="images/thumbnail" src="{{item.PreviewURL}}" onclick="++this.value;" value="{{item.Select$::click}}" />
+            <img slot="images/thumbnail" src="{{item.PreviewURL}}" onmousedown="++this.value;" value="{{item.Select$::click}}" />
         </template>
-        <button slot="images/add" onclick="++this.value;" value="{{model.Add$::click}}" class="btn-carousel-add">
+        <button slot="images/add" onmousedown="++this.value;" value="{{model.Add$::click}}" class="btn-carousel-add">
             &nbsp;
         </button>
         <so-juicy-filedrop slot="images/big" id="jfFileDrop" session-id="{{model.SessionId}}" upload-url="/images/images" value="{{model.Selected.Content.URL$}}" filetype="{{model.Selected.Content.MimeType$}}" max-file-size="{{model.MaxFileSize}}" allowed-mime-types="{{model.AllowedMimeTypes}}">
             <div>
-                <button class="btn btn-default btn-xs" onclick="++this.value;" value="{{model.Delete$::click}}">Delete</button>
+                <button class="btn btn-default btn-xs" onmousedown="++this.value;" value="{{model.Delete$::click}}">Delete</button>
                 <template is="dom-if" if="{{model.Selected.Content.URL$}}">
-                    <button class="btn btn-primary btn-xs" onclick="++this.value;" value="{{model.Save$::click}}">Save</button>
+                    <button class="btn btn-primary btn-xs" onmousedown="++this.value;" value="{{model.Save$::click}}">Save</button>
                 </template>
             </div>
         </so-juicy-filedrop>
