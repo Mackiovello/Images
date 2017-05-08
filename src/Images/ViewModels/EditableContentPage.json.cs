@@ -41,10 +41,7 @@ namespace Images
                 OldUrls.Add(value.OldValue);
             }
 
-            if (string.IsNullOrEmpty(value.Value))
-            {
-                Path = Helper.GetUploadDirectoryWithRoot().Replace("/","\\");
-            }
+            Path = Helper.GetUploadDirectoryWithRoot().Replace("/","\\");            
         }
     }
 }
