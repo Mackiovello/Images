@@ -14,82 +14,21 @@ namespace Images
             Application.Current.Use(new PartialToStandaloneHtmlProvider());
 
             Handle.GET("/images", () => Self.GET("/images/images"));
-
-            Handle.GET("/images/image", () =>
-            {
-                return Db.Scope<Json>(() =>
-                {
-                    return ReturnWithinMaster(Self.GET<ImagePage>("/images/partials/image/"));
-                });
-            });
-
-            Handle.GET("/images/contents-edit/{?}", (string objectId) =>
-            {
-                return Db.Scope<Json>(() =>
-                {
-                    return ReturnWithinMaster(Self.GET<EditableContentPage>("/images/partials/contents-edit/" + objectId));
-                });
-            });
-
-            Handle.GET("/images/somethings/{?}", (string objectId) =>
-            {
-                return Db.Scope<Json>(() =>
-                {
-                    return ReturnWithinMaster(Self.GET<IllustrationsPage>("/images/partials/somethings/" + objectId));
-                });
-            });
-
-            Handle.GET("/images/somethings-edit/{?}", (string objectId) =>
-            {
-                return Db.Scope<Json>(() =>
-                {
-                    return ReturnWithinMaster(Self.GET<EditableIllustrationsPage>("/images/partials/somethings-edit/" + objectId));
-                });
-            });
+            Handle.GET("/images/image", () => Self.GET("/images/image/"));
 
             RegisterPartials();
             RegisterLauncherHooks();
             RegisterMapperHandlers();
         }
 
-        private MasterPage ReturnWithinMaster(Json currentPage)
-        {
-            var master = SessionHelper.GetMaster();
-            master.CurrentPage = currentPage;
-            return master;
-        }
-        
         protected void RegisterLauncherHooks()
         {
             Handle.GET("/images/app-name", () => new AppName());
-
-            // Menu
             Handle.GET("/images/menu", () => new Page { Html = "/Images/viewmodels/AppMenu.html" });
         }
 
         protected void RegisterPartials()
         {
-            Handle.GET("/images/partials/somethings/{?}", (string objectId) =>
-            {
-                var data = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Something;
-                var page = new IllustrationsPage
-                {
-                    Data = data
-                };
-                return page;
-            });
-
-            Handle.GET("/images/partials/somethings-edit/{?}", (string objectId) =>
-            {
-                var data = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Something;
-                var page = new EditableIllustrationsPage
-                {
-                    Data = data
-                };
-
-                return page;
-            });
-
             Handle.GET("/images/partials/illustrations/{?}", (string illustrationId) =>
             {
                 var illustration = DbHelper.FromID(DbHelper.Base64DecodeObjectID(illustrationId)) as Illustration;
@@ -102,46 +41,6 @@ namespace Images
                     return errorPage;
                 }
                 return Self.GET("/images/partials/contents/" + illustration.Content.Key);
-            });
-
-            Handle.GET("/images/partials/contents-edit/{?}", (string objectId) =>
-            {
-                return Db.Scope<Json>(() =>
-                {
-                    var content = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Content;
-
-                    if (content == null)
-                    {
-                        var name = "Standalone image";
-                        var illustration = new Illustration
-                        {
-                            Concept = new Something {Name = name},
-                            Content = new Content {Name = name},
-                            Name = name
-                        };
-                        content = illustration.Content;
-                    }
-
-                    return new EditableContentPage { Data = content };
-                });
-            });
-
-            Handle.GET("/images/partials/image/", () =>
-            {
-                var name = "Standalone image";
-                var illustration = new Illustration
-                {
-                    Concept = new Something { Name = name },
-                    Content = new Content { Name = name },
-                    Name = name
-                };
-
-                var imagePage = new ImagePage
-                {
-                    Data = illustration.Content,
-                    EditableContent = Self.GET($"/images/partials/contents-edit/{illustration.Content.Key}")
-                };
-                return imagePage;
             });
 
             #region Custom application handlers
@@ -198,7 +97,6 @@ namespace Images
                 if (illustration.Content == null)
                 {
                     illustration.Content = new Content {Name = "Standalone image" };
-
                 }
 
                 return Self.GET("/images/partials/contents-edit/" + illustration.Content.Key);

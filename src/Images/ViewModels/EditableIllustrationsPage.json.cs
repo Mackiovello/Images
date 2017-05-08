@@ -2,61 +2,66 @@ using System.Collections.Generic;
 using System.Linq;
 using Simplified.Ring1;
 using Starcounter;
+using Starcounter.Authorization.Attributes;
 
 namespace Images
 {
+    [PartialUrl("/images/partials/somethings-edit/{?}")]
+    [RequirePermission(typeof(OpenBasicPages))]
     partial class EditableIllustrationsPage : Json, IBound<Something>
     {
+        private IllustrationHelper helper = new IllustrationHelper();
+
+        public IEnumerable<Illustration> IllustrationsBind => Illustration.GetIllustrations(Data);
+
         static EditableIllustrationsPage()
         {
             DefaultTemplate.Illustrations.Bind = nameof(IllustrationsBind);
         }
 
-        protected IllustrationHelper helper = new IllustrationHelper();
-        public IEnumerable<Illustration> IllustrationsBind => Illustration.GetIllustrations(this.Data);
-
         protected override void OnData()
         {
             base.OnData();
-            this.MaxFileSize = helper.GetMaximumFileSizeBytes();
+            MaxFileSize = helper.GetMaximumFileSizeBytes();
 
             foreach (string s in UploadHandlers.AllowedMimeTypes)
             {
-                this.AllowedMimeTypes.Add().StringValue = s;
+                AllowedMimeTypes.Add().StringValue = s;
             }
 
-            this.Illustrations = Illustration.GetIllustrations(this.Data);
-            this.Selected.Data = this.Illustrations.FirstOrDefault()?.Data;
+            Illustrations = Illustration.GetIllustrations(Data);
+            Selected.Data = Illustrations.FirstOrDefault()?.Data;
 
-            this.SessionId = Session.Current?.SessionId;
+            SessionId = Session.Current?.SessionId;
         }
 
         void Handle(Input.Delete action)
         {
-            if (this.Selected == null || Selected.Data == null)
+            if (Selected?.Data == null)
             {
                 return;
             }
 
             Illustration selected = Selected.Data;
-            this.Selected.Data = null;
+            Selected.Data = null;
 
-            this.helper.DeleteFile(selected);
+            helper.DeleteFile(selected);
             selected.Content?.Delete();
             selected.Delete();
-            this.Transaction.Commit();
+            Transaction.Commit();
 
-            this.Selected.Data = Illustrations.FirstOrDefault()?.Data;// ?? new Illustration() { Concept = this.Data, Content = new Content() };
+            Selected.Data = Illustrations.FirstOrDefault()?.Data;
+            // ?? new Illustration() { Concept = this.Data, Content = new Content() };
         }
 
         void Handle(Input.Save action)
         {
             if (Selected.Data == null && Selected.Content.Data == null)
             {
-                Selected.Data = new Illustration()
+                Selected.Data = new Illustration
                 {
-                    Concept = this.Data,
-                    Content = new Content()
+                    Concept = Data,
+                    Content = new Content
                     {
                         Name = Selected.Content.Name,
                         MimeType = Selected.Content.MimeType,
@@ -66,24 +71,24 @@ namespace Images
             }
 
             Selected.Data.Name = Selected.Content.Name;
-            Selected.Data.Concept = this.Data;
+            Selected.Data.Concept = Data;
             Transaction.Commit();
         }
 
         void Handle(Input.Add action)
         {
             Illustration empty = Illustrations.FirstOrDefault(val => string.IsNullOrEmpty(val.Data.Content.URL))?.Data;
-            Selected.Data = empty ?? new Illustration() { Concept = this.Data, Content = new Content() };
-            Selected.Data.Concept = this.Data;
+            Selected.Data = empty ?? new Illustration { Concept = Data, Content = new Content() };
+            Selected.Data.Concept = Data;
         }
 
         [EditableIllustrationsPage_json.Selected]
-        partial class IllustrationSelectedPage : Json, IBound<Simplified.Ring1.Illustration>
+        partial class IllustrationSelectedPage : Json, IBound<Illustration>
         {
         }
 
         [EditableIllustrationsPage_json.Illustrations]
-        partial class IllustrationItemPage : Json, IBound<Simplified.Ring1.Illustration>
+        partial class IllustrationItemPage : Json, IBound<Illustration>
         {
             EditableIllustrationsPage ParentPage => Parent.Parent as EditableIllustrationsPage;
 
@@ -112,7 +117,7 @@ namespace Images
 
             void Handle(Input.Select action)
             {
-                ParentPage.Selected.Data = this.Data;
+                ParentPage.Selected.Data = Data;
             }
         }
     }

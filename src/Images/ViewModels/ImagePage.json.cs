@@ -13,6 +13,25 @@ namespace Images
         protected IllustrationHelper Helper = new IllustrationHelper();
         protected List<string> OldUrls = new List<string>();
 
+        [UriToContext]
+        public static Content CreateContext(string[] args)
+        {
+            var objectId = args.Length > 0 ? args[0] : null;
+            if (string.IsNullOrEmpty(objectId))
+            {
+                var name = "Standalone image";
+                var illustration = new Illustration
+                {
+                    Concept = new Something { Name = name },
+                    Content = new Content { Name = name },
+                    Name = name
+                };
+                return illustration.Content;
+            }
+
+            return DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Content;
+        }
+
         protected override void OnData()
         {
             base.OnData();

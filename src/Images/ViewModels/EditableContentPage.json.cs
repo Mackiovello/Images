@@ -1,14 +1,38 @@
-using Starcounter;
-using Simplified.Ring1;
 using System.Collections.Generic;
+using Simplified.Ring1;
+using Starcounter;
+using Starcounter.Authorization.Attributes;
+using Starcounter.Authorization.Routing;
 
 namespace Images
 {
+    [PartialUrl("/images/partials/contents-edit/{?}")]
+    [RequirePermission(typeof(OpenBasicPages))]
     partial class EditableContentPage : Json, IBound<Content>
     {
         protected IllustrationHelper Helper = new IllustrationHelper();
         protected List<string> OldUrls = new List<string>();
         public string SessionId => Session.Current?.SessionId;
+
+        [UriToContext]
+        public static Content CreateContext(string[] args)
+        {
+            var objectId = args[0];
+            var content = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Content;
+
+            if (content == null)
+            {
+                var name = "Standalone image";
+                var illustration = new Illustration
+                {
+                    Concept = new Something { Name = name },
+                    Content = new Content { Name = name },
+                    Name = name
+                };
+                content = illustration.Content;
+            }
+            return content;
+        }
 
         protected override void OnData()
         {
@@ -16,9 +40,9 @@ namespace Images
 
             MaxFileSize = Helper.GetMaximumFileSizeBytes();
 
-            foreach (var s in UploadHandlers.AllowedMimeTypes)
+            foreach (var mimeType in UploadHandlers.AllowedMimeTypes)
             {
-                AllowedMimeTypes.Add().StringValue = s;
+                AllowedMimeTypes.Add().StringValue = mimeType;
             }
 
             ContentPage.Data = Data;
@@ -43,7 +67,7 @@ namespace Images
 
             if (string.IsNullOrEmpty(value.Value))
             {
-                Path = Helper.GetUploadDirectoryWithRoot().Replace("/","\\");
+                Path = Helper.GetUploadDirectoryWithRoot().Replace("/", "\\");
             }
         }
     }
