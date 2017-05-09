@@ -29,20 +29,6 @@ namespace Images
 
         protected void RegisterPartials()
         {
-            Handle.GET("/images/partials/illustrations/{?}", (string illustrationId) =>
-            {
-                var illustration = DbHelper.FromID(DbHelper.Base64DecodeObjectID(illustrationId)) as Illustration;
-                if (illustration?.Content == null)
-                {
-                    var errorPage = new ErrorPage
-                    {
-                        ErrorText = "Images cannot present an illustration without content"
-                    };
-                    return errorPage;
-                }
-                return Self.GET("/images/partials/contents/" + illustration.Content.Key);
-            });
-
             #region Custom application handlers
             Handle.GET("/images/partials/images-draft/{?}", (string chatMessageId) =>
             {
@@ -57,49 +43,6 @@ namespace Images
                     SubPage = Self.GET("/images/partials/imagedraftannouncement/" + relation.GetObjectID())
                 };
                 return draft;
-            });
-
-            Handle.GET("/images/partials/somethings-single/{?}", (string objectId) =>
-            {
-                var message = (Something)DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId));
-                var illustration = Db.SQL<Illustration>(@"Select m from Simplified.Ring1.Illustration m Where m.ToWhat = ?", message).First;
-                return illustration == null ? new Page() : Self.GET("/images/partials/illustrations/" + illustration.GetObjectID());
-            });
-
-            Handle.GET("/images/partials/somethings-single-static/{?}", (string objectId) =>
-            {
-                var something = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Something;
-                string key = something?.Illustration?.Key;
-
-                if (key != null)
-                {
-                    return new IllustrationSimplePage
-                    {
-                        Data = DbHelper.FromID(DbHelper.Base64DecodeObjectID(key)) as Illustration
-                    };
-                }
-
-                return new Json();
-            });
-
-            Handle.GET("/images/partials/illustrations-edit/{?}", (string illustrationId) =>
-            {
-                var illustration = DbHelper.FromID(DbHelper.Base64DecodeObjectID(illustrationId)) as Illustration;
-                if (illustration == null)
-                {
-                    var errorPage = new ErrorPage
-                    {
-                        ErrorText = "Images cannot present an empty illustration"
-                    };
-                    return errorPage;
-                }
-
-                if (illustration.Content == null)
-                {
-                    illustration.Content = new Content {Name = "Standalone image" };
-                }
-
-                return Self.GET("/images/partials/contents-edit/" + illustration.Content.Key);
             });
 
             Handle.GET("/images/partials/imagedraftannouncement/{?}", (string objectPath) => new Page());
