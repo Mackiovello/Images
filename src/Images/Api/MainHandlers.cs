@@ -16,6 +16,14 @@ namespace Images
             Handle.GET("/images", () => Self.GET("/images/images"));
             Handle.GET("/images/image", () => Self.GET("/images/image/"));
 
+            UploadHandlers.GET("/images/images", task =>
+            {
+                Session.ScheduleTask(task.SessionId, (s, id) =>
+                {
+                    s.CalculatePatchAndPushOnWebSocket();
+                });
+            });
+
             RegisterPartials();
             RegisterLauncherHooks();
             RegisterMapperHandlers();
@@ -58,29 +66,13 @@ namespace Images
             });
             #endregion
 
-            UploadHandlers.GET("/images/images", task =>
-            {
-                Session.ScheduleTask(task.SessionId, (s, id) =>
-                {
-                    s.CalculatePatchAndPushOnWebSocket();
-                });
-            });
-            Handle.GET("/images/settings", () =>
-            {
-                return new Transaction().Scope(() =>
-                {
-                    var page = new SettingsPage();
-                    page.LoadDefaultData();
-                    return page;
-                });
-            }, new HandlerOptions { SelfOnly = true });
         }
 
         protected void RegisterMapperHandlers()
         {
             UriMapping.Map("/images/menu", UriMapping.MappingUriPrefix + "/menu");
             UriMapping.Map("/images/app-name", UriMapping.MappingUriPrefix + "/app-name");
-            UriMapping.Map("/images/settings", UriMapping.MappingUriPrefix + "/settings");
+            UriMapping.Map("/images/partials/settings", UriMapping.MappingUriPrefix + "/settings");
 
             #region Wrapper URI handlers for usage in OntologyMap
             Handle.GET("/images/partials/concept-somebody/{?}", (string objectId) =>
