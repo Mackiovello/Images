@@ -24,7 +24,6 @@ namespace Images
                 });
             });
 
-            RegisterPartials();
             RegisterLauncherHooks();
             RegisterMapperHandlers();
         }
@@ -33,39 +32,6 @@ namespace Images
         {
             Handle.GET("/images/app-name", () => new AppName());
             Handle.GET("/images/menu", () => new Page { Html = "/Images/viewmodels/AppMenu.html" });
-        }
-
-        protected void RegisterPartials()
-        {
-            #region Custom application handlers
-            Handle.GET("/images/partials/images-draft/{?}", (string chatMessageId) =>
-            {
-                var chatMessage = (ChatMessage)DbHelper.FromID(DbHelper.Base64DecodeObjectID(chatMessageId));
-                var relation = new Illustration
-                {
-                    Concept = chatMessage,
-                    Content = new Simplified.Ring1.Content() { Name = "Content for illustration of a chat message" },
-                };
-                var draft = new DraftPage
-                {
-                    SubPage = Self.GET("/images/partials/imagedraftannouncement/" + relation.GetObjectID())
-                };
-                return draft;
-            });
-
-            Handle.GET("/images/partials/imagedraftannouncement/{?}", (string objectPath) => new Page());
-
-            Handle.GET("/images/partials/imagewarning/{?}", (string illustrationId) =>
-            {
-                var illustration = DbHelper.FromID(DbHelper.Base64DecodeObjectID(illustrationId)) as Illustration;
-                if (illustration == null) return new Page();
-
-                var page = new ConceptIllustrationWarningPage();
-                page.RefreshData(illustration);
-                return page;
-            });
-            #endregion
-
         }
 
         protected void RegisterMapperHandlers()

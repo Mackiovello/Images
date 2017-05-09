@@ -1,6 +1,8 @@
 using Starcounter;
 
-namespace Images {
+namespace Images
+{
+    [Routing(typeof(DraftPageRouting))]
     partial class DraftPage : Json
     {
     }

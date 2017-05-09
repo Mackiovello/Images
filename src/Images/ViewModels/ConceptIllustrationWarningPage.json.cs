@@ -5,6 +5,7 @@ using Simplified.Ring6;
 
 namespace Images
 {
+    [Routing(typeof(ConceptIllustrationWarningPageRouting))]
     partial class ConceptIllustrationWarningPage : Json
     {
         public void RefreshData(Illustration illustration)

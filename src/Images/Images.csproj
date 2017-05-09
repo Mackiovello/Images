@@ -73,6 +73,8 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\Routing\ConceptIllustrationWarningPageRouting.cs" />
+    <Compile Include="Api\Routing\DraftPageRouting.cs" />
     <Compile Include="Api\Routing\RoutingPreset.cs" />
     <Compile Include="Api\Routing\RoutingAttribute.cs" />
     <Compile Include="Api\AuthorizedHandlers.cs" />
