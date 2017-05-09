@@ -78,8 +78,8 @@
     <Compile Include="Api\Routing\RoutingPreset.cs" />
     <Compile Include="Api\Routing\RoutingAttribute.cs" />
     <Compile Include="Api\AuthorizedHandlers.cs" />
-    <Compile Include="Api\Routing\EditableContenPageRouting.cs" />
-    <Compile Include="Api\Routing\ContenPageRouting.cs" />
+    <Compile Include="Api\Routing\EditableContentPageRouting.cs" />
+    <Compile Include="Api\Routing\ContentPageRouting.cs" />
     <Compile Include="Api\Routing\IPageRouting.cs" />
     <Compile Include="Api\Routing\MasterPageMiddleware.cs" />
     <Compile Include="Api\Routing\PartialUrlAttribute.cs" />

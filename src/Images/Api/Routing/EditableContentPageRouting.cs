@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Simplified.Ring1;
 using Starcounter;
 using Starcounter.Authorization.Routing;
 
 namespace Images
 {
-    public class EditableContenPageRouting : IPageRouting
+    public class EditableContentPageRouting : IPageRouting
     {
         public List<RoutingPreset> GetRoutingPresets()
         {

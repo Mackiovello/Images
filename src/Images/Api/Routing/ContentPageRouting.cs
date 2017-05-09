@@ -5,7 +5,7 @@ using Starcounter.Authorization.Routing;
 
 namespace Images
 {
-    public class ContenPageRouting : IPageRouting
+    public class ContentPageRouting : IPageRouting
     {
         public List<RoutingPreset> GetRoutingPresets()
         {
