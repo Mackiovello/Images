@@ -129,16 +129,18 @@ Screenshot:
 
 ![image](docs/screenshot-somethings-edit-empty.png)
 
-Sample mapping:
+## Sample mapping
+
+Add this in your app:
 
 ```cs
-StarcounterEnvironment.RunWithinApplication("Images", () => {
-    Handle.GET("/images/partials/concept-YOURCLASS/{?}", (string objectId) => {
-        return Self.GET("/images/partials/somethings-edit/" + objectId);
-    });
+Blender.MapUri<YOURAPP.YOURCLASS>("/YOURAPP/YOURCLASS/edit/{?}");
+```
 
-    UriMapping.OntologyMap<YOURAPP.YOURCLASS>("/images/partials/concept-YOURCLASS/{?}");
-});
+Add this in Images (if not present):
+
+```cs
+Blender.MapUri<YOURAPP.YOURCLASS>("/images/partials/somethings-edit/{?}");
 ```
 
 ## License
