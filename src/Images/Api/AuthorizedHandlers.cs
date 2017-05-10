@@ -59,23 +59,23 @@ namespace Images
                     if (routerKit == null)
                     {
                         routerKit = new RouterPageCreatorsKit();
-                        routerKit.Router = CreateSecondaryUriRouter(routerKit.PageCreators);
                         routerKits.Add(routerKit);
+
+                        routerKit.PartialsRouter = CreateSecondaryPartialsRouter(routerKit.PageCreators);
+                        routerKit.ApiRouter = CreateApiRouter();
                     }
 
                     routerKit.PageCreators.Add(routing.Key, preset.PageCreator);
-                    routerKit.Router.HandleGet(preset.Uri, routing.Key);
+
+                    routerKit.PartialsRouter.HandleGet(preset.PartialUri, routing.Key, new HandlerOptions {SelfOnly = true});
+                    routerKit.ApiRouter.HandleGet(preset.ApiUri, routing.Key);
                 }
             }
         }
 
-        private Router CreateSecondaryUriRouter(Dictionary<Type, Func<RoutingInfo, Response>> pageCreators)
+        private Router CreateSecondaryPartialsRouter(Dictionary<Type, Func<RoutingInfo, Response>> pageCreators)
         {
-            var router = new Router(info => pageCreators[info.SelectedPageType](info));
-
-            AddSecurityMiddleware(router, info => SessionHelper.GetMaster(() => new Json()));
-
-            return router;
+            return new Router(info => pageCreators[info.SelectedPageType](info));
         }
 
         private Router CreatePartialsRouter()
@@ -90,22 +90,22 @@ namespace Images
         {
             var router = new Router(info =>
             {
-                var partialUri = PartialUrlAttribute.GetPartialUri(info.Request.Uri, "images");
+                var partialUri = GetPartialUri(info.Request.Uri);
                 return Self.GET(partialUri);
             });
 
             router.AddMiddleware(new MasterPageMiddleware());
-            AddSecurityMiddleware(router, info => SessionHelper.GetMaster(() => new UnauthorizedPage()));
+            AddSecurityMiddleware(router);
 
             return router;
         }
 
-        private void AddSecurityMiddleware(Router router, Func<RoutingInfo, Response> unauthorizedHandler)
+        private void AddSecurityMiddleware(Router router)
         {
             var rules = GetAuthorizationRules(router);
             router.AddMiddleware(new SecurityMiddleware(
                 new AuthorizationEnforcement(rules, new SystemUserAuthentication()),
-                unauthorizedHandler,
+                info => SessionHelper.GetMaster(() => new UnauthorizedPage()),
                 PageSecurity.CreateThrowingDeniedHandler<Exception>()));
         }
 
@@ -119,13 +119,19 @@ namespace Images
 
         protected class RouterPageCreatorsKit
         {
-            public Router Router { get; set; }
+            public Router ApiRouter { get; set; }
+            public Router PartialsRouter { get; set; }
             public Dictionary<Type, Func<RoutingInfo, Response>> PageCreators { get; }
 
             public RouterPageCreatorsKit()
             {
                 PageCreators = new Dictionary<Type, Func<RoutingInfo, Response>>();
             }
+        }
+
+        private string GetPartialUri(string apiUri)
+        {
+            return apiUri.Insert(AppHelper.AppName.Length + 1, AppHelper.PartialUriPart);
         }
     }
 }

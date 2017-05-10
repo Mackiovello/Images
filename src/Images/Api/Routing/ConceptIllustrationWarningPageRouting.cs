@@ -10,10 +10,8 @@ namespace Images
         {
             return new List<RoutingPreset>
             {
-                new RoutingPreset
-                {
-                    Uri = "/images/partials/imagewarning/{?}",
-                    PageCreator = info =>
+                new RoutingPreset("/images/partials/imagewarning/{?}",
+                    info =>
                     {
                         var illustrationId = info.Arguments[0];
                         var illustration = DbHelper.FromID(DbHelper.Base64DecodeObjectID(illustrationId)) as Illustration;
@@ -23,7 +21,7 @@ namespace Images
                         page.RefreshData(illustration);
                         return page;
                     }
-                }
+                )
             };
         }
     }

@@ -15,13 +15,7 @@ namespace Images
         public PartialUrlAttribute(string uriPartialVersion)
         {
             UriPartialVersion = uriPartialVersion;
-            UriApiVersion = uriPartialVersion.Replace("/partials", "");
-        }
-
-        public static string GetPartialUri(string apiUri, string appName)
-        {
-            var partialUri = apiUri.Insert(appName.Length + 1, "/partials");
-            return partialUri;
+            UriApiVersion = uriPartialVersion.Replace(AppHelper.PartialUriPart, string.Empty);
         }
     }
 }

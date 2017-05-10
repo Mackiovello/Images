@@ -86,6 +86,7 @@
     <Compile Include="Api\Routing\RoutingExtensions.cs" />
     <Compile Include="Api\UploadHandlers.cs" />
     <Compile Include="Api\MainHandlers.cs" />
+    <Compile Include="Helpers\AppHelper.cs" />
     <Compile Include="Helpers\IllustrationHelper.cs" />
     <Compile Include="Helpers\ImageValidator.cs" />
     <Compile Include="Helpers\SessionHelper.cs" />

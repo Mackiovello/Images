@@ -11,11 +11,7 @@ namespace Images
         {
             return new List<RoutingPreset>
             {
-                new RoutingPreset
-                {
-                    Uri = "/images/partials/illustrations-edit/{?}",
-                    PageCreator = GetIllustrationsEditResponse
-                }
+                new RoutingPreset("/images/partials/illustrations-edit/{?}", GetIllustrationsEditResponse)
             };
         }
 
