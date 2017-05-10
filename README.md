@@ -12,26 +12,29 @@ For developer instructions, go to [CONTRIBUTING](CONTRIBUTING.md).
 
 The following resources are available only for a signed in user:
 * `/images`
-* `/images/partials/images`
+* `/images/image`
+* `/images/image/{?}`
+* `/images/contents/{?}`
+* `/images/contents-edit/{?}`
+* `/images/somethings/{?}`
+* `/images/somethings-edit/{?}`
+* `/images/illustrations/{?}`
+* `/images/somethings-single/{?}`
+* `/images/somethings-single-static/{?}`
+* `/images/settings`
 
 The following resources doesn't require additional permissions:
-* `/images/image`
+* `/images/partials/images`
 * `/images/partials/image/`
-* `/images/image/{?}`
 * `/Images/partials/image/{?}`
-* `/images/contents/{?}`
 * `/images/partials/contents/{?}`
-* `/images/contents-edit/{?}`
 * `/images/partials/contents-edit/{?}`
-* `/images/somethings/{?}`
 * `/images/partials/somethings/{?}`
-* `/images/somethings-edit/{?}`
 * `/images/partials/somethings-edit/{?}`
 * `/images/partials/illustrations/{?}`
-* `/images/partials/concept-somebody/{?}`
-* `/images/partials/concept-vendible/{?}`
-* `/images/partials/concept-chatmessage/{?}`
-* `/images/partials/concept-chatattachment/{?}`
+* `/images/partials/somethings-single/{?}`
+* `/images/partials/somethings-single-static/{?}`
+* `/images/partials/settings`
 
 See the [instructions for the SignIn app](https://github.com/StarcounterApps/SignIn#default-admin-user) to create a first user.
 
