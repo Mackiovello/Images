@@ -1,4 +1,4 @@
-﻿<link rel="import" href="/Images/elements/so-juicy-filedrop/so-juicy-filedrop.html" />
+﻿<link rel="import" href="/Images/elements/images-filedrop/images-filedrop.html" />
 
 <template>
     <template is="dom-bind">
@@ -8,29 +8,30 @@
         <button slot="images/add" onmousedown="++this.value;" value="{{model.Add$::click}}" class="btn-carousel-add">
             &nbsp;
         </button>
-        <so-juicy-filedrop slot="images/big" id="jfFileDrop" session-id="{{model.SessionId}}" upload-url="/images/images" value="{{model.Selected.Content.URL$}}" filetype="{{model.Selected.Content.MimeType$}}" max-file-size="{{model.MaxFileSize}}" allowed-mime-types="{{model.AllowedMimeTypes}}">
+        <images-filedrop slot="images/big" on-statechange="onStateChange" session-id="{{model.SessionId}}" upload-url="/images/images" value="{{model.Selected.Content.URL$}}" filetype="{{model.Selected.Content.MimeType$}}" max-file-size="{{model.MaxFileSize}}" allowed-mime-types="{{model.AllowedMimeTypes}}">
             <div>
                 <button class="btn btn-default btn-xs" onmousedown="++this.value;" value="{{model.Delete$::click}}">Delete</button>
                 <template is="dom-if" if="{{model.Selected.Content.URL$}}">
                     <button class="btn btn-primary btn-xs" onmousedown="++this.value;" value="{{model.Save$::click}}">Save</button>
                 </template>
             </div>
-        </so-juicy-filedrop>
+        </images-filedrop>
     </template>
     <script>
         (function () {
             var script = document._currentScript || document.currentScript;
             var template = script.previousElementSibling;
 
-            template.addEventListener('dom-change', function () {
-                var jf = document.getElementById("jfFileDrop");
-                jf.addEventListener("fileUploaded", function (e) {
-                    template.set("model.Selected.Content.Name$", e.detail.file.name);
-                });
-            });
-
             template.onPreviewClick = function (e) {
                 template.set("model.item.Select$", ++e.model.item.Select$);
+            };
+
+            template.onStateChange = function (ev) {
+                if (ev.detail && ev.detail.file && ev.detail.file.name) {
+                    if (ev.detail.file.name !== template.get("model.Selected.Content.Name$")) {
+                      template.set("model.Selected.Content.Name$", ev.detail.file.name);
+                    }
+                }
             };
         })();
     </script>

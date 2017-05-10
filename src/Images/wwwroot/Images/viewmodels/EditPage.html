@@ -1,13 +1,13 @@
-<link rel="import" href="/Images/elements/so-juicy-filedrop/so-juicy-filedrop.html" />
+<link rel="import" href="/Images/elements/images-filedrop/images-filedrop.html" />
 
 <template>
     <template is="dom-bind">
-        <so-juicy-filedrop session-id="{{model.SessionId}}" upload-url="/images/images" value="{{model.ImageURL$}}" max-file-size="{{model.MaxFileSize}}" allowed-mime-types="{{model.AllowedMimeTypes}}">
+        <images-filedrop session-id="{{model.SessionId}}" upload-url="/images/images" value="{{model.ImageURL$}}" max-file-size="{{model.MaxFileSize}}" allowed-mime-types="{{model.AllowedMimeTypes}}">
             <template is="dom-if" if="{{model.ImageURL$}}">
                 <div>
                     <button class="btn btn-default btn-xs" onmousedown="++this.value;" value="{{model.Delete$::click}}">Clear</button>
                 </div>
             </template>
-        </so-juicy-filedrop>
+        </images-filedrop>
     </template>
 </template>

@@ -16,7 +16,7 @@
             var script = document._currentScript || document.currentScript;
             var template = script.previousElementSibling;
             template.openFileDialog = function () {
-                var dropArea = template.parentElement.querySelector('#jfFileDrop');
+                var dropArea = template.parentElement.querySelector('images-filedrop');
                 dropArea.openFile();
             };
         })();

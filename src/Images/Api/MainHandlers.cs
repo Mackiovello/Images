@@ -1,5 +1,6 @@
 ﻿using Starcounter;
 using Simplified.Ring1;
+using Simplified.Ring2;
 using Simplified.Ring3;
 using Simplified.Ring6;
 using Simplified.Ring6.Images;
@@ -322,57 +323,49 @@ namespace Images
 
         protected void RegisterMapperHandlers()
         {
-            UriMapping.Map("/images/menu", UriMapping.MappingUriPrefix + "/menu");
-            UriMapping.Map("/images/app-name", UriMapping.MappingUriPrefix + "/app-name");
-            UriMapping.Map("/images/settings", UriMapping.MappingUriPrefix + "/settings");
-
-            #region Wrapper URI handlers for usage in OntologyMap
-            Handle.GET("/images/partials/concept-somebody/{?}", (string objectId) =>
-            {
-                return Self.GET("/images/partials/somethings-edit/" + objectId);
-            });
-            Handle.GET("/images/partials/concept-vendible/{?}", (string objectId) =>
-            {
-                return Self.GET("/images/partials/somethings-edit/" + objectId);
-            });
-            Handle.GET("/images/partials/concept-chatmessage/{?}", (string objectId) =>
-            {
-                return Self.GET("/images/partials/somethings-single/" + objectId);
-            });
-            Handle.GET("/images/partials/concept-chatattachment/{?}", (string objectId) =>
-            {
-                return Self.GET("/images/partials/illustrations-edit/" + objectId);
-            });
-            # endregion
+            Blender.MapUri("/images/menu", "menu");
+            Blender.MapUri("/images/app-name", "app-name");
+            Blender.MapUri("/images/settings", "settings");
 
             #region OntologyMap
-            UriMapping.OntologyMap("/images/partials/concept-somebody/{?}", typeof(Somebody).FullName, null, null);
-            UriMapping.OntologyMap("/images/partials/concept-vendible/{?}", typeof(Product).FullName, null, null);
-            UriMapping.OntologyMap("/images/partials/concept-chatmessage/{?}", typeof(ChatMessage).FullName, (string objectId) => objectId, (string objectId) =>
-            {
-                var message = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as ChatMessage;
-                return message.IsDraft ? null : objectId;
-            });
-            UriMapping.OntologyMap("/images/partials/images-draft/{?}", typeof(ChatMessage).FullName, (string objectId) => objectId, (string objectId) =>
-            {
-                var chatMessage = (ChatMessage)DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId));
-                return chatMessage.IsDraft ? objectId : null;
-            });
-            UriMapping.OntologyMap("/images/partials/concept-chatattachment/{?}", typeof(ChatAttachment).FullName, (string objectId) => objectId, (string objectId) =>
-            {
-                var illustration = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Illustration;
-                if (illustration == null)
+            Blender.MapUri<Person>("/images/partials/somethings-edit/{?}");
+            Blender.MapUri<Organization>("/images/partials/somethings-edit/{?}");
+            Blender.MapUri<Product>("/images/partials/somethings-edit/{?}");
+
+            Blender.MapUri<ChatMessage>("/images/partials/somethings-single/{?}",
+                paramsFrom => paramsFrom,
+                paramsTo =>
                 {
-                    return null;
-                }
-                return objectId;
-            });
+                    var objectId = paramsTo[0];
+                    var message = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as ChatMessage;
+                    return message.IsDraft ? null : paramsTo;
+                });
+            Blender.MapUri<ChatMessage>("/images/partials/images-draft/{?}",
+                paramsFrom => paramsFrom,
+                paramsTo =>
+                {
+                    var objectId = paramsTo[0];
+                    var chatMessage = (ChatMessage)DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId));
+                    return chatMessage.IsDraft ? paramsTo : null;
+                });
+            Blender.MapUri<ChatAttachment>("/images/partials/illustrations-edit/{?}",
+                paramsFrom => paramsFrom,
+                paramsTo =>
+                {
+                    var objectId = paramsTo[0];
+                    var illustration = DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Illustration;
+                    if (illustration == null)
+                    {
+                        return null;
+                    }
+                    return paramsTo;
+                });
 
             #region For Chatter
-            UriMapping.OntologyMap("/images/partials/illustrations-edit/@w", typeof(EditAnnouncement).FullName);
-            UriMapping.OntologyMap("/images/partials/illustrations/@w", typeof(PreviewAnnouncement).FullName);
-            UriMapping.OntologyMap("/images/partials/imagedraftannouncement/{?}", typeof(ChatDraftAnnouncement).FullName);
-            UriMapping.OntologyMap("/images/partials/imagewarning/{?}", typeof(ChatWarning).FullName);
+            Blender.MapUri<EditAnnouncement>("/images/partials/illustrations-edit/{?}");
+            Blender.MapUri<PreviewAnnouncement>("/images/partials/illustrations/{?}");
+            Blender.MapUri<ChatDraftAnnouncement>("/images/partials/imagedraftannouncement/{?}");
+            Blender.MapUri<ChatWarning>("/images/partials/imagewarning/{?}");
             #endregion
 
             #endregion
