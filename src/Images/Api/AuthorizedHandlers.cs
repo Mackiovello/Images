@@ -73,12 +73,7 @@ namespace Images
         {
             var router = new Router(info => pageCreators[info.SelectedPageType](info));
 
-            AddSecurityMiddleware(router, info =>
-            {
-                var response = Response.FromStatusCode(403);
-                response.Resource = new Json();
-                return response;
-            });
+            AddSecurityMiddleware(router, info => SessionHelper.GetMaster(() => new Json()));
 
             return router;
         }
@@ -100,12 +95,7 @@ namespace Images
             });
 
             router.AddMiddleware(new MasterPageMiddleware());
-            AddSecurityMiddleware(router, info =>
-            {
-                var response = Response.FromStatusCode(403);
-                response.Resource = new UnauthorizedPage();
-                return response;
-            });
+            AddSecurityMiddleware(router, info => SessionHelper.GetMaster(() => new UnauthorizedPage()));
 
             return router;
         }
