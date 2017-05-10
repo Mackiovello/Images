@@ -3,7 +3,7 @@
 <template>
     <template is="dom-bind">
         <template is="dom-repeat" items="{{model.Illustrations}}" restamp="true">
-            <img slot="images/thumbnail" src="{{item.PreviewURL}}" onmousedown="++this.value;" value="{{item.Select$::click}}" />
+            <img slot="images/thumbnail" src="{{item.PreviewURL}}" on-click="onPreviewClick" value="{{item.Select$::click}}" />
         </template>
         <button slot="images/add" onmousedown="++this.value;" value="{{model.Add$::click}}" class="btn-carousel-add">
             &nbsp;
@@ -28,6 +28,10 @@
                     template.set("model.Selected.Content.Name$", e.detail.file.name);
                 });
             });
+
+            template.onPreviewClick = function (e) {
+                template.set("model.item.Select$", ++e.model.item.Select$);
+            };
         })();
     </script>
     <template is="declarative-shadow-dom">
