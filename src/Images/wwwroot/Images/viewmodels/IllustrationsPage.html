@@ -1,7 +1,7 @@
 <template>
     <template is="dom-bind">
         <template is="dom-repeat" items="{{model.Illustrations}}" restamp="true">
-            <img slot="images/thumbnail" src="{{item.PreviewURL}}" on-click="onPreviewClick" value="{{item.Select$::click}}" />
+            <img slot="images/thumbnail" src="{{item.PreviewURL}}" on-click="onPreviewClick" />
         </template>
         <div slot="images/big">
             <starcounter-include partial="{{model.Selected.Content}}"></starcounter-include>
@@ -13,7 +13,7 @@
             var template = script.previousElementSibling;
             
             template.onPreviewClick = function (e) {
-                template.set("model.item.Select$", ++e.model.item.Select$);
+                template.set("model.item.Select$", ++template.get("model.item.Select$"));
             };
         })();
     </script>

@@ -3,7 +3,7 @@
 <template>
     <template is="dom-bind">
         <template is="dom-repeat" items="{{model.Illustrations}}" restamp="true">
-            <img slot="images/thumbnail" src="{{item.PreviewURL}}" on-click="onPreviewClick" value="{{item.Select$::click}}" />
+            <img slot="images/thumbnail" src="{{item.PreviewURL}}" on-click="onPreviewClick" />
         </template>
         <button slot="images/add" onmousedown="++this.value;" value="{{model.Add$::click}}" class="btn-carousel-add">
             &nbsp;
@@ -23,7 +23,7 @@
             var template = script.previousElementSibling;
 
             template.onPreviewClick = function (e) {
-                template.set("model.item.Select$", ++e.model.item.Select$);
+                template.set("model.item.Select$", ++template.get("model.item.Select$"));
             };
 
             template.onStateChange = function (ev) {
