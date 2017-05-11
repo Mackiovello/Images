@@ -1,3 +1,5 @@
+using Images.Api;
+
 namespace Images
 {
     class Program
@@ -9,6 +11,9 @@ namespace Images
 
             var main = new MainHandlers();
             main.Register();
+
+            var converting = new ConvertingHandlers();
+            converting.Register();
 
             var upgrade = new UpgradeData();
             upgrade.UpgradeMimeType();

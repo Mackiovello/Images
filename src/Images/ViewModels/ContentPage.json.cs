@@ -5,7 +5,6 @@ using Starcounter.Authorization.Attributes;
 namespace Images
 {
     [PartialUrl("/images/partials/contents/{?}")]
-    [Routing(typeof(ContentPageRouting))]
     [RequirePermission(typeof(OpenBasicPages))]
     partial class ContentPage : Json, IBound<Content>
     {
