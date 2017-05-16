@@ -3,16 +3,16 @@
 <template>
     <template is="dom-bind">
         <template is="dom-repeat" items="{{model.Illustrations}}" restamp="true">
-            <img slot="images/thumbnail" src="{{item.PreviewURL}}" onclick="++this.value;" value="{{item.Select$::click}}" />
+            <img slot="images/thumbnail" src="{{item.PreviewURL}}" on-click="onPreviewClick" />
         </template>
-        <button slot="images/add" onclick="++this.value;" value="{{model.Add$::click}}" class="btn-carousel-add">
+        <button slot="images/add" onmousedown="++this.value;" value="{{model.Add$::click}}" class="btn-carousel-add">
             &nbsp;
         </button>
         <images-filedrop slot="images/big" on-statechange="onStateChange" session-id="{{model.SessionId}}" upload-url="/images/images" value="{{model.Selected.Content.URL$}}" filetype="{{model.Selected.Content.MimeType$}}" max-file-size="{{model.MaxFileSize}}" allowed-mime-types="{{model.AllowedMimeTypes}}">
             <div>
-                <button class="btn btn-default btn-xs" onclick="++this.value;" value="{{model.Delete$::click}}">Delete</button>
+                <button class="btn btn-default btn-xs" onmousedown="++this.value;" value="{{model.Delete$::click}}">Delete</button>
                 <template is="dom-if" if="{{model.Selected.Content.URL$}}">
-                    <button class="btn btn-primary btn-xs" onclick="++this.value;" value="{{model.Save$::click}}">Save</button>
+                    <button class="btn btn-primary btn-xs" onmousedown="++this.value;" value="{{model.Save$::click}}">Save</button>
                 </template>
             </div>
         </images-filedrop>
@@ -21,6 +21,10 @@
         (function () {
             var script = document._currentScript || document.currentScript;
             var template = script.previousElementSibling;
+
+            template.onPreviewClick = function (e) {
+                template.set("model.item.Select$", ++template.get("model.item.Select$"));
+            };
 
             template.onStateChange = function (ev) {
                 if (ev.detail && ev.detail.file && ev.detail.file.name) {

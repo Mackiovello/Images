@@ -8,12 +8,11 @@ namespace Images
     {
         protected IllustrationHelper Helper = new IllustrationHelper();
         protected List<string> OldUrls = new List<string>();
-        public string SessionId => Session.Current?.SessionId;
 
         protected override void OnData()
         {
             base.OnData();
-
+            
             MaxFileSize = Helper.GetMaximumFileSizeBytes();
 
             foreach (var s in UploadHandlers.AllowedMimeTypes)
