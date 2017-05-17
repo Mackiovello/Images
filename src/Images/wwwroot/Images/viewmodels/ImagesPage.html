@@ -25,14 +25,14 @@
                             </a>
                         </td>
                         <td class="images-table__td">
-                            <button class="btn btn-sm btn-default" onclick="++this.value;" value="{{item.Delete$::click}}">Delete</button>
+                            <button class="btn btn-sm btn-default" onmousedown="++this.value;" value="{{item.Delete$::click}}">Delete</button>
                             <a href="{{item.ContentEditURL}}" class="btn btn-sm btn-default">Edit</a>
                         </td>
                     </tr>
                 </template>
             </tbody>
         </table>
-        <button class="btn btn-primary" onclick="++this.value;" value="{{model.Add$::click}}">Add image or video</button>
+        <button class="btn btn-primary" onmousedown="++this.value;" value="{{model.Add$::click}}">Add image or video</button>
         <link is="puppet-redirect" history url$="{{model.RedirectUrl$}}" />
         <!-- A bug in Polymer: https://github.com/PolymerElements/iron-fit-behavior/issues/13 -->
         <div id="divConfirmDialog" class="images-confirm-dialog">

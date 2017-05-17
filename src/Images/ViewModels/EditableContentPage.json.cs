@@ -13,7 +13,6 @@ namespace Images
     {
         protected IllustrationHelper Helper = new IllustrationHelper();
         protected List<string> OldUrls = new List<string>();
-        public string SessionId => Session.Current?.SessionId;
 
         [UriToContext]
         public static Content CreateContext(string[] args)
@@ -38,7 +37,7 @@ namespace Images
         protected override void OnData()
         {
             base.OnData();
-
+            
             MaxFileSize = Helper.GetMaximumFileSizeBytes();
 
             foreach (var mimeType in UploadHandlers.AllowedMimeTypes)
@@ -66,10 +65,7 @@ namespace Images
                 OldUrls.Add(value.OldValue);
             }
 
-            if (string.IsNullOrEmpty(value.Value))
-            {
-                Path = Helper.GetUploadDirectoryWithRoot().Replace("/", "\\");
-            }
+            Path = Helper.GetUploadDirectoryWithRoot().Replace("/","\\");
         }
     }
 }

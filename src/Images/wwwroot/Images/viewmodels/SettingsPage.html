@@ -21,8 +21,8 @@
             <label class="control-label images-settings-label">Maximum file size (MB)</label>
             <input type="number" value="{{model.MaximumFileSizeMiB$::input}}" class="form-control images-settings-control"/>
         </div>
-        <button slot="images/button-settings-save" class="btn btn-small btn-success images-settings-button" onclick="++this.value;" value="{{model.Save$::click}}">Save</button>
-        <button slot="images/button-settings-cleanup" class="btn btn-small btn-danger images-settings-button" onclick="++this.value;" value="{{model.CleanUpFiles$::click}}">Clean up files</button>
+        <button slot="images/button-settings-save" class="btn btn-small btn-success images-settings-button" onmousedown="++this.value;" value="{{model.Save$::click}}">Save</button>
+        <button slot="images/button-settings-cleanup" class="btn btn-small btn-danger images-settings-button" onmousedown="++this.value;" value="{{model.CleanUpFiles$::click}}">Clean up files</button>
     </template>
     <template is="declarative-shadow-dom">
         <slot name="images/settings-header"></slot>

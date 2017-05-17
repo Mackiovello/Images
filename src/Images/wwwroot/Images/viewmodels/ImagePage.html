@@ -7,8 +7,8 @@
         </div>
         <input slot="images/image-url" type="text" readonly="readonly" value="{{model.URL$}}" class="form-control"/>
         <button slot="images/button-select" type="button" class="btn btn-sm btn-default" on-click="openFileDialog">Select file</button>
-        <button slot="images/button-save" type="button" class="btn btn-primary" onclick="++this.value;" value="{{model.Save$::click}}">Save</button>
-        <button slot="images/button-cancel" type="button" class="btn btn-default" onclick="++this.value;" value="{{model.Cancel$::click}}">Cancel</button>
+        <button slot="images/button-save" type="button" class="btn btn-primary" onmousedown="++this.value;" value="{{model.Save$::click}}">Save</button>
+        <button slot="images/button-cancel" type="button" class="btn btn-default" onmousedown="++this.value;" value="{{model.Cancel$::click}}">Cancel</button>
         <link is="puppet-redirect" history url$="{{model.RedirectUrl$}}"/>
     </template>
     <script>

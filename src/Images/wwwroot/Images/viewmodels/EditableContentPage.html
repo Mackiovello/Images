@@ -5,7 +5,7 @@
     <template is="dom-bind">
         <div slot="images/preview">
             <template is="dom-if" if="{{model.URL$}}" restamp="true">
-                <button type="button" class="btn btn-default btn-xs images-content-close-button" onclick="++this.value;" value="{{model.Clear$::click}}">Clear</button>
+                <button type="button" class="btn btn-default btn-xs images-content-close-button" onmousedown="++this.value;" value="{{model.Clear$::click}}">Clear</button>
                 <starcounter-include partial="{{model.ContentPage}}"></starcounter-include>
             </template>
         </div>
