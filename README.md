@@ -18,8 +18,6 @@ The following resources are available only for a signed in user:
 * `/images/contents-edit/{?}`
 * `/images/somethings/{?}`
 * `/images/somethings-edit/{?}`
-* `/images/illustrations/{?}`
-* `/images/somethings-single/{?}`
 * `/images/somethings-single-static/{?}`
 * `/images/settings`
 
