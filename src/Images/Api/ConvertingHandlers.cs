@@ -4,7 +4,7 @@ using Simplified.Ring1;
 
 namespace Images
 {
-    class ConvertingHandlers
+    internal class ConvertingHandlers
     {
         public void Register()
         {

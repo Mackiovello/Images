@@ -1,11 +1,13 @@
-using Starcounter;
 using Simplified.Ring1;
 using Simplified.Ring6;
+using Starcounter;
 using Starcounter.Authorization.Routing;
+using Starcounter.Authorization.Routing.Middleware;
 
 namespace Images
 {
     [PartialUrl("/images/partials/imagewarning/{?}")]
+    [UseDbScope(false)]
     partial class ConceptIllustrationWarningPage : Json, IPageContext<Illustration>
     {
         public void HandleContext(Illustration illustration)
