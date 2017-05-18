@@ -73,16 +73,9 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\Routing\ConceptIllustrationWarningPageRouting.cs" />
-    <Compile Include="Api\Routing\DraftPageRouting.cs" />
-    <Compile Include="Api\Routing\RoutingPreset.cs" />
-    <Compile Include="Api\Routing\RoutingAttribute.cs" />
     <Compile Include="Api\AuthorizedHandlers.cs" />
-    <Compile Include="Api\Routing\EditableContentPageRouting.cs" />
-    <Compile Include="Api\Routing\IPageRouting.cs" />
     <Compile Include="Api\Routing\MasterPageMiddleware.cs" />
     <Compile Include="Api\Routing\PartialUrlAttribute.cs" />
-    <Compile Include="Api\Routing\RoutingExtensions.cs" />
     <Compile Include="Api\ConvertingHandlers.cs" />
     <Compile Include="Api\UploadHandlers.cs" />
     <Compile Include="Api\MainHandlers.cs" />

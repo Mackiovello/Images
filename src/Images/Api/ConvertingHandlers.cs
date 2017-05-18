@@ -2,32 +2,40 @@
 using Starcounter;
 using Simplified.Ring1;
 
-namespace Images.Api
+namespace Images
 {
     class ConvertingHandlers
     {
         public void Register()
         {
-            CreateConvertingHandler("/images/partials/somethings-single/{?}", "/images/partials/illustrations/", (string somethingId) => {
-                var something = DbHelper.FromID(DbHelper.Base64DecodeObjectID(somethingId)) as Something;
-                var illustration = Db.SQL<Illustration>(@"Select m from Simplified.Ring1.Illustration m Where m.ToWhat = ?", something).First;
-                return illustration?.Key;
-            }, () =>
-            {
-                return new Page();
-            });
+            CreateConvertingHandler("/images/partials/somethings-single/{?}", "/images/partials/illustrations/",
+                (string somethingId) =>
+                {
+                    var something = DbHelper.FromID(DbHelper.Base64DecodeObjectID(somethingId)) as Something;
+                    var illustration = Db.SQL<Illustration>(@"Select m from Simplified.Ring1.Illustration m Where m.ToWhat = ?", something).First;
+                    return illustration?.Key;
+                },
+                () => new Page());
 
-            CreateConvertingHandler("/images/partials/illustrations/{?}", "/images/partials/contents/", (string illustrationId) => {
+            CreateConvertingHandler("/images/partials/illustrations/{?}", "/images/partials/contents/",
+                (string illustrationId) =>
+                {
                     var illustration = DbHelper.FromID(DbHelper.Base64DecodeObjectID(illustrationId)) as Illustration;
                     return illustration?.Content.Key;
-                }, () =>
+                },
+                () => new ErrorPage { ErrorText = "Images cannot present an illustration without content" });
+
+            CreateConvertingHandler("/images/partials/illustrations-edit/{?}", "/images/partials/contents-edit/",
+                (string illustrationId) =>
                 {
-                    var errorPage = new ErrorPage
+                    var illustration = DbHelper.FromID(DbHelper.Base64DecodeObjectID(illustrationId)) as Illustration;
+                    if (illustration != null && illustration.Content == null)
                     {
-                        ErrorText = "Images cannot present an illustration without content"
-                    };
-                    return errorPage;
-                });
+                        illustration.Content = new Content { Name = "Standalone image" };
+                    }
+                    return illustration?.Content.Key;
+                },
+                () => new ErrorPage { ErrorText = "Images cannot present an empty illustration" });
         }
 
         private void CreateConvertingHandler(string fromUri, string toUri, Func<string, string> ruleFn, Func<Response> errorFn)
@@ -44,6 +52,7 @@ namespace Images.Api
 
             var fromNonPartialUri = fromUri.Replace("/partials", "");
             var toNonPartialUri = toUri.Replace("/partials", "");
+
             Handle.GET(fromNonPartialUri, (string fromObjectId) =>
             {
                 var toObjectId = ruleFn(fromObjectId);

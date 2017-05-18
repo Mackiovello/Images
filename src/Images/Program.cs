@@ -1,5 +1,3 @@
-using Images.Api;
-
 namespace Images
 {
     class Program

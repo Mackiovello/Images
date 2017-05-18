@@ -7,7 +7,6 @@ using Starcounter.Authorization.Routing;
 namespace Images
 {
     [PartialUrl("/images/partials/contents-edit/{?}")]
-    [Routing(typeof(EditableContentPageRouting))]
     [RequirePermission(typeof(OpenBasicPages))]
     partial class EditableContentPage : Json, IBound<Content>
     {

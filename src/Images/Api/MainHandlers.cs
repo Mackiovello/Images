@@ -26,7 +26,8 @@ namespace Images
             });
 
             RegisterLauncherHooks();
-            RegisterMapperHandlers();
+            RegisterEmptyBlendingHandlers();
+            RegisterMapping();
         }
 
         protected void RegisterLauncherHooks()
@@ -35,17 +36,22 @@ namespace Images
             Handle.GET("/images/menu", () => new Page { Html = "/Images/viewmodels/AppMenu.html" });
         }
 
-        protected void RegisterMapperHandlers()
+        protected void RegisterEmptyBlendingHandlers()
+        {
+            Handle.GET("/images/partials/imagedraftannouncement/{?}", (string objectPath) => new Page());
+        }
+
+        protected void RegisterMapping()
         {
             Blender.MapUri("/images/menu", "menu");
             Blender.MapUri("/images/app-name", "app-name");
             Blender.MapUri("/images/partials/settings", "settings");
 
-            #region OntologyMap
             Blender.MapUri<Person>("/images/partials/somethings-edit/{?}");
             Blender.MapUri<Organization>("/images/partials/somethings-edit/{?}");
             Blender.MapUri<Product>("/images/partials/somethings-edit/{?}");
 
+            #region For Chatter
             Blender.MapUri<ChatMessage>("/images/partials/somethings-single/{?}",
                 paramsFrom => paramsFrom,
                 paramsTo =>
@@ -74,14 +80,10 @@ namespace Images
                     }
                     return paramsTo;
                 });
-
-            #region For Chatter
             Blender.MapUri<EditAnnouncement>("/images/partials/illustrations-edit/{?}");
             Blender.MapUri<PreviewAnnouncement>("/images/partials/illustrations/{?}");
             Blender.MapUri<ChatDraftAnnouncement>("/images/partials/imagedraftannouncement/{?}");
             Blender.MapUri<ChatWarning>("/images/partials/imagewarning/{?}");
-            #endregion
-
             #endregion
         }
     }
