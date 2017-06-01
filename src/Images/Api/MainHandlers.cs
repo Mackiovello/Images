@@ -14,30 +14,12 @@ namespace Images
             Application.Current.Use(new HtmlFromJsonProvider());
             Application.Current.Use(new PartialToStandaloneHtmlProvider());
 
-            Handle.GET("/images/standalone", () =>
-            {
-                var session = Session.Current;
-                if (session?.Data != null)
-                {
-                    return session.Data;
-                }
-
-                var masterPage = new MasterPage();
-                if (session == null)
-                {
-                    session = new Session(SessionOptions.PatchVersioning);
-                }
-
-                masterPage.Session = session;
-                return masterPage;
-            });
-
             // Workspace root (Launchpad)
             Handle.GET("/images", (Request request) =>
             {
                 return Db.Scope(() =>
                 {
-                    return ReturnWithinMaster(Self.GET("/images/partials/images"));
+                    return EnsureSession(Self.GET("/images/partials/images"));
                 });
             });
 
@@ -45,7 +27,7 @@ namespace Images
             {
                 return Db.Scope<Json>(() =>
                 {
-                    return ReturnWithinMaster(Self.GET<ImagePage>("/Images/partials/image/"));
+                    return EnsureSession(Self.GET<ImagePage>("/Images/partials/image/"));
                 });
             });
 
@@ -53,7 +35,7 @@ namespace Images
             {
                 return Db.Scope<Json>(() =>
                 {
-                    return ReturnWithinMaster(Self.GET<ImagePage>("/Images/partials/image/" + objectId));
+                    return EnsureSession(Self.GET<ImagePage>("/Images/partials/image/" + objectId));
                 });
             });
 
@@ -61,7 +43,7 @@ namespace Images
             {
                 return Db.Scope<Json>(() =>
                 {
-                    return ReturnWithinMaster(Self.GET<ContentPage>("/images/partials/contents/" + objectId));
+                    return EnsureSession(Self.GET<ContentPage>("/images/partials/contents/" + objectId));
                 });
             });
 
@@ -69,7 +51,7 @@ namespace Images
             {
                 return Db.Scope<Json>(() =>
                 {
-                    return ReturnWithinMaster(Self.GET<EditableContentPage>("/images/partials/contents-edit/" + objectId));
+                    return EnsureSession(Self.GET<EditableContentPage>("/images/partials/contents-edit/" + objectId));
                 });
             });
 
@@ -77,7 +59,7 @@ namespace Images
             {
                 return Db.Scope<Json>(() =>
                 {
-                    return ReturnWithinMaster(Self.GET<IllustrationsPage>("/images/partials/somethings/" + objectId));
+                    return EnsureSession(Self.GET<IllustrationsPage>("/images/partials/somethings/" + objectId));
                 });
             });
 
@@ -85,7 +67,7 @@ namespace Images
             {
                 return Db.Scope<Json>(() =>
                 {
-                    return ReturnWithinMaster(Self.GET<EditableIllustrationsPage>("/images/partials/somethings-edit/" + objectId));
+                    return EnsureSession(Self.GET<EditableIllustrationsPage>("/images/partials/somethings-edit/" + objectId));
                 });
             });
 
@@ -94,11 +76,19 @@ namespace Images
             RegisterMapperHandlers();
         }
 
-        private MasterPage ReturnWithinMaster(Json currentPage)
+        private Json EnsureSession(Json currentPage)
         {
-            var master = Self.GET<MasterPage>("/images/standalone");
-            master.CurrentPage = currentPage;
-            return master;
+            if(currentPage.Session != null)
+            {
+                return currentPage;
+            }
+            var session = Session.Current;
+            if (session == null)
+            {
+                session = new Session(SessionOptions.PatchVersioning);
+            }
+            session.Data = currentPage;
+            return currentPage;
         }
         
         protected void RegisterLauncherHooks()
