@@ -8,6 +8,34 @@ Put an image on anything. Supports drag'n'drop. Try it with **people** or **prod
 
 For developer instructions, go to [CONTRIBUTING](CONTRIBUTING.md).
 
+## Installation instructions
+
+The following resources are available only for a signed in user:
+* `/images`
+* `/images/image`
+* `/images/image/{?}`
+* `/images/contents/{?}`
+* `/images/contents-edit/{?}`
+* `/images/somethings/{?}`
+* `/images/somethings-edit/{?}`
+* `/images/somethings-single-static/{?}`
+* `/images/settings`
+
+The following resources doesn't require additional permissions:
+* `/images/partials/images`
+* `/images/partials/image/`
+* `/Images/partials/image/{?}`
+* `/images/partials/contents/{?}`
+* `/images/partials/contents-edit/{?}`
+* `/images/partials/somethings/{?}`
+* `/images/partials/somethings-edit/{?}`
+* `/images/partials/illustrations/{?}`
+* `/images/partials/somethings-single/{?}`
+* `/images/partials/somethings-single-static/{?}`
+* `/images/partials/settings`
+
+See the [instructions for the SignIn app](https://github.com/StarcounterApps/SignIn#default-admin-user) to create a first user.
+
 ## Partials
 
 ### GET /images/partials/contents/`{Content ObjectID}`

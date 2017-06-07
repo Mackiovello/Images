@@ -1,13 +1,36 @@
-using Starcounter;
-using Simplified.Ring1;
 using System.Collections.Generic;
+using Simplified.Ring1;
+using Starcounter;
+using Starcounter.Authorization.Attributes;
+using Starcounter.Authorization.Routing;
 
 namespace Images
 {
-    partial class ImagePage : Json, IBound<Content>
+    [PartialUrl("/images/partials/image/{?}")]
+    [RequirePermission(typeof(OpenBasicPages))]
+    partial class ImagePage : Json, IBound<Content>, IPageContext<Content>
     {
         protected IllustrationHelper Helper = new IllustrationHelper();
         protected List<string> OldUrls = new List<string>();
+
+        [UriToContext]
+        public static Content CreateContext(string[] args)
+        {
+            var objectId = args.Length > 0 ? args[0] : null;
+            if (string.IsNullOrEmpty(objectId))
+            {
+                var name = "Standalone image";
+                var illustration = new Illustration
+                {
+                    Concept = new Something { Name = name },
+                    Content = new Content { Name = name },
+                    Name = name
+                };
+                return illustration.Content;
+            }
+
+            return DbHelper.FromID(DbHelper.Base64DecodeObjectID(objectId)) as Content;
+        }
 
         protected override void OnData()
         {
@@ -19,8 +42,14 @@ namespace Images
             {
                 AllowedMimeTypes.Add().StringValue = s;
             }
-            
+
             SessionId = Session.Current?.SessionId;
+        }
+
+        public void HandleContext(Content context)
+        {
+            Data = context;
+            EditableContent = Self.GET($"/images/partials/contents-edit/{context.Key}");
         }
 
         void Handle(Input.URL value)

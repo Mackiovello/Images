@@ -1,6 +1,6 @@
 ﻿using Simplified.Ring1;
 
-namespace Images.Helpers
+namespace Images
 {
     public class ImageValidator
     {

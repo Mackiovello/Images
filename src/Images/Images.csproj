@@ -42,11 +42,19 @@
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Simplified.Data.Model, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
       <Private>False</Private>
     </Reference>
     <Reference Include="Starcounter.Apps.JsonPatch, Version=2.0.0.0, Culture=neutral, PublicKeyToken=d2df1e81d0ca3abf, processorArchitecture=AMD64">
       <Private>False</Private>
+    </Reference>
+    <Reference Include="Starcounter.Authorization, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Starcounter.Authorization.1.1.0\lib\net45\Starcounter.Authorization.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -65,11 +73,18 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\AuthorizedHandlers.cs" />
+    <Compile Include="Api\Routing\MasterPageMiddleware.cs" />
+    <Compile Include="Api\Routing\PartialUrlAttribute.cs" />
+    <Compile Include="Api\ConvertingHandlers.cs" />
     <Compile Include="Api\UploadHandlers.cs" />
     <Compile Include="Api\MainHandlers.cs" />
+    <Compile Include="Helpers\AppHelper.cs" />
     <Compile Include="Helpers\IllustrationHelper.cs" />
     <Compile Include="Helpers\ImageValidator.cs" />
+    <Compile Include="Helpers\SessionHelper.cs" />
     <Compile Include="Helpers\UpgradeData.cs" />
+    <Compile Include="Api\Permissions\OpenBasicPages.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ViewModels\IllustrationSimplePage.json.cs">
       <DependentUpon>IllustrationSimplePage.json</DependentUpon>
@@ -130,6 +145,7 @@
     <Content Include="wwwroot\Images\viewmodels\AppMenu.html" />
     <Content Include="wwwroot\Images\viewmodels\ConceptIllustrationWarningPage.html" />
     <Content Include="wwwroot\Images\viewmodels\EditPage.html" />
+    <Content Include="wwwroot\Images\viewmodels\UnauthorizedPage.html" />
     <TypedJSON Include="ViewModels\ContentPage.json">
       <Generator>MsBuild:Compile</Generator>
     </TypedJSON>
@@ -151,6 +167,10 @@
     <TypedJSON Include="ViewModels\IllustrationSimplePage.json">
       <Generator>MsBuild:Compile</Generator>
     </TypedJSON>
+    <TypedJSON Include="ViewModels\UnauthorizedPage.json">
+      <Generator>MsBuild:Compile</Generator>
+    </TypedJSON>
+    <None Include="packages.config" />
     <None Include="wwwroot\Images\viewmodels\ContentPage.html" />
     <Content Include="wwwroot\Images\viewmodels\DraftPage.html" />
     <None Include="wwwroot\Images\viewmodels\EditableContentPage.html" />

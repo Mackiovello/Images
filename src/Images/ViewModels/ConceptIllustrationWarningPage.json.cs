@@ -1,13 +1,16 @@
-using Images.Helpers;
-using Starcounter;
 using Simplified.Ring1;
 using Simplified.Ring6;
+using Starcounter;
+using Starcounter.Authorization.Routing;
+using Starcounter.Authorization.Routing.Middleware;
 
 namespace Images
 {
-    partial class ConceptIllustrationWarningPage : Json
+    [PartialUrl("/images/partials/imagewarning/{?}")]
+    [UseDbScope(false)]
+    partial class ConceptIllustrationWarningPage : Json, IPageContext<Illustration>
     {
-        public void RefreshData(Illustration illustration)
+        public void HandleContext(Illustration illustration)
         {
             Warning = ImageValidator.IsValid(illustration.Content);
             var relation = Db.SQL<ChatWarning>(@"Select m from Simplified.Ring6.ChatWarning m Where m.ErrorRelation = ?", illustration).First;

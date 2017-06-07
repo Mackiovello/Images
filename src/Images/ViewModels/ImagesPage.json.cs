@@ -1,9 +1,14 @@
 using System;
 using Simplified.Ring1;
 using Starcounter;
+using Starcounter.Authorization.Attributes;
+using Starcounter.Authorization.Routing.Middleware;
 
 namespace Images
 {
+    [PartialUrl("/images/partials/images")]
+    [UseDbScope(false)]
+    [RequirePermission(typeof(OpenBasicPages))]
     partial class ImagesPage : Json
     {
         protected IllustrationHelper Helper = new IllustrationHelper();

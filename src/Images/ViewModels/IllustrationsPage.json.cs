@@ -1,13 +1,18 @@
-using System;
 using System.Linq;
 using Simplified.Ring1;
 using Starcounter;
+using Starcounter.Authorization.Attributes;
+using Starcounter.Authorization.Routing.Middleware;
 
 namespace Images
 {
+    [PartialUrl("/images/partials/somethings/{?}")]
+    [UseDbScope(false)]
+    [RequirePermission(typeof(OpenBasicPages))]
     partial class IllustrationsPage : Json, IBound<Something>
     {
-        protected IllustrationHelper helper = new IllustrationHelper();
+        private IllustrationHelper helper = new IllustrationHelper();
+
         protected override void OnData()
         {
             base.OnData();

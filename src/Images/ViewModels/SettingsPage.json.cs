@@ -1,14 +1,21 @@
-using Starcounter;
+using System.Linq;
 using Simplified.Ring6;
+using Starcounter;
+using Starcounter.Authorization.Attributes;
+using Starcounter.Authorization.Routing;
 
 namespace Images
 {
+    [PartialUrl("/images/partials/settings")]
+    [RequirePermission(typeof(OpenBasicPages))]
     partial class SettingsPage : Json, IBound<ImagesSettings>
     {
         private readonly IllustrationHelper _illustrationHelper = new IllustrationHelper();
-        public void LoadDefaultData()
+
+        [UriToContext]
+        public static ImagesSettings CreateContext(string[] args)
         {
-            Data = Db.SQL<ImagesSettings>("SELECT s FROM Simplified.Ring6.ImagesSettings s").First;
+            return Db.SQL<ImagesSettings>("SELECT s FROM Simplified.Ring6.ImagesSettings s").FirstOrDefault();
         }
 
         public decimal MaximumFileSizeMiB
@@ -16,7 +23,6 @@ namespace Images
             get { return _illustrationHelper.BytesToMiB(Data.MaximumFileSize); }
             set { Data.MaximumFileSize = _illustrationHelper.MiBToBytes(value); }
         }
-
 
         void Handle(Input.Save action)
         {

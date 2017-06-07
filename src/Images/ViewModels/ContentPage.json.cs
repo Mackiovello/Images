@@ -1,8 +1,11 @@
-using Starcounter;
 using Simplified.Ring1;
+using Starcounter;
+using Starcounter.Authorization.Attributes;
 
 namespace Images
 {
+    [PartialUrl("/images/partials/contents/{?}")]
+    [RequirePermission(typeof(OpenBasicPages))]
     partial class ContentPage : Json, IBound<Content>
     {
         protected IllustrationHelper Helper = new IllustrationHelper();
