@@ -32,7 +32,8 @@
     </template>
     <script>
         (function () {
-            var template = document.currentScript.previousElementSibling;
+            var script = document._currentScript || document.currentScript;
+            var template = script.previousElementSibling;
 
             template.closeEvent = function () {
                 template.set("model.IsLightBoxVisible$", false);

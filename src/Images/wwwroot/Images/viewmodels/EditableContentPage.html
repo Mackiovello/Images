@@ -13,7 +13,8 @@
     </template>
     <script>
         (function () {
-            var template = document.currentScript.previousElementSibling;
+            var script = document._currentScript || document.currentScript;
+            var template = script.previousElementSibling;
 
             template.onStateChange = function (ev) {
                 if (ev.detail && ev.detail.file && ev.detail.file.name) {
