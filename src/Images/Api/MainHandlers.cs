@@ -47,9 +47,9 @@ namespace Images
             Blender.MapUri("/images/app-name", "app-name");
             Blender.MapUri("/images/partials/settings", "settings");
 
-            Blender.MapUri<Person>("/images/partials/somethings-edit/{?}", x => null, x => x);
-            Blender.MapUri<Organization>("/images/partials/somethings-edit/{?}", x => null, x => x);
-            Blender.MapUri<Product>("/images/partials/somethings-edit/{?}", x => null, x => x);
+            Blender.MapUri<Person>("/images/partials/somethings-edit/{?}", null, x => x);
+            Blender.MapUri<Organization>("/images/partials/somethings-edit/{?}", null, x => x);
+            Blender.MapUri<Product>("/images/partials/somethings-edit/{?}", null, x => x);
 
             #region For Chatter
             Blender.MapUri<ChatMessage>("/images/partials/somethings-single/{?}",
