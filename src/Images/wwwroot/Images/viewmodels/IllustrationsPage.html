@@ -13,7 +13,8 @@
             var template = script.previousElementSibling;
             
             template.onPreviewClick = function (e) {
-                template.set("model.item.Select$", ++template.get("model.item.Select$"));
+                var model = e.model;
+                model.set("item.Select$", ++model.item.Select$);
             };
         })();
     </script>
